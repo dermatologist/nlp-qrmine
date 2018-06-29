@@ -1,0 +1,2 @@
+INTERVIEWER: How are you.
+RESPONDENT: Fine, Thank you.
