@@ -1,6 +1,6 @@
 # QRMine
 
-[![QRMine](https://raw.github.com/E-Health/nlp-qrmine/master/notes/QR.jpg)](http://canehealth.com)
+[![QRMine](https://raw.github.com/dermatologist/nlp-qrmine/master/notes/QR.jpg)](http://canehealth.com)
 
 QRMine is a suite of qualitative research (QR) support tools in Python
 using NLP. Currently QRMine include:
