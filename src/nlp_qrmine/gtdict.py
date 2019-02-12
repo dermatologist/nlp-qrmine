@@ -1,7 +1,7 @@
 import subprocess
 
-from src.nlp_qrmine.content import Content
-from src.nlp_qrmine.readfiles import ReadData
+from .content import Content
+from .readfiles import ReadData
 
 
 def main():
