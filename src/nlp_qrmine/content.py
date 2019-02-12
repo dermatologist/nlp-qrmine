@@ -1,12 +1,12 @@
 import operator
 
-import en_core_web_md
+import en_core_web_sm
 
 
 class Content(object):
     def __init__(self, content):
         self._content = content
-        self._nlp = en_core_web_md.load()
+        self._nlp = en_core_web_sm.load()
         self._processed = self._nlp(self._content)
         self._lemma = {}
         self._pos = {}
