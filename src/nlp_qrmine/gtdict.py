@@ -18,8 +18,7 @@ def main():
                 word = '...'
                 attribute = '...'
     print("_________________________________________")
-    print("QRMine(TM) Qualitative Research Miner:")
-    print(get_git_revision_short_hash())
+    print("QRMine(TM) Qualitative Research Miner. v" + get_git_revision_short_hash())
     print("\n")
     print("gtdict - Grounded Coding Dictionary\n")
     print("-----------------------------------------")
@@ -39,7 +38,8 @@ def get_git_revision_hash():
 
 
 def get_git_revision_short_hash():
-    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip().decode("utf-8")
+    #return subprocess.check_output(['git', 'log', '-1', '--format=%cd']).strip().decode("utf-8")[10:]
 
 
 if __name__ == '__main__':  # if we're running file directly and not importing it
