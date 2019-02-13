@@ -1,5 +1,6 @@
 import subprocess
-
+import textacy
+from textacy.vsm.vectorizers import Vectorizer
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import ReadData
 
@@ -8,6 +9,23 @@ def main():
     data = ReadData()
     interviews = data.content
     content = Content(interviews)
+
+    doc = textacy.Doc(content.doc)
+    print (doc)
+
+    bot = doc.to_bag_of_terms(ngrams = (1, 2, 3), named_entities = True, weighting = 'count', as_strings = True)
+    print (sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15])
+
+    vectorizer = Vectorizer(tf_type = 'linear', apply_idf = True, idf_type = 'smooth', norm = 'l2', min_df = 3, max_df = 0.95, max_n_terms = 100000)
+    doc_term_matrix = vectorizer.fit_transform(bot)
+    model = textacy.tm.TopicModel('nmf', n_topics=20)
+    model.fit(doc_term_matrix)
+    print(model)
+    print(bot)
+
+    doc_topic_matrix = model.transform(doc_term_matrix)
+    for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=[0, 1]):
+        print('topic', topic_idx, ':', '   '.join(top_terms))
 
     words = content.common_nouns(10)
     output = []

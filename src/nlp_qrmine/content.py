@@ -63,6 +63,10 @@ class Content(object):
     def idx(self, token):
         return self._idx.get(token, 0)
 
+    @property
+    def doc(self):
+        return self._processed
+
     def process(self):
         for token in self._processed:
             if token.is_stop or token.is_digit or token.is_punct or token.is_space:
