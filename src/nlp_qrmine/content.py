@@ -65,7 +65,7 @@ class Content(object):
 
     def process(self):
         for token in self._processed:
-            if token.is_stop or token.is_digit or token.is_punct or token.is_space or token.is_oov:
+            if token.is_stop or token.is_digit or token.is_punct or token.is_space:
                 continue
             if token.like_url or token.like_num or token.like_email:
                 continue
