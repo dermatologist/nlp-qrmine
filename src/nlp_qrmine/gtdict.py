@@ -6,36 +6,45 @@ from src.nlp_qrmine import ReadData
 
 
 def main():
+    # content property returns the entire text and the doci=uments returns the array of documents
     data = ReadData()
-    interviews = data.content
-    content = Content(interviews)
+
+    all_interviews = Content(data.content)
 
     doc = textacy.Doc(content.doc)
-    #  print (doc)
+    # print (doc)
 
+    # create an empty corpus
     en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
     corpus = textacy.Corpus(lang=en)
 
-    for d in data.documents:
-        c = Content(d)
-        corpus.add_doc(c.textacyDoc)
-
+    for document in data.documents:
+        content = Content(document)
+        corpus.add_doc(content.textacyDoc)
     print(corpus)
+
 
     bot = doc.to_bag_of_terms(ngrams = (1, 2, 3), named_entities = True, weighting = 'count', as_strings = True)
     # print (sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15])
 
-    terms_list = []
-    for key in bot:
-        if key.isalpha():
-            terms_list.append(key)
+    categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
+
+    print (categories)
+    # terms_list = []
+    # for key in bot:
+    #     if key.isalpha():
+    #         terms_list.append(key)
 
 
     vectorizer = Vectorizer(tf_type = 'linear', apply_idf = True, idf_type = 'smooth', norm = 'l2', min_df = 3, max_df = 0.95, max_n_terms = 100000)
-    doc_term_matrix = vectorizer.fit_transform(terms_list)
-    model = textacy.tm.TopicModel('nmf', n_topics=20)
+    # doc_term_matrix = vectorizer.fit_transform(terms_list)
+    doc_term_matrix = vectorizer.fit_transform(
+...     (doc.to_terms_list(ngrams=1, named_entities=True, as_strings=True)
+...      for doc in corpus))
+    model = textacy.TopicModel('nmf', n_topics=10)
     model.fit(doc_term_matrix)
-    # print(model)
+    doc_topic_matrix = model.transform(doc_term_matrix)
+    print(doc_topic_matrix.shape)
 
     #print(bot)
 
@@ -46,7 +55,8 @@ def main():
 
     print (terms_list)
 
-    words = content.common_nouns(10)
+    # words = content.common_nouns(10)
+    words = categories
     output = []
     for word, f1 in words:
         for attribute, f2 in content.attributes(word, 3):
@@ -59,7 +69,7 @@ def main():
     print("\n")
     print("gtdict - Grounded Coding Dictionary\n")
     print("-----------------------------------------")
-    # print_table(output)
+    print_table(output)
     print("-----------------------------------------")
 
 
