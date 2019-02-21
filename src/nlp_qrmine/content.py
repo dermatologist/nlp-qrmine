@@ -1,7 +1,7 @@
 import operator
 
 import en_core_web_sm
-
+import textacy
 
 class Content(object):
     def __init__(self, content):
@@ -18,6 +18,17 @@ class Content(object):
         self._prob = {}
         self._idx = {}
         self.process()
+        en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
+        self._textacyDoc = textacy.Doc(textacy.preprocess_text(content, lowercase=True, no_punct=True), lang=en)
+
+
+    @property
+    def textacyDoc(self):
+        return self._textacyDoc
+
+    @property
+    def content(self):
+        return self._content
 
     @property
     def content(self):
