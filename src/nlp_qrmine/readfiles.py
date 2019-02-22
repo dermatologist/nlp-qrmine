@@ -6,6 +6,7 @@ class ReadData(object):
     def __init__(self):
         self._content = ''
         self._documents = ''
+        self._titles = ''
         self.read_file()
 
     @property
@@ -27,5 +28,6 @@ class ReadData(object):
     def read_file(self):
         with open(sys.argv[1], 'r') as f:
             self._content = f.read()
-            self._documents = re.split('<break>', self._content)
+            self._documents = re.split('<break.*?>(.+?)</break>', self._content)
+            self._titles = re.findall('<break.*?>(.+?)</break>', self._content)
         f.close()
