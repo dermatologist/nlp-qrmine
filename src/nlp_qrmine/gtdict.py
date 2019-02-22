@@ -3,16 +3,15 @@ import textacy
 from textacy.vsm.vectorizers import Vectorizer
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import ReadData
-
+from src.nlp_qrmine import __version__
 
 def main():
-    # content property returns the entire text and the doci=uments returns the array of documents
+    # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
 
     all_interviews = Content(data.content)
 
-    doc = textacy.Doc(content.doc)
-    # print (doc)
+    doc = textacy.Doc(all_interviews.doc)
 
     # create an empty corpus
     en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
@@ -23,40 +22,37 @@ def main():
         corpus.add_doc(content.textacyDoc)
     print(corpus)
 
-
-    bot = doc.to_bag_of_terms(ngrams = (1, 2, 3), named_entities = True, weighting = 'count', as_strings = True)
-    # print (sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15])
+    bot = doc.to_bag_of_terms(ngrams=(1, 2, 3), named_entities=True, normalize='lemma', weighting='count', as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=1)
 
     categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
 
-    print (categories)
-    # terms_list = []
-    # for key in bot:
-    #     if key.isalpha():
-    #         terms_list.append(key)
+    print(categories)
+    terms_list = []
+    for key in bot:
+        if key.isalpha():
+            terms_list.append(key)
 
-
-    vectorizer = Vectorizer(tf_type = 'linear', apply_idf = True, idf_type = 'smooth', norm = 'l2', min_df = 3, max_df = 0.95, max_n_terms = 100000)
-    # doc_term_matrix = vectorizer.fit_transform(terms_list)
-    doc_term_matrix = vectorizer.fit_transform(
-...     (doc.to_terms_list(ngrams=1, named_entities=True, as_strings=True)
-...      for doc in corpus))
-    model = textacy.TopicModel('nmf', n_topics=10)
+    vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
+                            norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
+    doc_term_matrix = vectorizer.fit_transform((documents.to_terms_list(ngrams=(1, 2, 3), named_entities=True, as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=1)
+                                                for documents in corpus))
+    number_docs, terms = doc_term_matrix.shape
+    model = textacy.TopicModel('nmf', n_topics=number_docs)
     model.fit(doc_term_matrix)
+
     doc_topic_matrix = model.transform(doc_term_matrix)
-    print(doc_topic_matrix.shape)
 
-    #print(bot)
-
-    #doc_topic_matrix = model.transform(doc_term_matrix)
-    #print(doc_topic_matrix)
-    for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=[0, 1]):
+    for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=[1, 2, 3, 4, 5]):
         print('topic', topic_idx, ':', '   '.join(top_terms))
 
-    print (terms_list)
+    for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=[1, 2, 3, 4, 5], top_n=2):
+        print(topic_idx)
+        for j in top_docs:
+            #print(corpus[j].metadata['title'])
+            print(corpus[j])
 
-    # words = content.common_nouns(10)
-    words = categories
+    words = content.common_nouns(10)
+    # words = categories
     output = []
     for word, f1 in words:
         for attribute, f2 in content.attributes(word, 3):
@@ -66,6 +62,7 @@ def main():
                 attribute = '...'
     print("_________________________________________")
     print("QRMine(TM) Qualitative Research Miner. v" + get_git_revision_short_hash())
+    print (__version__)
     print("\n")
     print("gtdict - Grounded Coding Dictionary\n")
     print("-----------------------------------------")
@@ -86,7 +83,7 @@ def get_git_revision_hash():
 
 def get_git_revision_short_hash():
     return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip().decode("utf-8")
-    #return subprocess.check_output(['git', 'log', '-1', '--format=%cd']).strip().decode("utf-8")[10:]
+    # return subprocess.check_output(['git', 'log', '-1', '--format=%cd']).strip().decode("utf-8")[10:]
 
 
 if __name__ == '__main__':  # if we're running file directly and not importing it
