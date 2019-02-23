@@ -25,6 +25,14 @@ class ReadData(object):
     def documents(self, documents):
         self._documents = documents
 
+    @property
+    def titles(self):
+        return self._titles
+
+    @documents.setter
+    def titles(self, titles):
+        self._documents = titles
+
     def read_file(self):
         with open(sys.argv[1], 'r') as f:
             self._content = f.read()

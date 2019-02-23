@@ -9,6 +9,8 @@ def main():
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
 
+    for x in data.titles:
+        print (x)
     all_interviews = Content(data.content)
 
     doc = textacy.Doc(all_interviews.doc)
