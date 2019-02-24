@@ -8,31 +8,41 @@ from src.nlp_qrmine import __version__
 def main():
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
-
-    for x in data.titles:
-        print (x)
     all_interviews = Content(data.content)
 
     doc = textacy.Doc(all_interviews.doc)
+
 
     # create an empty corpus
     en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
     corpus = textacy.Corpus(lang=en)
 
+    ct = 0
     for document in data.documents:
-        content = Content(document)
-        corpus.add_doc(content.textacyDoc)
-    print(corpus)
+        metadata = {}
+        try:
+            metadata['title'] = data.titles[ct]
+        except IndexError:
+            metadata['title'] = 'Empty'
+        corpus.add_text(textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
+                        metadata=metadata)
+        ct += 1
+    #print(corpus)
 
-    bot = doc.to_bag_of_terms(ngrams=(1, 2, 3), named_entities=True, normalize='lemma', weighting='count', as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=1)
+    bot = doc.to_bag_of_terms(ngrams=(2, 3), named_entities=True, normalize='lemma', weighting='count', as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=2)
 
     categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
 
-    print(categories)
-    terms_list = []
-    for key in bot:
-        if key.isalpha():
-            terms_list.append(key)
+    # print(categories)
+
+    for category, count in categories:
+        print (category, count)
+
+    # terms_list = []
+    # for key in bot:
+    #     if key.isalpha():
+    #         terms_list.append(key)
+    # print (terms_list)
 
     vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
                             norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
@@ -50,15 +60,14 @@ def main():
     for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=[1, 2, 3, 4, 5], top_n=2):
         print(topic_idx)
         for j in top_docs:
-            #print(corpus[j].metadata['title'])
-            print(corpus[j])
+            print(corpus[j].metadata['title'])
 
-    words = content.common_nouns(10)
+    words = all_interviews.common_verbs(10)
     # words = categories
     output = []
     for word, f1 in words:
-        for attribute, f2 in content.attributes(word, 3):
-            for dimension, f3 in content.dimensions(attribute, 3):
+        for attribute, f2 in all_interviews.attributes(word, 3):
+            for dimension, f3 in all_interviews.dimensions(attribute, 3):
                 output.append((word, attribute, dimension))
                 word = '...'
                 attribute = '...'

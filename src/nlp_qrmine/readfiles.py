@@ -29,13 +29,15 @@ class ReadData(object):
     def titles(self):
         return self._titles
 
-    @documents.setter
+    @titles.setter
     def titles(self, titles):
-        self._documents = titles
+        self._titles = titles
 
     def read_file(self):
         with open(sys.argv[1], 'r') as f:
-            self._content = f.read()
-            self._documents = re.split('<break.*?>(.+?)</break>', self._content)
-            self._titles = re.findall('<break.*?>(.+?)</break>', self._content)
+            read_from_file = f.read()
+            self._content = re.sub('<[^<]+?>', '', read_from_file)
+            self._documents = re.split('<break>.*?</break>', read_from_file)
+            pattern = r"<break>(.*?)</break>"
+            self._titles = re.findall(pattern, read_from_file, flags=re.DOTALL)
         f.close()

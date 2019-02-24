@@ -1,5 +1,5 @@
 import operator
-
+import re
 import en_core_web_sm
 import textacy
 
@@ -18,17 +18,6 @@ class Content(object):
         self._prob = {}
         self._idx = {}
         self.process()
-        en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
-        self._textacyDoc = textacy.Doc(textacy.preprocess_text(content, lowercase=True, no_punct=True), lang=en)
-
-
-    @property
-    def textacyDoc(self):
-        return self._textacyDoc
-
-    @property
-    def content(self):
-        return self._content
 
     @property
     def content(self):
@@ -106,6 +95,13 @@ class Content(object):
         _words = {}
         for key, value in self._word.items():
             if self._pos.get(key, None) == 'NOUN':
+                _words[value] = _words.get(value, 0) + 1
+        return sorted(_words.items(), key=operator.itemgetter(1), reverse=True)[:index]
+
+    def common_verbs(self, index=10):
+        _words = {}
+        for key, value in self._word.items():
+            if self._pos.get(key, None) == 'VERB':
                 _words[value] = _words.get(value, 0) + 1
         return sorted(_words.items(), key=operator.itemgetter(1), reverse=True)[:index]
 
