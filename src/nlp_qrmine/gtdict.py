@@ -1,9 +1,12 @@
 import subprocess
+
 import textacy
 from textacy.vsm.vectorizers import Vectorizer
+
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import ReadData
 from src.nlp_qrmine import __version__
+
 
 def main():
     # content property returns the entire text and the documents returns the array of documents
@@ -33,16 +36,9 @@ def main():
 
     categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
 
-    # print(categories)
-
+    print("---Categories with count---")
     for category, count in categories:
-        print (category, count)
-
-    # terms_list = []
-    # for key in bot:
-    #     if key.isalpha():
-    #         terms_list.append(key)
-    # print (terms_list)
+        print(category, " : ", count)
 
     vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
                             norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
@@ -54,10 +50,14 @@ def main():
 
     doc_topic_matrix = model.transform(doc_term_matrix)
 
-    for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=[1, 2, 3, 4, 5]):
+    _, number_topics = doc_topic_matrix.shape
+
+    topic_list = list(range(1, number_topics))
+
+    for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=topic_list):
         print('topic', topic_idx, ':', '   '.join(top_terms))
 
-    for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=[1, 2, 3, 4, 5], top_n=2):
+    for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=topic_list, top_n=2):
         print(topic_idx)
         for j in top_docs:
             print(corpus[j].metadata['title'])
