@@ -38,6 +38,8 @@ class ReadData(object):
             read_from_file = f.read()
             self._content = re.sub('<[^<]+?>', '', read_from_file)
             self._documents = re.split('<break>.*?</break>', read_from_file)
+            # Delete the last blank record
+            del self._documents[-1]
             pattern = r"<break>(.*?)</break>"
             self._titles = re.findall(pattern, read_from_file, flags=re.DOTALL)
         f.close()
