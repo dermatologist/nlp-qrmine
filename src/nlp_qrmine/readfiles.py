@@ -1,5 +1,4 @@
 import re
-import sys
 
 
 class ReadData(object):
@@ -7,7 +6,6 @@ class ReadData(object):
         self._content = ''
         self._documents = ''
         self._titles = ''
-        self.read_file()
 
     @property
     def content(self):
@@ -33,8 +31,8 @@ class ReadData(object):
     def titles(self, titles):
         self._titles = titles
 
-    def read_file(self):
-        with open(sys.argv[1], 'r') as f:
+    def read_file(self, file_name):
+        with open(file_name, 'r') as f:
             read_from_file = f.read()
             self._content = re.sub('<[^<]+?>', '', read_from_file)
             self._documents = re.split('<break>.*?</break>', read_from_file)

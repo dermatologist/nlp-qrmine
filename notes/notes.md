@@ -54,3 +54,7 @@ setup(
     options = dict(egg_info = dict(tag_build = "dev_" + GIT_HEAD_REV)),
 )
 ```
+
+## Command line
+
+* https://pymbook.readthedocs.io/en/latest/click.html
