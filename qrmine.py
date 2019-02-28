@@ -5,7 +5,6 @@ from textacy.vsm.vectorizers import Vectorizer
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import Qrmine
 from src.nlp_qrmine import ReadData
-from src.nlp_qrmine import __version__
 
 
 @click.command()
@@ -59,9 +58,6 @@ def main(input_file):
 
     print("_________________________________________")
     print("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
-    print(__version__)
-    print("\n")
-    print("gtdict - Grounded Coding Dictionary\n")
     q.print_categories(doc)
     q.print_topics(model, vectorizer, number_topics)
     q.print_documents(model, corpus, doc_topic_matrix, number_topics)

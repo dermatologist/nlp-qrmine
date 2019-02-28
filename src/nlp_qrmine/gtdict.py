@@ -6,7 +6,8 @@ class Qrmine(object):
     def __init__(self):
         self._content = ""
 
-    def print_table(self, table):
+    @staticmethod
+    def print_table(table):
         col_width = [max(len(x) for x in col) for col in zip(*table)]
         for line in table:
             print("| " + " | ".join("{:{}}".format(x, col_width[i])
@@ -26,27 +27,27 @@ class Qrmine(object):
                                   as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=2)
         categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
         output = []
-        print("\n\n---Categories with count---")
+        print("\n---Categories with count---")
         output.append(("CATEGORY", "COUNT"))
         for category, count in categories:
             output.append((category, str(count)))
         self.print_table(output)
-        print("---------------------------\n\n")
+        print("---------------------------\n")
 
     def print_topics(self, model, vectorizer, number_topics):
         topic_list = list(range(1, number_topics))
         output = []
-        print("\n\n---Topics---")
+        print("\n---Topics---")
         output.append(("TOPIC", "DESCRIPTION"))
         for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=topic_list):
             output.append(("TOPIC:" + str(topic_idx), '   '.join(top_terms)))
         self.print_table(output)
-        print("---------------------------\n\n")
+        print("---------------------------\n")
 
     def print_documents(self, model, corpus, doc_topic_matrix, number_topics):
         topic_list = list(range(1, number_topics))
         output = []
-        print("\n\n---Topics---")
+        print("\n---Topics---")
         output.append(("TOPIC", "DOCUMENTS"))
         for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=topic_list, top_n=2):
             str_topic_idx = str(topic_idx)
@@ -54,11 +55,11 @@ class Qrmine(object):
                 output.append((str_topic_idx, corpus[j].metadata['title']))
                 str_topic_idx = "..."
         self.print_table(output)
-        print("---------------------------\n\n")
+        print("---------------------------\n")
 
     def print_dict(self, content):
         output = []
-        print("\n\n---Coding Dictionary---")
+        print("\n---Coding Dictionary---")
         output.append(("CATEGORY", "PROPERTY", "DIMENSION"))
         words = content.common_verbs(10)
         for word, f1 in words:
@@ -69,4 +70,4 @@ class Qrmine(object):
                     attribute = '...'
 
         self.print_table(output)
-        print("---------------------------\n\n")
+        print("---------------------------\n")
