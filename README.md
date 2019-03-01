@@ -1,46 +1,32 @@
-# QRMine
+# :flashlight: QRMine
 
-[![QRMine](https://raw.github.com/dermatologist/nlp-qrmine/master/notes/QR.jpg)](http://canehealth.com)
+QRMine is a suite of qualitative research (QR) support tools in Python using NLP. QRMine is still work in progress and is not ready for use.
 
-QRMine is a suite of qualitative research (QR) support tools in Python
-using NLP. Currently QRMine include:
+## What it does
 
-  - gtdict : Generates a coding dictionary based on available data
-    (Grounded Theory)
-  - nnet : Evaluate the accuracy of an ANN with the given set of IV and
-    one DV (Theory Building)
-  - sentiment : Create the CNN model for sentiment analysis.
-  - run\_sentiment : Use the CNN model created by sentiment module for
-    prediction.
+* Finds common categories for open coding.
+* Create a coding dictionary with categories, properties and dimensions.
+* Find topics.
+* Arrange docs according to topics.
+* Compare two documents/interviews.
+* Sentiment analysis
+* Co-citation finder
 
-\* cocite: Find the cocitation frequency for biomedical literature using
-NCBI's EUtils. And More to come. (work in progress)
+## How to Use
 
-## How to Install: 
+* Download/clone this repository
+* pip install -r requirements.txt
+* python qrmine.py ( --help to display all command line options)
 
-checkout this repo and
-
-```
-python setup.py sdist
-
-OR
-
-python setup.py bdist
-
-OR 
-
-python setup.py bdist_wheel
+## Input file format
+Individual documents or interview transcripts in a single text file separated by <break>Topic</break>. Example below
 
 ```
-
-
-## How to use:
-
-[Read](https://stackoverflow.com/questions/6292652/what-is-the-difference-between-an-sdist-tar-gz-distribution-and-an-python-egg)
-
-## Using Docker
-
-TBD
+Text of the first interview
+<break> First interview with student 1 </break>
+Text of the second interview
+<break> Second interview with tutor 1 </break>
+```
 
 ## Author
 
