@@ -5,6 +5,14 @@ class Qrmine(object):
 
     def __init__(self):
         self._content = ""
+        self._min_occurrence_for_topic = 2
+        self._common_verbs = 10
+
+    def min_topic(self, min_topic):
+        self._min_occurrence_for_topic = min_topic
+
+    def common_verbs(self, common_verbs):
+        self._common_verbs = common_verbs
 
     @staticmethod
     def print_table(table):
@@ -49,7 +57,8 @@ class Qrmine(object):
         output = []
         print("\n---Topics---")
         output.append(("TOPIC", "DOCUMENTS"))
-        for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=topic_list, top_n=2):
+        for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=topic_list,
+                                                        top_n=self._min_occurrence_for_topic):
             str_topic_idx = str(topic_idx)
             for j in top_docs:
                 output.append((str_topic_idx, corpus[j].metadata['title']))
@@ -61,7 +70,7 @@ class Qrmine(object):
         output = []
         print("\n---Coding Dictionary---")
         output.append(("CATEGORY", "PROPERTY", "DIMENSION"))
-        words = content.common_verbs(10)
+        words = content.common_verbs(self._common_verbs)
         for word, f1 in words:
             for attribute, f2 in content.attributes(word, 3):
                 for dimension, f3 in content.dimensions(attribute, 3):
