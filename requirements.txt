@@ -12,5 +12,9 @@ keras-text
 spacy
 click
 vaderSentiment=3.2.1
+imbalanced-learn=0.4.3
+numpy
+matplotlib
+pandas
 #https://github.com/explosion/spacy-models/releases/download/en_core_web_md-1.2.1/en_core_web_md-1.2.1.tar.gz
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0/en_core_web_sm-2.0.0.tar.gz
