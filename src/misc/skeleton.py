@@ -18,8 +18,8 @@ Note: This skeleton file can be safely removed if not needed!
 from __future__ import division, print_function, absolute_import
 
 import argparse
-import sys
 import logging
+import sys
 
 from nlp_qrmine import __version__
 

@@ -5,6 +5,7 @@ from textacy.vsm.vectorizers import Vectorizer
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import Qrmine
 from src.nlp_qrmine import ReadData
+from src.nlp_qrmine import Sentiment
 
 
 @click.command()
@@ -27,6 +28,12 @@ def main(input_file):
     all_interviews = Content(data.content)
 
     doc = textacy.Doc(all_interviews.doc)
+
+    ## Sentiment
+    s = Sentiment()
+    for sentence in doc.sents:
+        if len(sentence) > 3:
+            s.sentiment_analyzer_scores(sentence.text)
 
     # create an empty corpus
     en = textacy.load_spacy('en_core_web_sm', disable=('parser',))

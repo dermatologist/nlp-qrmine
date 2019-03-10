@@ -4,6 +4,7 @@ from pkg_resources import get_distribution, DistributionNotFound
 from .content import Content
 from .gtdict import Qrmine
 from .readfiles import ReadData
+from .sentiment import Sentiment
 
 try:
     # Change here if project is renamed and does not equal the package name

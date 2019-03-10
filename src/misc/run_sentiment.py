@@ -10,7 +10,7 @@ import pickle
 from keras.models import load_model
 from keras.preprocessing import sequence
 
-from src.nlp_qrmine.sentiment import process_msg
+from src.misc.sentiment import process_msg
 
 model = load_model('data/classifier.h5')
 vocab = pickle.load(open('data/vocab.pkl', 'rb'))
