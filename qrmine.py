@@ -33,7 +33,9 @@ def main(input_file):
     s = Sentiment()
     for sentence in doc.sents:
         if len(sentence) > 3:
-            s.sentiment_analyzer_scores(sentence.text)
+            sent = s.sentiment_analyzer_scores(sentence.text)
+            print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            print("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
 
     # create an empty corpus
     en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
