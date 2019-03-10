@@ -3,6 +3,7 @@ import textacy
 from textacy.vsm.vectorizers import Vectorizer
 
 from src.nlp_qrmine import Content
+from src.nlp_qrmine import Network
 from src.nlp_qrmine import Qrmine
 from src.nlp_qrmine import ReadData
 from src.nlp_qrmine import Sentiment
@@ -31,11 +32,19 @@ def main(input_file):
 
     ## Sentiment
     s = Sentiment()
+    x = []
     for sentence in doc.sents:
         if len(sentence) > 3:
+            x.append(sentence.text)
             sent = s.sentiment_analyzer_scores(sentence.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
             print("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
+
+    ## Network
+    n = Network()
+    print(n.sents_to_network(x))
+    # n.draw_graph(True)
+    print(n.draw_graph(False))
 
     # create an empty corpus
     en = textacy.load_spacy('en_core_web_sm', disable=('parser',))

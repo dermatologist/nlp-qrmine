@@ -17,3 +17,6 @@ class Sentiment(object):
 
     def similarity(self, obj1, obj2, fuzzy_match=False, match_threshold=0.8):
         return textacy.similarity.jaccard(obj1, obj2, fuzzy_match=fuzzy_match, match_threshold=match_threshold)
+
+    def hamming(self, str1, str2):
+        textacy.similarity.hamming(str1, str2)
