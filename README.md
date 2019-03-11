@@ -10,6 +10,7 @@ QRMine is a suite of qualitative research (QR) support tools in Python using NLP
 * Arrange docs according to topics.
 * Compare two documents/interviews.
 * Sentiment analysis
+* Network analysis
 * Co-citation finder
 
 ## How to Use
