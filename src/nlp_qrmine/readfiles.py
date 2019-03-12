@@ -7,6 +7,7 @@ class ReadData(object):
         self._documents = ''
         self._titles = ''
 
+    # Getter must be defined first
     @property
     def content(self):
         return self._content
