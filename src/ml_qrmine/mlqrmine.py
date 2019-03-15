@@ -1,14 +1,17 @@
-from pandas import read_csv
 import numpy
-from numpy import random,argsort,sqrt
 from imblearn.over_sampling import RandomOverSampler
 from keras.layers import Dense
 from keras.models import Sequential
-
+from numpy import argsort, sqrt
+from pandas import read_csv
+from sklearn.cluster import KMeans
+from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix
+from xgboost import XGBClassifier
+
 
 class MLQRMine(object):
 
@@ -23,6 +26,8 @@ class MLQRMine(object):
         self._dataset_original = None
         self._model = Sequential()
         self._sc = StandardScaler()
+        self._vnum = 0  # Number of variables
+        self._classifier = XGBClassifier()
 
     @property
     def seed(self):
@@ -70,30 +75,30 @@ class MLQRMine(object):
     def read_xy(self):
         (sample, vnum) = self._dataset.shape
         # Last column in the csv should be the DV (So get the number of variables)
-        vnum = vnum - 1
+        self._vnum = vnum - 1
         # splice into IVs and DV
         values = self._dataset.values
-        self._X = values[:, 0:vnum]
-        self._y = values[:, vnum]
+        self._X = values[:, 0:self._vnum]
+        self._y = values[:, self._vnum]
 
     def oversample(self):
         self._X_original = self._X
         self._y_original = self._y
         ros = RandomOverSampler(random_state=0)
-        X, y = ros.fit_sample(X, y)
+        self._X, self._y = ros.fit_sample(self._X, self._y)
 
     def restore_oversample(self):
         self._X = self._X_original
         self._y = self._y_original
 
     def prepare_data(self):
-        read_csv()
-        mark_missing()
-        read_xy()
-        oversample()
+        self.read_csv()
+        self.mark_missing()
+        self.read_xy()
+        self.oversample()
 
     def get_nnet_predictions(self):
-        self._model.add(Dense(12, input_dim=vnum, kernel_initializer='uniform', activation='relu'))
+        self._model.add(Dense(12, input_dim=self._vnum, kernel_initializer='uniform', activation='relu'))
         self._model.add(Dense(8, kernel_initializer='uniform', activation='relu'))
         self._model.add(Dense(1, kernel_initializer='uniform', activation='sigmoid'))
         # Compile model
@@ -129,3 +134,25 @@ class MLQRMine(object):
         # return the indexes of K nearest neighbours
         return idx[:K]
 
+    def get_kmeans(self):
+        kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
+        y_kmeans = kmeans.fit_predict(self._X)
+        return y_kmeans
+
+    def encode_categorical(self):
+        labelencoder_X_1 = LabelEncoder()
+        self._X[:, 1] = labelencoder_X_1.fit_transform(self._X[:, 1])
+        labelencoder_X_2 = LabelEncoder()
+        self._X[:, 2] = labelencoder_X_2.fit_transform(self._X[:, 2])
+        onehotencoder = OneHotEncoder(categorical_features=[1])
+        X = onehotencoder.fit_transform(self._X).toarray()
+        X = X[:, 1:]
+        self._X = X
+
+    def get_association(self):
+        X_train, X_test, y_train, y_test = train_test_split(self._X, self._y, test_size=0.25, random_state=0)
+        self._classifier.fit(X_train, y_train)
+
+        # Predicting the Test set results
+        y_pred = self._classifier.predict(X_test)
+        return confusion_matrix(y_test, y_pred)
