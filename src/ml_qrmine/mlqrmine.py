@@ -1,5 +1,6 @@
 from pandas import read_csv
 import numpy
+from numpy import random,argsort,sqrt
 from imblearn.over_sampling import RandomOverSampler
 from keras.layers import Dense
 from keras.models import Sequential
@@ -118,4 +119,13 @@ class MLQRMine(object):
         y_pred = classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
 
+    def knn_search(x, D, K):
+        """ find K nearest neighbours of data among D """
+        ndata = D.shape[1]
+        K = K if K < ndata else ndata
+        # euclidean distances from the other points
+        sqd = sqrt(((D - x[:,:ndata])**2).sum(axis=0))
+        idx = argsort(sqd) # sorting
+        # return the indexes of K nearest neighbours
+        return idx[:K]
 
