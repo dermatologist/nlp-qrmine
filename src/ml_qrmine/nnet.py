@@ -1,5 +1,4 @@
 # Import Keras Library
-import sys
 
 import numpy
 # This is for oversampling
@@ -13,7 +12,7 @@ seed = 7
 numpy.random.seed(seed)
 
 # import dataset from the first argument in the commandline
-dataset = read_csv(sys.argv[1], header=1)
+dataset = read_csv("diabetes-risk.csv", header=1)
 
 # mark missing as NaN
 dataset = dataset.replace('', numpy.NaN)

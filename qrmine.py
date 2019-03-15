@@ -2,6 +2,7 @@ import click
 import textacy
 from textacy.vsm.vectorizers import Vectorizer
 
+from src.ml_qrmine import MLQRMine
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import Network
 from src.nlp_qrmine import Qrmine
@@ -21,6 +22,14 @@ def cli(verbose, inp):
 
 
 def main(input_file):
+    ## ML
+    ml = MLQRMine()
+    ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
+    ml.prepare_data()
+    print(ml.get_nnet_predictions())
+
+
+
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
     data.read_file(input_file)

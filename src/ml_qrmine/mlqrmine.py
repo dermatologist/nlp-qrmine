@@ -65,6 +65,7 @@ class MLQRMine(object):
     def mark_missing(self):
         self._dataset_original = self._dataset
         self._dataset = self._dataset.replace('', numpy.NaN)
+        self._dataset.dropna(inplace=True)
 
     def restore_mark_missing(self):
         self._dataset = self._dataset_original
@@ -85,7 +86,9 @@ class MLQRMine(object):
         self._X_original = self._X
         self._y_original = self._y
         ros = RandomOverSampler(random_state=0)
-        self._X, self._y = ros.fit_sample(self._X, self._y)
+        X, y = ros.fit_sample(self._X, self._y)
+        self._X = X
+        self._y = y
 
     def restore_oversample(self):
         self._X = self._X_original
