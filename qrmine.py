@@ -1,3 +1,5 @@
+import sys
+
 import click
 import textacy
 from textacy.vsm.vectorizers import Vectorizer
@@ -14,9 +16,15 @@ from src.nlp_qrmine import Sentiment
 @click.option('--verbose', is_flag=True, help="Will print verbose messages.")
 @click.option('--inp', '-i', multiple=False, default='',
               help='Input file in the text format with <break> Topic </break>')
-def cli(verbose, inp):
+@click.option('--out', '-o', multiple=False, default='',
+              help='Output file name')
+@click.option('--csv', '-c', multiple=False, default='qrmine_output.txt',
+              help='csv file name')
+def cli(verbose, inp, out, csv):
     if verbose:
         click.echo("We are in the verbose mode.")
+    if out:
+        sys.stdout = open(out, 'w')
     if inp:
         main(inp)
 
