@@ -1,7 +1,7 @@
 import operator
-import re
+
 import en_core_web_sm
-import textacy
+
 
 class Content(object):
     def __init__(self, content):
@@ -158,3 +158,17 @@ class Content(object):
                     # if self._pos.get(token, None) == 'VERB':
                     # _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
         return sorted(_ad.items(), key=operator.itemgetter(1), reverse=True)[:index]
+
+    # this is function for text summarization
+
+    def generate_summary(self, weight=10):
+        words = self.common_words()
+        spans = []
+        ct = 0
+        for key, value in words:
+            ct += 1
+            if ct > weight:
+                continue
+            for span in self.spans_with_common_nouns(key):
+                spans.append(span.text)
+        return list(dict.fromkeys(spans))  # remove duplicates

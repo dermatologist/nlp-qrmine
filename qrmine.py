@@ -4,7 +4,6 @@ import click
 import textacy
 from textacy.vsm.vectorizers import Vectorizer
 
-from src.ml_qrmine import MLQRMine
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import Network
 from src.nlp_qrmine import Qrmine
@@ -31,10 +30,10 @@ def cli(verbose, inp, out, csv):
 
 def main(input_file):
     ## ML
-    ml = MLQRMine()
-    ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
-    ml.prepare_data()
-    print(ml.get_nnet_predictions())
+    # ml = MLQRMine()
+    # ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
+    # ml.prepare_data()
+    # print(ml.get_nnet_predictions())
 
 
 
@@ -44,6 +43,10 @@ def main(input_file):
 
     q = Qrmine()
     all_interviews = Content(data.content)
+
+    ## Summary
+    print(" ".join(all_interviews.generate_summary(2)))
+    print("_________________________________________")
 
     doc = textacy.Doc(all_interviews.doc)
 
