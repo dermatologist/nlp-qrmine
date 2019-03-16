@@ -9,7 +9,7 @@ from src.nlp_qrmine import Network
 from src.nlp_qrmine import Qrmine
 from src.nlp_qrmine import ReadData
 from src.nlp_qrmine import Sentiment
-
+from src.ml_qrmine import MLQRMine
 
 @click.command()
 @click.option('--verbose', is_flag=True, help="Will print verbose messages.")
@@ -30,10 +30,10 @@ def cli(verbose, inp, out, csv):
 
 def main(input_file):
     ## ML
-    # ml = MLQRMine()
-    # ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
-    # ml.prepare_data()
-    # print(ml.get_nnet_predictions())
+    ml = MLQRMine()
+    ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
+    ml.prepare_data()
+    print(ml.get_nnet_predictions())
 
 
 

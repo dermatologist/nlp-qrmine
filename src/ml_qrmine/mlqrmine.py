@@ -73,14 +73,22 @@ class MLQRMine(object):
     def get_shape(self):
         return self._dataset.shape
 
+    """
+    The actual number of IVs is vnum -2 as first is the title and the last is the DV
+    To seperate DV, use vnum -1 to indicate last column
+    More details on np array splicing here: 
+    https://stackoverflow.com/questions/34007632/how-to-remove-a-column-in-a-numpy-array/34008274
+    """
     def read_xy(self):
         (sample, vnum) = self._dataset.shape
-        # Last column in the csv should be the DV (So get the number of variables)
-        self._vnum = vnum - 1
+        # Last column in the csv should be the DV and first one is title (So get the number of variables)
+        self._vnum = vnum - 2
         # splice into IVs and DV
         values = self._dataset.values
-        self._X = values[:, 0:self._vnum]
-        self._y = values[:, self._vnum]
+        # self._X = values[:, 0:self._vnum]
+        # First column ignored - (To be used for title)
+        self._X = values[:, 1:vnum - 1]
+        self._y = values[:, vnum - 1]
 
     def oversample(self):
         self._X_original = self._X
