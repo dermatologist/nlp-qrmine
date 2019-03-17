@@ -13,11 +13,11 @@ from src.ml_qrmine import MLQRMine
 
 @click.command()
 @click.option('--verbose', is_flag=True, help="Will print verbose messages.")
-@click.option('--inp', '-i', multiple=False, default='',
+@click.option('--inp', '-i', multiple=True, default='',
               help='Input file in the text format with <break> Topic </break>')
 @click.option('--out', '-o', multiple=False, default='',
               help='Output file name')
-@click.option('--csv', '-c', multiple=False, default='qrmine_output.txt',
+@click.option('--csv', '-c', multiple=False, default='',
               help='csv file name')
 def cli(verbose, inp, out, csv):
     if verbose:
