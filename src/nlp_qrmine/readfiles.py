@@ -5,7 +5,7 @@ class ReadData(object):
     def __init__(self):
         self._content = None
         self._documents = None
-        self._titles = None
+        self._titles = []
 
     # Getter must be defined first
     @property
@@ -33,7 +33,7 @@ class ReadData(object):
         self._titles = titles
 
     def read_file(self, file_names):
-        if isinstance(file_names, (list,)):
+        if len(file_names) > 1:
             for file_name in file_names:
                 with open(file_name, 'r') as f:
                     read_from_file = f.read()
@@ -42,10 +42,12 @@ class ReadData(object):
                     # Delete the last blank record
                     del self._documents[-1]
                     pattern = r"<break>(.*?)</break>"
-                    self._titles = re.findall(pattern, read_from_file, flags=re.DOTALL)
+                    _title = re.findall(pattern, read_from_file, flags=re.DOTALL)[0]
+                    self._titles.append(_title)
                 f.close()
         else:
-            with open(file_names, 'r') as f:
+            file_name = file_names[0]
+            with open(file_name, 'r') as f:
                 read_from_file = f.read()
                 self._content = re.sub('<[^<]+?>', '', read_from_file)
                 self._documents = re.split('<break>.*?</break>', read_from_file)
