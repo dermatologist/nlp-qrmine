@@ -38,6 +38,8 @@ def main(input_file):
 
     print(ml.svm_confusion_matrix())
 
+    print(ml.knn_search(3))
+
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
     data.read_file(input_file)

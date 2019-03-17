@@ -2,7 +2,7 @@ import numpy
 from imblearn.over_sampling import RandomOverSampler
 from keras.layers import Dense
 from keras.models import Sequential
-from numpy import argsort, sqrt
+from numpy import random, argsort, sqrt, array, ones
 from pandas import read_csv
 from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix
@@ -29,6 +29,7 @@ class MLQRMine(object):
         self._vnum = 0  # Number of variables
         self._classifier = XGBClassifier()
         self._epochs = 10
+        self._samplesize = 0
 
     @property
     def seed(self):
@@ -93,7 +94,7 @@ class MLQRMine(object):
     https://stackoverflow.com/questions/34007632/how-to-remove-a-column-in-a-numpy-array/34008274
     """
     def read_xy(self):
-        (sample, vnum) = self._dataset.shape
+        (self._samplesize, vnum) = self._dataset.shape
         # Last column in the csv should be the DV and first one is title (So get the number of variables)
         self._vnum = vnum - 2
         # splice into IVs and DV
@@ -148,14 +149,19 @@ class MLQRMine(object):
         y_pred = classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
 
-    def knn_search(self, x, D, K):
+    def knn_search(self, K=3, x=None):
         """ find K nearest neighbours of data among D """
+        D = self._X_original
+        if x is None:
+            x = self._X_original[[0], :]
+
         ndata = D.shape[1]
         K = K if K < ndata else ndata
         # euclidean distances from the other points
-        sqd = sqrt(((D - x[:,:ndata])**2).sum(axis=0))
-        idx = argsort(sqd) # sorting
+        sqd = sqrt(((D - x[:, :ndata]) ** 2).sum(axis=0))
+        idx = argsort(sqd)  # sorting
         # return the indexes of K nearest neighbours
+
         return idx[:K]
 
     def get_kmeans(self):
