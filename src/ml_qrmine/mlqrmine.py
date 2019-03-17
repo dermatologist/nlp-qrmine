@@ -28,6 +28,7 @@ class MLQRMine(object):
         self._sc = StandardScaler()
         self._vnum = 0  # Number of variables
         self._classifier = XGBClassifier()
+        self._epochs = 10
 
     @property
     def seed(self):
@@ -42,6 +43,14 @@ class MLQRMine(object):
         return self._dataset
 
     @property
+    def model(self):
+        return self._model
+
+    @property
+    def epochs(self):
+        return self._epochs
+
+    @property
     def X(self):
         return self._X
 
@@ -50,6 +59,10 @@ class MLQRMine(object):
         return self._y
 
     # Getters should be before setters*
+    @epochs.setter
+    def epochs(self, epochs):
+        self._epochs = epochs
+
     @seed.setter
     def seed(self, seed):
         self._seed = seed
@@ -115,7 +128,7 @@ class MLQRMine(object):
         # Compile model
         self._model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
         # Fit the model
-        self._model.fit(self._X, self._y, epochs=150, batch_size=10, verbose=2)
+        self._model.fit(self._X, self._y, epochs=self._epochs, batch_size=10, verbose=2)
 
         # calculate predictions
         predictions = self._model.predict(self._X_original)

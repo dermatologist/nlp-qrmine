@@ -29,13 +29,12 @@ def cli(verbose, inp, out, csv):
 
 
 def main(input_file):
-    ## ML
-    # ml = MLQRMine()
-    # ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
-    # ml.prepare_data()
-    # print(ml.get_nnet_predictions())
-
-
+    # ML
+    ml = MLQRMine()
+    ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
+    ml.prepare_data()
+    print(ml.get_nnet_predictions())
+    print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
 
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
