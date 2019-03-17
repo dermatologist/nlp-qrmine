@@ -36,6 +36,8 @@ def main(input_file):
     print(ml.get_nnet_predictions())
     print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
 
+    print(ml.svm_confusion_matrix())
+
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
     data.read_file(input_file)

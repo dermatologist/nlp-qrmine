@@ -148,7 +148,7 @@ class MLQRMine(object):
         y_pred = classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
 
-    def knn_search(x, D, K):
+    def knn_search(self, x, D, K):
         """ find K nearest neighbours of data among D """
         ndata = D.shape[1]
         K = K if K < ndata else ndata
