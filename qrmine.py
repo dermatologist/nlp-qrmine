@@ -17,17 +17,28 @@ from src.ml_qrmine import MLQRMine
               help='Input file in the text format with <break> Topic </break>')
 @click.option('--out', '-o', multiple=False, default='',
               help='Output file name')
-@click.option('--csv', '-c', multiple=False, default='',
+@click.option('--csv', multiple=False, default='',
               help='csv file name')
-@click.option('--doc', '-d', multiple=True, default='',
+@click.option('--corpus', '-c', multiple=True, default='',
               help='Document(s) to analyze/compare')
-def cli(verbose, inp, out, csv, doc):
+@click.option('--codedict', multiple=False, default='',
+              help='Generate coding dictionary')
+def cli(verbose, inp, out, csv, corpus, codedict):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
         sys.stdout = open(out, 'w')
     if inp:
         main(inp)
+    if inp and codedict:
+        generate_dict(inp)
+
+def generate_dict(inp):
+    data = ReadData()
+    data.read_file(inp)
+    q = Qrmine()
+    all_interviews = Content(data.content)
+    q.print_dict(all_interviews)
 
 
 def main(input_file):
