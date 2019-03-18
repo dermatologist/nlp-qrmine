@@ -1,46 +1,55 @@
-# QRMine
+# :flashlight: QRMine
 
-[![QRMine](https://raw.github.com/E-Health/nlp-qrmine/master/notes/QR.jpg)](http://canehealth.com)
+QRMine is a suite of qualitative research (QR) support tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is still work in progress and is not ready for use.
 
-QRMine is a suite of qualitative research (QR) support tools in Python
-using NLP. Currently QRMine include:
+## What it does
 
-  - gtdict : Generates a coding dictionary based on available data
-    (Grounded Theory)
-  - nnet : Evaluate the accuracy of an ANN with the given set of IV and
-    one DV (Theory Building)
-  - sentiment : Create the CNN model for sentiment analysis.
-  - run\_sentiment : Use the CNN model created by sentiment module for
-    prediction.
+### NLP
+* Lists common categories for open coding.
+* Create a coding dictionary with categories, properties and dimensions.
+* Topic modelling.
+* Arrange docs according to topics.
+* Compare two documents/interviews.
+* Sentiment analysis
+* Network analysis
+* Co-citation finder
 
-\* cocite: Find the cocitation frequency for biomedical literature using
-NCBI's EUtils. And More to come. (work in progress)
+### ML
+* Accuracy of a neural network model trained using the data.
+* Confusion matrix from an support vector machine classifier
+* K nearest neighbours of a given record.
+* K-Means clustering
+* Association rules.
 
-## How to Install: 
+## How to use
 
-checkout this repo and
+* Download/clone this repository
+* pip install -r requirements.txt
+* python qrmine.py ( --help to display all command line options)
+
+## Input file format
+
+### NLP
+Individual documents or interview transcripts in a single text file separated by <break>Topic</break>. Example below
 
 ```
-python setup.py sdist
-
-OR
-
-python setup.py bdist
-
-OR 
-
-python setup.py bdist_wheel
-
+Text of the first interview
+<break> First interview with student 1 </break>
+Text of the second interview
+<break> Second interview with tutor 1 </break>
 ```
 
+Multiple files are suported, each having only one break tag at the bottom with the topic.
+(The tag may be renamed in the future)
 
-## How to use:
+### ML
 
-[Read](https://stackoverflow.com/questions/6292652/what-is-the-difference-between-an-sdist-tar-gz-distribution-and-an-python-egg)
+A single csv file with the following generic structure.
 
-## Using Docker
+* Column 1 with identifier. If it is related to a text document as above, include the title.
+* Last column has the dependent variable (DV). (NLP algorithms like the topic asignments may be able to create DV)
+* All independent variables (numerical) in between.
 
-TBD
 
 ## Author
 
@@ -63,3 +72,5 @@ is an example BibTeX entry:
 }
 
 ```
+
+Publication with the theoretical foundations of this tool is being worked on. QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).

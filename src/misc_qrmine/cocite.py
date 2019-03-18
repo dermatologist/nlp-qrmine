@@ -5,7 +5,6 @@ from Bio import Entrez
 
 
 def main():
-
     print("Finding Articles citing the given reference.....")
 
     for var in sys.argv:
@@ -21,7 +20,7 @@ def main():
             articles.append(record['PMID'])
 
         # Remove duplicates: SO 7961363
-        articles = list(set(articles)) 
+        articles = list(set(articles))
         article_no = len(articles)
 
     print("Finding Co-citations. This may take several hours...........")
@@ -35,7 +34,6 @@ def main():
     print("-----------------------------------------")
 
     print("-----------------------------------------")
-
 
 
 if __name__ == '__main__':  # if we're running file directly and not importing it

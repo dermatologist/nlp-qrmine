@@ -54,3 +54,13 @@ setup(
     options = dict(egg_info = dict(tag_build = "dev_" + GIT_HEAD_REV)),
 )
 ```
+
+## Command line
+
+* https://pymbook.readthedocs.io/en/latest/click.html
+
+
+## Getters and setters
+
+class testDec(object):
+* And one more thing that is not completely easy to spot at first, is the order: The getter must be defined first.

@@ -1,12 +1,12 @@
 import operator
 
-import en_core_web_md
+import en_core_web_sm
 
 
 class Content(object):
     def __init__(self, content):
         self._content = content
-        self._nlp = en_core_web_md.load()
+        self._nlp = en_core_web_sm.load()
         self._processed = self._nlp(self._content)
         self._lemma = {}
         self._pos = {}
@@ -63,9 +63,13 @@ class Content(object):
     def idx(self, token):
         return self._idx.get(token, 0)
 
+    @property
+    def doc(self):
+        return self._processed
+
     def process(self):
         for token in self._processed:
-            if token.is_stop or token.is_digit or token.is_punct or token.is_space or token.is_oov:
+            if token.is_stop or token.is_digit or token.is_punct or token.is_space:
                 continue
             if token.like_url or token.like_num or token.like_email:
                 continue
@@ -91,6 +95,13 @@ class Content(object):
         _words = {}
         for key, value in self._word.items():
             if self._pos.get(key, None) == 'NOUN':
+                _words[value] = _words.get(value, 0) + 1
+        return sorted(_words.items(), key=operator.itemgetter(1), reverse=True)[:index]
+
+    def common_verbs(self, index=10):
+        _words = {}
+        for key, value in self._word.items():
+            if self._pos.get(key, None) == 'VERB':
                 _words[value] = _words.get(value, 0) + 1
         return sorted(_words.items(), key=operator.itemgetter(1), reverse=True)[:index]
 
@@ -147,3 +158,17 @@ class Content(object):
                     # if self._pos.get(token, None) == 'VERB':
                     # _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
         return sorted(_ad.items(), key=operator.itemgetter(1), reverse=True)[:index]
+
+    # this is function for text summarization
+
+    def generate_summary(self, weight=10):
+        words = self.common_words()
+        spans = []
+        ct = 0
+        for key, value in words:
+            ct += 1
+            if ct > weight:
+                continue
+            for span in self.spans_with_common_nouns(key):
+                spans.append(span.text)
+        return list(dict.fromkeys(spans))  # remove duplicates
