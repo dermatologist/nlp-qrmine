@@ -1,6 +1,6 @@
 # :flashlight: QRMine
 
-QRMine is a suite of qualitative research (QR) support tools in Python using NLP. QRMine is still work in progress and is not ready for use.
+QRMine is a suite of qualitative research (QR) support tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is still work in progress and is not ready for use.
 
 ## What it does
 
@@ -47,8 +47,8 @@ Multiple files are suported, each having only one break tag at the bottom with t
 A single csv file with the following generic structure.
 
 * Column 1 with identifier. If it is related to a text document as above, include the title.
-* Last column has the DV. (NLP algorithms like the topic asignments may be able to create DV)
-* All numerical IVs in between
+* Last column has the dependent variable (DV). (NLP algorithms like the topic asignments may be able to create DV)
+* All independent variables (numerical) in between.
 
 
 ## Author
