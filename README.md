@@ -55,8 +55,6 @@ A single csv file with the following generic structure.
 
 Bell Eapen (McMaster U)
 
-* The theoretical foundations of this tool is being worked on.
-
 ## Citation
 
 Please cite QRMine in your publications if it helped your research. Here
@@ -74,3 +72,5 @@ is an example BibTeX entry:
 }
 
 ```
+
+Publication with the theoretical foundations of this tool is being worked on. QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).
