@@ -1,4 +1,6 @@
 import subprocess
+import textacy
+from textacy.vsm.vectorizers import Vectorizer
 
 
 class Qrmine(object):
@@ -7,6 +9,25 @@ class Qrmine(object):
         self._content = ""
         self._min_occurrence_for_topic = 2
         self._common_verbs = 10
+        # create an empty corpus
+        en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
+        self._corpus = textacy.Corpus(lang=en)
+        self._content = None
+        self._model = None
+        self._numdocs = 0
+        self._numtopics = 0
+        self._terms = None
+        self._doc_term_matrix = None
+        self._vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
+                                      norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
+
+    @property
+    def content(self):
+        return self._content
+
+    @content.setter
+    def content(self, content):
+        self._content = content
 
     def min_topic(self, min_topic):
         self._min_occurrence_for_topic = min_topic
@@ -42,26 +63,30 @@ class Qrmine(object):
         self.print_table(output)
         print("---------------------------\n")
 
-    def print_topics(self, model, vectorizer, number_topics):
-        topic_list = list(range(1, number_topics))
+    def print_topics(self, numtopics=0):
+        if numtopics > 0:
+            self._numtopics = numtopics
+        topic_list = list(range(1, self._numtopics))
         output = []
         print("\n---Topics---")
         output.append(("TOPIC", "DESCRIPTION"))
-        for topic_idx, top_terms in model.top_topic_terms(vectorizer.id_to_term, topics=topic_list):
+        for topic_idx, top_terms in self._model.top_topic_terms(self._vectorizer.id_to_term, topics=topic_list):
             output.append(("TOPIC:" + str(topic_idx), '   '.join(top_terms)))
         self.print_table(output)
         print("---------------------------\n")
 
-    def print_documents(self, model, corpus, doc_topic_matrix, number_topics):
-        topic_list = list(range(1, number_topics))
+    def print_documents(self, numtopics=0):
+        if numtopics > 0:
+            self._numtopics = numtopics
+        topic_list = list(range(1, self._numtopics))
         output = []
         print("\n---Topics---")
         output.append(("TOPIC", "DOCUMENTS"))
-        for topic_idx, top_docs in model.top_topic_docs(doc_topic_matrix, topics=topic_list,
-                                                        top_n=self._min_occurrence_for_topic):
+        for topic_idx, top_docs in self._model.top_topic_docs(self._doc_term_matrix, topics=topic_list,
+                                                              top_n=self._min_occurrence_for_topic):
             str_topic_idx = str(topic_idx)
             for j in top_docs:
-                output.append((str_topic_idx, corpus[j].metadata['title']))
+                output.append((str_topic_idx, self._corpus[j].metadata['title']))
                 str_topic_idx = "..."
         self.print_table(output)
         print("---------------------------\n")
@@ -80,3 +105,29 @@ class Qrmine(object):
 
         self.print_table(output)
         print("---------------------------\n")
+
+    def process_content(self):
+        if self._content is not None:
+            ct = 0
+            for document in self._content.documents:
+                metadata = {}
+                try:
+                    metadata['title'] = self._content.titles[ct]
+                except IndexError:
+                    metadata['title'] = 'Empty'
+                self._corpus.add_text(textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
+                                      metadata=metadata)
+                ct += 1
+            self._doc_term_matrix = self._vectorizer.fit_transform(
+                (documents.to_terms_list(ngrams=(1, 2, 3), named_entities=True,
+                                         as_strings=True, filter_stops=True,
+                                         filter_punct=True, filter_nums=True,
+                                         min_freq=1)
+                 for documents in self._corpus))
+            self._numdocs, self._terms = self._doc_term_matrix.shape
+            self._model = textacy.TopicModel('nmf', n_topics=self._numdocs)
+            self._model.fit(self._doc_term_matrix)
+
+            doc_topic_matrix = self._model.transform(self._doc_term_matrix)
+
+            _, self._numtopics = doc_topic_matrix.shape
