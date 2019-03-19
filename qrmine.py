@@ -20,7 +20,7 @@ from src.ml_qrmine import MLQRMine
               help='csv file name')
 @click.option('--corpus', '-c', multiple=True, default='',
               help='Document(s) to analyze/compare')
-@click.option('--codedict', multiple=False, default='',
+@click.option('--codedict', is_flag=True,
               help='Generate coding dictionary')
 def cli(verbose, inp, out, csv, corpus, codedict):
     if verbose:
@@ -43,15 +43,15 @@ def generate_dict(inp):
 
 def main(input_file):
     # ML
-    ml = MLQRMine()
-    ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
-    ml.prepare_data()
-    print(ml.get_nnet_predictions())
-    print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
-
-    print(ml.svm_confusion_matrix())
-
-    print(ml.knn_search(3))
+    # ml = MLQRMine()
+    # ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
+    # ml.prepare_data()
+    # print(ml.get_nnet_predictions())
+    # print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+    #
+    # print(ml.svm_confusion_matrix())
+    #
+    # print(ml.knn_search(3))
 
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
@@ -89,9 +89,9 @@ def main(input_file):
     print("_________________________________________")
     print("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
     q.print_categories(doc)
-    q.print_topics()
-    q.print_documents()
-    q.print_dict(all_interviews)
+    # q.print_topics()
+    # q.print_documents()
+    # q.print_dict(all_interviews)
 
 
 if __name__ == '__main__':
