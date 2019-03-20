@@ -22,17 +22,27 @@ from src.ml_qrmine import MLQRMine
               help='Document(s) to analyze/compare')
 @click.option('--codedict', is_flag=True,
               help='Generate coding dictionary')
-def cli(verbose, inp, out, csv, corpus, codedict):
+@click.option('--topics', is_flag=True,
+              help='Generate topic model')
+@click.option('--assign', is_flag=True,
+              help='Assign documents to topics')
+def cli(verbose, inp, out, csv, corpus, codedict, topics, assign):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
         sys.stdout = open(out, 'w')
-    if inp:
-        main(inp)
     if inp and codedict:
         generate_dict(inp)
+    if inp and topics:
+        generate_topics(inp)
+    if inp and assign:
+        assign_topics(inp)
+    else:
+        main(inp)
 
-
+"""
+The following functions work on all the text sections.
+"""
 def generate_dict(inp):
     data = ReadData()
     data.read_file(inp)
@@ -40,6 +50,21 @@ def generate_dict(inp):
     all_interviews = Content(data.content)
     q.print_dict(all_interviews)
 
+def generate_topics(inp)
+    data = ReadData()
+    data.read_file(inp)
+    q = Qrmine()
+    q.content = data
+    q.process_content()
+    q.print_topics()
+
+def assign_topics(inp)
+    data = ReadData()
+    data.read_file(inp)
+    q = Qrmine()
+    q.content = data
+    q.process_content()
+    q.print_documents()
 
 def main(input_file):
     # ML
