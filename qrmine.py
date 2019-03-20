@@ -18,15 +18,19 @@ from src.ml_qrmine import MLQRMine
               help='Output file name')
 @click.option('--csv', multiple=False, default='',
               help='csv file name')
-@click.option('--corpus', '-c', multiple=True, default='',
-              help='Document(s) to analyze/compare')
+@click.option('--titles', '-t', multiple=True, default='',
+              help='Document(s) title(s) to analyze/compare')
 @click.option('--codedict', is_flag=True,
               help='Generate coding dictionary')
 @click.option('--topics', is_flag=True,
               help='Generate topic model')
 @click.option('--assign', is_flag=True,
               help='Assign documents to topics')
-def cli(verbose, inp, out, csv, corpus, codedict, topics, assign):
+@click.option('--cat', is_flag=True,
+              help='List categories of entire corpus or individual docs')
+@click.option('--summary', is_flag=True,
+              help='Generate summary for entire corpus or individual docs')
+def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -37,6 +41,10 @@ def cli(verbose, inp, out, csv, corpus, codedict, topics, assign):
         generate_topics(inp)
     if inp and assign:
         assign_topics(inp)
+    if inp and cat:
+        generate_categories(inp, titles)
+    if inp and summary:
+        generate_summary(inp, titles)
     else:
         main(inp)
 
@@ -65,6 +73,57 @@ def assign_topics(inp)
     q.content = data
     q.process_content()
     q.print_documents()
+
+"""
+Function working at both levels
+"""
+
+def generate_categories(inp, tags)
+    if tags is not None:
+        data = ReadData()
+        data.read_file(inp)
+        ct = 0
+        for title in data.titles:
+            for tag in tags:
+                if title == tag:
+                    print (tag)
+                    content = data.documents[ct]
+            ct += 1
+        interview = Content(content)
+        doc = textacy.Doc(interview.doc)
+        q.print_categories(doc)
+
+    else:
+        data = ReadData()
+        data.read_file(inp)
+        q = Qrmine()
+        all_interviews = Content(data.content)
+        doc = textacy.Doc(all_interviews.doc)
+        q.print_categories(doc)
+
+def generate_summary(inp, tags)
+    if tags is not None:
+        data = ReadData()
+        data.read_file(inp)
+        ct = 0
+        for title in data.titles:
+            for tag in tags:
+                if title == tag:
+                    print (tag)
+                    content = data.documents[ct]
+            ct += 1
+        interview = Content(content)
+        print(" ".join(interview.generate_summary(2)))
+        print("_________________________________________")
+
+    else:
+        data = ReadData()
+        data.read_file(inp)
+        all_interviews = Content(data.content)
+        print(" ".join(all_interviews.generate_summary(2)))
+        print("_________________________________________")
+
+
 
 def main(input_file):
     # ML
