@@ -5,27 +5,37 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 ## What it does
 
 ### NLP
-* Lists common categories for open coding.
-* Create a coding dictionary with categories, properties and dimensions.
-* Topic modelling.
-* Arrange docs according to topics.
-* Compare two documents/interviews.
-* Sentiment analysis
-* Network analysis
-* Co-citation finder
+* [x] Lists common categories for open coding.
+* [x] Create a coding dictionary with categories, properties and dimensions.
+* [x] Topic modelling.
+* [x] Arrange docs according to topics.
+* [x] Compare two documents/interviews.
+* [x] Sentiment analysis
+* [ ] Network analysis
+* [ ] Co-citation finder
 
 ### ML
-* Accuracy of a neural network model trained using the data.
-* Confusion matrix from an support vector machine classifier
-* K nearest neighbours of a given record.
-* K-Means clustering
-* Association rules.
+* [x] Accuracy of a neural network model trained using the data.
+* [x] Confusion matrix from an support vector machine classifier
+* [x] K nearest neighbours of a given record.
+* [x] K-Means clustering
+* [ ] Association rules.
+* [ ] Principal Component Analysis (PCA)
 
 ## How to use
 
 * Download/clone this repository
 * pip install -r requirements.txt
 * python qrmine.py ( --help to display all command line options)
+
+### Command-line options
+
+| Command | Alternate | Description |
+| --- | --- | --- |
+| --inp | -i | Input file in the text format with <break> Topic </break> |
+| --out | -o | Output file name |
+| --csv |   | csv file name |
+
 
 ## Input file format
 
