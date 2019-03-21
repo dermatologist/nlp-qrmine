@@ -36,7 +36,13 @@ from src.ml_qrmine import MLQRMine
               help='Generate sentence level scores when applicable')
 @click.option('--nlp', is_flag=True,
               help='Generate all NLP reports')
-def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp):
+@click.option('--nnet', is_flag=True,
+              help='Display accuracy of a neural network model')
+@click.option('--svm', is_flag=True,
+              help='Display confusion matrix from an svm classifier')
+@click.option('--knn', is_flag=True,
+              help='Display nearest neighbours')
+def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet, svm, knn):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -55,6 +61,13 @@ def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, 
         get_sentiment(inp, titles, sentence)
     if inp and nlp:
         main(inp)
+    if csv and nnet:
+        get_nnet(csv)
+    if csv and svm:
+        get_svm(csv)
+    if csv and knn:
+        get_knn(csv)
+
 
 """
 The following functions work on all the text sections.
@@ -182,6 +195,30 @@ def get_sentiment(inp, tags, sentence):
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+
+
+"""
+ML
+"""
+
+def get_nnet(csv):
+    ml = MLQRMine()
+    ml.csvfile = csv
+    ml.prepare_data()
+    print(ml.get_nnet_predictions())
+    print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+
+def get_svm(csv):
+    ml = MLQRMine()
+    ml.csvfile = csv
+    ml.prepare_data()
+    print(ml.svm_confusion_matrix())
+
+def get_knn(csv, n=3)
+    ml = MLQRMine()
+    ml.csvfile = csv
+    ml.prepare_data()
+    print(ml.knn_search(n))
 
 def main(input_file):
     # ML

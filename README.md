@@ -43,6 +43,10 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 | --summary |   | Generate summary for entire corpus or individual docs |
 | --sentiment |   | Generate sentiment score for entire corpus or individual docs |
 | --nlp |   | Generate all NLP reports |
+| --sentence |   | Generate sentence level scores when applicable |
+| --nnet |   | Display accuracy of a neural network model |
+| --svm |   | Display confusion matrix from an svm classifier |
+| --knn |   | Display nearest neighbours |
 
 
 ## Input file format
