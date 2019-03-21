@@ -30,9 +30,11 @@ from src.ml_qrmine import MLQRMine
               help='List categories of entire corpus or individual docs')
 @click.option('--summary', is_flag=True,
               help='Generate summary for entire corpus or individual docs')
+@click.option('--sentiment', is_flag=True,
+              help='Generate sentiment score for entire corpus or individual docs')
 @click.option('--nlp', is_flag=True,
               help='Generate all NLP reports')
-def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, nlp):
+def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, nlp):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -130,6 +132,46 @@ def generate_summary(inp, tags):
         print(" ".join(all_interviews.generate_summary(2)))
         print("_________________________________________")
 
+"""
+TODO: To calculate mean sentiment of the text
+"""
+def get_sentiment(inp, tags):
+    if len(tags) > 0:
+        data = ReadData()
+        data.read_file(inp)
+        ct = 0
+        for title in data.titles:
+            for tag in tags:
+                if title == tag:
+                    print (tag)
+                    content = data.documents[ct]
+            ct += 1
+        interview = Content(content)
+        doc = textacy.Doc(interview.doc)
+
+        ## Sentiment
+        s = Sentiment()
+        x = []
+        for sentence in doc.sents:
+            if len(sentence) > 3:
+                x.append(sentence.text)
+                sent = s.sentiment_analyzer_scores(sentence.text)
+                print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+
+    else:
+        data = ReadData()
+        data.read_file(inp)
+        all_interviews = Content(data.content)
+        doc = textacy.Doc(all_interviews.doc)
+
+        ## Sentiment
+        s = Sentiment()
+        x = []
+        for sentence in doc.sents:
+            if len(sentence) > 3:
+                x.append(sentence.text)
+                sent = s.sentiment_analyzer_scores(sentence.text)
+                print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
 
 
 def main(input_file):
