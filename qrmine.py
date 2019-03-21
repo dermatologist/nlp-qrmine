@@ -30,7 +30,9 @@ from src.ml_qrmine import MLQRMine
               help='List categories of entire corpus or individual docs')
 @click.option('--summary', is_flag=True,
               help='Generate summary for entire corpus or individual docs')
-def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary):
+@click.option('--nlp', is_flag=True,
+              help='Generate all NLP reports')
+def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, nlp):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -45,7 +47,7 @@ def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary):
         generate_categories(inp, titles)
     if inp and summary:
         generate_summary(inp, titles)
-    else:
+    if inp and nlp:
         main(inp)
 
 """
@@ -58,7 +60,8 @@ def generate_dict(inp):
     all_interviews = Content(data.content)
     q.print_dict(all_interviews)
 
-def generate_topics(inp)
+
+def generate_topics(inp):
     data = ReadData()
     data.read_file(inp)
     q = Qrmine()
@@ -66,7 +69,8 @@ def generate_topics(inp)
     q.process_content()
     q.print_topics()
 
-def assign_topics(inp)
+
+def assign_topics(inp):
     data = ReadData()
     data.read_file(inp)
     q = Qrmine()
@@ -78,10 +82,12 @@ def assign_topics(inp)
 Function working at both levels
 """
 
-def generate_categories(inp, tags)
-    if tags is not None:
+
+def generate_categories(inp, tags):
+    if len(tags) > 0:
         data = ReadData()
         data.read_file(inp)
+        q = Qrmine()
         ct = 0
         for title in data.titles:
             for tag in tags:
@@ -101,8 +107,9 @@ def generate_categories(inp, tags)
         doc = textacy.Doc(all_interviews.doc)
         q.print_categories(doc)
 
-def generate_summary(inp, tags)
-    if tags is not None:
+
+def generate_summary(inp, tags):
+    if len(tags) > 0:
         data = ReadData()
         data.read_file(inp)
         ct = 0
@@ -170,13 +177,14 @@ def main(input_file):
 
     q.process_content()
 
-    print("_________________________________________")
-    print("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
     q.print_categories(doc)
-    # q.print_topics()
-    # q.print_documents()
-    # q.print_dict(all_interviews)
+    q.print_topics()
+    q.print_documents()
+    q.print_dict(all_interviews)
 
 
 if __name__ == '__main__':
+    q = Qrmine()
+    print("_________________________________________")
+    print("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
     cli()  # run the main function
