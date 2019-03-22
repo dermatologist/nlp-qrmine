@@ -164,8 +164,8 @@ class MLQRMine(object):
 
         return idx[:K]
 
-    def get_kmeans(self):
-        kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
+    def get_kmeans(self, c=5):
+        kmeans = KMeans(n_clusters=c, init='k-means++', random_state=42)
         y_kmeans = kmeans.fit_predict(self._X)
         return y_kmeans
 

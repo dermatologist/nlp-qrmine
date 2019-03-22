@@ -10,6 +10,7 @@ from src.nlp_qrmine import ReadData
 from src.nlp_qrmine import Sentiment
 from src.ml_qrmine import MLQRMine
 
+
 @click.command()
 @click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
 @click.option('--inp', '-i', multiple=True, default='',
@@ -42,7 +43,10 @@ from src.ml_qrmine import MLQRMine
               help='Display confusion matrix from an svm classifier')
 @click.option('--knn', is_flag=True,
               help='Display nearest neighbours')
-def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet, svm, knn):
+@click.option('--kmeans', is_flag=True,
+              help='Display KMeans clusters')
+def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet, svm,
+        knn, kmeans):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -67,11 +71,15 @@ def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, 
         get_svm(csv)
     if csv and knn:
         get_knn(csv)
+    if csv and kmeans:
+        get_kmeans(csv)
 
 
 """
 The following functions work on all the text sections.
 """
+
+
 def generate_dict(inp):
     data = ReadData()
     data.read_file(inp)
@@ -97,6 +105,7 @@ def assign_topics(inp):
     q.process_content()
     q.print_documents()
 
+
 """
 Function working at both levels
 """
@@ -111,7 +120,7 @@ def generate_categories(inp, tags):
         for title in data.titles:
             for tag in tags:
                 if title == tag:
-                    print (tag)
+                    print(tag)
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
@@ -135,7 +144,7 @@ def generate_summary(inp, tags):
         for title in data.titles:
             for tag in tags:
                 if title == tag:
-                    print (tag)
+                    print(tag)
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
@@ -149,8 +158,11 @@ def generate_summary(inp, tags):
         print(" ".join(all_interviews.generate_summary(2)))
         print("_________________________________________")
 
+
 """
 """
+
+
 def get_sentiment(inp, tags, sentence):
     if len(tags) > 0:
         data = ReadData()
@@ -159,7 +171,7 @@ def get_sentiment(inp, tags, sentence):
         for title in data.titles:
             for tag in tags:
                 if title == tag:
-                    print (tag)
+                    print(tag)
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
@@ -177,7 +189,7 @@ def get_sentiment(inp, tags, sentence):
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-           
+
     else:
         data = ReadData()
         data.read_file(inp)
@@ -201,12 +213,14 @@ def get_sentiment(inp, tags, sentence):
 ML
 """
 
+
 def get_nnet(csv):
     ml = MLQRMine()
     ml.csvfile = csv
     ml.prepare_data()
-    print(ml.get_nnet_predictions())
+    ml.get_nnet_predictions()
     print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+
 
 def get_svm(csv):
     ml = MLQRMine()
@@ -214,11 +228,20 @@ def get_svm(csv):
     ml.prepare_data()
     print(ml.svm_confusion_matrix())
 
+
 def get_knn(csv, n=3):
     ml = MLQRMine()
     ml.csvfile = csv
     ml.prepare_data()
     print(ml.knn_search(n))
+
+
+def get_kmeans(csv, n=3):
+    ml = MLQRMine()
+    ml.csvfile = csv
+    ml.prepare_data()
+    print(ml.get_kmeans(n))
+
 
 def main(input_file):
     # ML
