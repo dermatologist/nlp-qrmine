@@ -214,7 +214,7 @@ def get_svm(csv):
     ml.prepare_data()
     print(ml.svm_confusion_matrix())
 
-def get_knn(csv, n=3)
+def get_knn(csv, n=3):
     ml = MLQRMine()
     ml.csvfile = csv
     ml.prepare_data()
