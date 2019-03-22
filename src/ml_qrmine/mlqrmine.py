@@ -190,17 +190,17 @@ class MLQRMine(object):
     def get_pca(self):
         # https://plot.ly/~notebook_demo/264/about-the-author-some-of-sebastian-rasc/#/
         X_std = StandardScaler().fit_transform(self._X)
-        print('Covariance matrix: \n%s' %np.cov(X_std.T))
+        print('Covariance matrix: \n%s' % numpy.cov(X_std.T))
 
-        cov_mat = np.cov(X_std.T)
+        cov_mat = numpy.cov(X_std.T)
 
-        eig_vals, eig_vecs = np.linalg.eig(cov_mat)
+        eig_vals, eig_vecs = numpy.linalg.eig(cov_mat)
 
         print('Eigenvectors \n%s' %eig_vecs)
         print('\nEigenvalues \n%s' %eig_vals)
 
         # Make a list of (eigenvalue, eigenvector) tuples
-        eig_pairs = [(np.abs(eig_vals[i]), eig_vecs[:,i]) for i in range(len(eig_vals))]
+        eig_pairs = [(numpy.abs(eig_vals[i]), eig_vecs[:, i]) for i in range(len(eig_vals))]
 
         # Sort the (eigenvalue, eigenvector) tuples from high to low
         eig_pairs.sort()
@@ -212,7 +212,7 @@ class MLQRMine(object):
             print(i[0])
 
         # Adjust according to features chosen
-        matrix_w = np.hstack((eig_pairs[0][1].reshape(4,1), 
-                      eig_pairs[1][1].reshape(4,1)))
+        matrix_w = numpy.hstack((eig_pairs[0][1].reshape(4, 1),
+                                 eig_pairs[1][1].reshape(4,1)))
 
         print('Matrix W:\n', matrix_w)
