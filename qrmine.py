@@ -45,8 +45,10 @@ from src.ml_qrmine import MLQRMine
               help='Display nearest neighbours')
 @click.option('--kmeans', is_flag=True,
               help='Display KMeans clusters')
+@click.option('--cart', is_flag=True,
+              help='Display Association Rules')
 def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet, svm,
-        knn, kmeans):
+        knn, kmeans, cart, pca):
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -73,6 +75,10 @@ def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, 
         get_knn(csv)
     if csv and kmeans:
         get_kmeans(csv)
+    if csv and cart:
+        get_association(csv)
+    if csv and pca:
+        get_pca(csv)
 
 
 """
@@ -241,6 +247,20 @@ def get_kmeans(csv, n=3):
     ml.csvfile = csv
     ml.prepare_data()
     print(ml.get_kmeans(n))
+
+
+def get_association(csv):
+    ml = MLQRMine()
+    ml.csvfile = csv
+    ml.prepare_data()
+    print(ml.get_association())
+
+
+def get_pca(csv):
+    ml = MLQRMine()
+    ml.csvfile = csv
+    ml.prepare_data()
+    print(ml.get_pca())
 
 
 def main(input_file):
