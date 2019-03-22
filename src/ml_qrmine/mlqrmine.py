@@ -190,6 +190,7 @@ class MLQRMine(object):
     def get_pca(self):
         # https://plot.ly/~notebook_demo/264/about-the-author-some-of-sebastian-rasc/#/
         X_std = StandardScaler().fit_transform(self._X)
+        (recs, factors) = X_std.shape
         print('Covariance matrix: \n%s' % numpy.cov(X_std.T))
 
         cov_mat = numpy.cov(X_std.T)
@@ -212,7 +213,7 @@ class MLQRMine(object):
             print(i[0])
 
         # Adjust according to features chosen
-        matrix_w = numpy.hstack((eig_pairs[0][1].reshape(4, 1),
-                                 eig_pairs[1][1].reshape(4,1)))
+        matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                 eig_pairs[1][1].reshape(factors, 1)))
 
         print('Matrix W:\n', matrix_w)

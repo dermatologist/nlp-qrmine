@@ -47,6 +47,8 @@ from src.ml_qrmine import MLQRMine
               help='Display KMeans clusters')
 @click.option('--cart', is_flag=True,
               help='Display Association Rules')
+@click.option('--pca', is_flag=True,
+              help='Display PCA')
 def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet, svm,
         knn, kmeans, cart, pca):
     if verbose:
