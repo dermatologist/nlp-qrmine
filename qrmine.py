@@ -188,7 +188,7 @@ def get_sentiment(inp, tags, sentence):
         ## Sentiment
         s = Sentiment()
 
-        if len(sentence) > 0:
+        if sentence is True:
             for sentence in doc.sents:
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
@@ -206,7 +206,7 @@ def get_sentiment(inp, tags, sentence):
 
         ## Sentiment
         s = Sentiment()
-        if len(sentence) > 0:
+        if sentence is True:
             for sentence in doc.sents:
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
