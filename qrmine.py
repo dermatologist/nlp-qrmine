@@ -255,7 +255,7 @@ def get_association(csv):
     ml = MLQRMine()
     ml.csvfile = csv
     ml.prepare_data()
-    print(ml.get_association())
+    print(ml.get_apriori())
 
 
 def get_pca(csv):

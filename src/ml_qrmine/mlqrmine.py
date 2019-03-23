@@ -10,7 +10,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+
 from xgboost import XGBClassifier
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
 
 
 class MLQRMine(object):
@@ -169,15 +172,20 @@ class MLQRMine(object):
         y_kmeans = kmeans.fit_predict(self._X)
         return y_kmeans
 
+    """
+    TODO: This is not working yet.
+    use the ColumnTransformer instead of categorical_features
+    """
     def encode_categorical(self):
-        labelencoder_X_1 = LabelEncoder()
-        self._X[:, 1] = labelencoder_X_1.fit_transform(self._X[:, 1])
-        labelencoder_X_2 = LabelEncoder()
-        self._X[:, 2] = labelencoder_X_2.fit_transform(self._X[:, 2])
+        # labelencoder_X_1 = LabelEncoder()
+        # self._X[:, 1] = labelencoder_X_1.fit_transform(self._X[:, 1])
+        # labelencoder_X_2 = LabelEncoder()
+        # self._X[:, 2] = labelencoder_X_2.fit_transform(self._X[:, 2])
         onehotencoder = OneHotEncoder(categorical_features=[1])
         X = onehotencoder.fit_transform(self._X).toarray()
         X = X[:, 1:]
-        self._X = X
+        print(X)
+        return X
 
     def get_association(self):
         X_train, X_test, y_train, y_test = train_test_split(self._X, self._y, test_size=0.25, random_state=0)
@@ -186,6 +194,11 @@ class MLQRMine(object):
         # Predicting the Test set results
         y_pred = self._classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
+
+    def get_apriori(self):
+        frequent_itemsets = apriori(self.encode_categorical(), min_support=0.07, use_colnames=True)
+        rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+        return rules
 
     def get_pca(self):
         # https://plot.ly/~notebook_demo/264/about-the-author-some-of-sebastian-rasc/#/
