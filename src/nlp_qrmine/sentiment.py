@@ -1,6 +1,6 @@
 import textacy.similarity
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-
+import operator
 
 class Sentiment(object):
 
@@ -20,3 +20,14 @@ class Sentiment(object):
 
     def hamming(self, str1, str2):
         textacy.similarity.hamming(str1, str2)
+
+    """
+    Returns the sentiment with maximum score
+    
+    pos, neg or neu
+    
+    """
+
+    def sentiment(self):
+        self._return["score"].pop("compound", None)
+        return max(self._return["score"].items(), key=operator.itemgetter(1))[0]

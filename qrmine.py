@@ -193,11 +193,12 @@ def get_sentiment(inp, tags, sentence):
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
                     print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    print(s.sentiment())
 
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-
+            print(s.sentiment())
     else:
         data = ReadData()
         data.read_file(inp)
@@ -211,10 +212,12 @@ def get_sentiment(inp, tags, sentence):
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
                     print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    print(s.sentiment())
 
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            print(s.sentiment())
 
 
 """
