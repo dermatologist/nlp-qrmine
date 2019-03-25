@@ -78,7 +78,7 @@ class MLQRMine(object):
 
     # Functions
     def read_csv(self):
-        self._dataset = read_csv(self._csvfile, header=1)
+        self._dataset = read_csv(self._csvfile)
 
     def mark_missing(self):
         self._dataset_original = self._dataset
@@ -225,6 +225,13 @@ class MLQRMine(object):
         print('Eigenvalues in descending order:')
         for i in eig_pairs:
             print(i[0])
+
+        # variance explained
+        tot = sum(eig_vals)
+        var_exp = [(i / tot) * 100 for i in sorted(eig_vals, reverse=True)]
+        cum_var_exp = numpy.cumsum(var_exp)
+        print("Variance explained: ", var_exp)
+        print("Cumulative: ", cum_var_exp)
 
         # Adjust according to number of features chosen (default n=2)
         matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
