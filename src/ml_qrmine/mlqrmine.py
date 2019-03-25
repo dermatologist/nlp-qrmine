@@ -201,7 +201,7 @@ class MLQRMine(object):
         rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
         return rules
 
-    def get_pca(self):
+    def get_pca(self, n=3):
         # https://plot.ly/~notebook_demo/264/about-the-author-some-of-sebastian-rasc/#/
         X_std = StandardScaler().fit_transform(self._X)
         (recs, factors) = X_std.shape
@@ -226,8 +226,25 @@ class MLQRMine(object):
         for i in eig_pairs:
             print(i[0])
 
-        # Adjust according to features chosen
+        # Adjust according to number of features chosen (default n=2)
         matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
                                  eig_pairs[1][1].reshape(factors, 1)))
+
+        if n==3:
+            matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                    eig_pairs[1][1].reshape(factors, 1),
+                                    eig_pairs[2][1].reshape(factors, 1)))
+
+        if n==4:
+            matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                    eig_pairs[1][1].reshape(factors, 1),
+                                    eig_pairs[2][1].reshape(factors, 1),
+                                    eig_pairs[3][1].reshape(factors, 1)))
+        if n==5:
+            matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                    eig_pairs[1][1].reshape(factors, 1),
+                                    eig_pairs[2][1].reshape(factors, 1),
+                                    eig_pairs[3][1].reshape(factors, 1),
+                                    eig_pairs[4][1].reshape(factors, 1)))
 
         print('Matrix W:\n', matrix_w)

@@ -89,7 +89,7 @@ def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, 
     if csv and cart:
         get_association(csv)
     if csv and pca:
-        get_pca(csv)
+        get_pca(csv, num)
 
 
 """
@@ -311,11 +311,11 @@ def get_association(csv):
     print(ml.get_apriori())
 
 
-def get_pca(csv):
+def get_pca(csv, n=3):
     ml = MLQRMine()
     ml.csvfile = csv
     ml.prepare_data()
-    print(ml.get_pca())
+    print(ml.get_pca(n))
 
 
 def main(input_file):
