@@ -272,9 +272,10 @@ ML
 """
 
 
-def get_nnet(csv):
+def get_nnet(csv, n=3):
     ml = MLQRMine()
     ml.csvfile = csv
+    ml.epochs = n
     ml.prepare_data()
     ml.get_nnet_predictions()
     print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
