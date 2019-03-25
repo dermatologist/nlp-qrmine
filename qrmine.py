@@ -57,7 +57,8 @@ def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, 
         svm,
         knn, kmeans, cart, pca):
     data = ReadData()
-    data.read_file(inp)
+    if inp:
+        data.read_file(inp)
     if len(filters) > 0:
         data = filter_data(inp, filters)
     if verbose:
