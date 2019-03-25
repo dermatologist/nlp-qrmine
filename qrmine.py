@@ -21,6 +21,8 @@ from src.ml_qrmine import MLQRMine
               help='csv file name')
 @click.option('--titles', '-t', multiple=True, default='',
               help='Document(s) title(s) to analyze/compare')
+@click.option('--filters', '-f', multiple=True, default='',
+              help='Filters to apply')
 @click.option('--codedict', is_flag=True,
               help='Generate coding dictionary')
 @click.option('--topics', is_flag=True,
@@ -49,24 +51,29 @@ from src.ml_qrmine import MLQRMine
               help='Display Association Rules')
 @click.option('--pca', is_flag=True,
               help='Display PCA')
-def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet, svm,
+def cli(verbose, inp, out, csv, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet,
+        svm,
         knn, kmeans, cart, pca):
+    data = ReadData()
+    data.read_file(inp)
+    if len(filters) > 0:
+        data = filter_data(inp, filters)
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
         sys.stdout = open(out, 'w')
     if inp and codedict:
-        generate_dict(inp)
+        generate_dict(data)
     if inp and topics:
-        generate_topics(inp)
+        generate_topics(data)
     if inp and assign:
-        assign_topics(inp)
+        assign_topics(data)
     if inp and cat:
-        generate_categories(inp, titles)
+        generate_categories(data, titles)
     if inp and summary:
-        generate_summary(inp, titles)
+        generate_summary(data, titles)
     if inp and sentiment:
-        get_sentiment(inp, titles, sentence)
+        get_sentiment(data, titles, sentence)
     if inp and nlp:
         main(inp)
     if csv and nnet:
@@ -87,27 +94,69 @@ def cli(verbose, inp, out, csv, titles, codedict, topics, assign, cat, summary, 
 The following functions work on all the text sections.
 """
 
+"""
+This filters data according to search criteria
 
-def generate_dict(inp):
+If search is empty, return entire data
+
+If search is pos, neg or neu apply a sentiment filter
+
+Here search is the filters applied
+
+filters variable refers to the titles
+"""
+
+
+def filter_data(inp, search):
     data = ReadData()
+    to_return = ReadData()
     data.read_file(inp)
+
+    filters = []
+    for s in search:
+        if s == 'pos':
+            for title in data.titles:
+                t = [title]
+                if get_sentiment(data, t, False) == 'pos':
+                    filters.append(title)
+        if s == 'neg':
+            for title in data.titles:
+                t = [title]
+                if get_sentiment(data, t, False) == 'neg':
+                    filters.append(title)
+        if s == 'neu':
+            for title in data.titles:
+                t = [title]
+                if get_sentiment(data, t, False) == 'neu':
+                    filters.append(title)
+    ct = 0
+    print("Included Titles: ", filters)
+    for title in data.titles:
+        if any(title in l for l in filters):
+            to_return.append(title, data.documents[ct])
+        ct += 1
+
+    if len(search) > 0 and len(to_return.documents) > 0:
+        print("Filters applied. \n")
+        return to_return
+    else:
+        return data
+
+
+def generate_dict(data):
     q = Qrmine()
     all_interviews = Content(data.content)
     q.print_dict(all_interviews)
 
 
-def generate_topics(inp):
-    data = ReadData()
-    data.read_file(inp)
+def generate_topics(data):
     q = Qrmine()
     q.content = data
     q.process_content()
     q.print_topics()
 
 
-def assign_topics(inp):
-    data = ReadData()
-    data.read_file(inp)
+def assign_topics(data):
     q = Qrmine()
     q.content = data
     q.process_content()
@@ -119,10 +168,8 @@ Function working at both levels
 """
 
 
-def generate_categories(inp, tags):
+def generate_categories(data, tags):
     if len(tags) > 0:
-        data = ReadData()
-        data.read_file(inp)
         q = Qrmine()
         ct = 0
         for title in data.titles:
@@ -136,18 +183,14 @@ def generate_categories(inp, tags):
         q.print_categories(doc)
 
     else:
-        data = ReadData()
-        data.read_file(inp)
         q = Qrmine()
         all_interviews = Content(data.content)
         doc = textacy.Doc(all_interviews.doc)
         q.print_categories(doc)
 
 
-def generate_summary(inp, tags):
+def generate_summary(data, tags):
     if len(tags) > 0:
-        data = ReadData()
-        data.read_file(inp)
         ct = 0
         for title in data.titles:
             for tag in tags:
@@ -160,8 +203,6 @@ def generate_summary(inp, tags):
         print("_________________________________________")
 
     else:
-        data = ReadData()
-        data.read_file(inp)
         all_interviews = Content(data.content)
         print(" ".join(all_interviews.generate_summary(2)))
         print("_________________________________________")
@@ -171,10 +212,8 @@ def generate_summary(inp, tags):
 """
 
 
-def get_sentiment(inp, tags, sentence):
+def get_sentiment(data, tags, sentence):
     if len(tags) > 0:
-        data = ReadData()
-        data.read_file(inp)
         ct = 0
         for title in data.titles:
             for tag in tags:
@@ -199,9 +238,8 @@ def get_sentiment(inp, tags, sentence):
             sent = s.sentiment_analyzer_scores(doc.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
             print(s.sentiment())
+        return s.sentiment()
     else:
-        data = ReadData()
-        data.read_file(inp)
         all_interviews = Content(data.content)
         doc = textacy.Doc(all_interviews.doc)
 
@@ -218,7 +256,7 @@ def get_sentiment(inp, tags, sentence):
             sent = s.sentiment_analyzer_scores(doc.text)
             print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
             print(s.sentiment())
-
+        return s.sentiment()
 
 """
 ML
