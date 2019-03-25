@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from random import randint
 
 from xgboost import XGBClassifier
 from mlxtend.frequent_patterns import apriori
@@ -19,7 +20,7 @@ from mlxtend.frequent_patterns import association_rules
 class MLQRMine(object):
 
     def __init__(self):
-        self._seed = 7
+        self._seed = randint(1, 9)
         self._csvfile = ""
         self._dataset = None
         self._X = None
