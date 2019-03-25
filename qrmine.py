@@ -19,6 +19,8 @@ from src.ml_qrmine import MLQRMine
               help='Output file name')
 @click.option('--csv', multiple=False, default='',
               help='csv file name')
+@click.option('--num', '-n', multiple=False, default=3,
+              help='N (clusters/epochs etc depending on context)')
 @click.option('--titles', '-t', multiple=True, default='',
               help='Document(s) title(s) to analyze/compare')
 @click.option('--filters', '-f', multiple=True, default='',
@@ -51,7 +53,7 @@ from src.ml_qrmine import MLQRMine
               help='Display Association Rules')
 @click.option('--pca', is_flag=True,
               help='Display PCA')
-def cli(verbose, inp, out, csv, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet,
+def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet,
         svm,
         knn, kmeans, cart, pca):
     data = ReadData()
@@ -77,13 +79,13 @@ def cli(verbose, inp, out, csv, titles, filters, codedict, topics, assign, cat, 
     if inp and nlp:
         main(inp)
     if csv and nnet:
-        get_nnet(csv)
+        get_nnet(csv, num)
     if csv and svm:
         get_svm(csv)
     if csv and knn:
-        get_knn(csv)
+        get_knn(csv, num)
     if csv and kmeans:
-        get_kmeans(csv)
+        get_kmeans(csv, num)
     if csv and cart:
         get_association(csv)
     if csv and pca:
