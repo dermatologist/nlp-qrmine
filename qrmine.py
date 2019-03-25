@@ -129,6 +129,15 @@ def filter_data(inp, search):
                 t = [title]
                 if get_sentiment(data, t, False) == 'neu':
                     filters.append(title)
+        # If search itself is a title
+        if any(s in l for l in data.titles):
+            filters.append(s)
+        # If the given category is present in the document
+        for title in data.titles:
+            t = [title]
+            if any(s in l for l in generate_categories(data, t)):
+                filters.append(title)
+
     ct = 0
     print("Included Titles: ", filters)
     for title in data.titles:
@@ -180,13 +189,13 @@ def generate_categories(data, tags):
             ct += 1
         interview = Content(content)
         doc = textacy.Doc(interview.doc)
-        q.print_categories(doc)
+        return q.print_categories(doc)
 
     else:
         q = Qrmine()
         all_interviews = Content(data.content)
         doc = textacy.Doc(all_interviews.doc)
-        q.print_categories(doc)
+        return q.print_categories(doc)
 
 
 def generate_summary(data, tags):

@@ -57,12 +57,15 @@ class Qrmine(object):
                                   drop_determiners=True, include_types=["NOUN", "VERB"])
         categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
         output = []
+        to_return = []
         print("\n---Categories with count---")
         output.append(("CATEGORY", "WEIGHT"))
         for category, count in categories:
             output.append((category, str(count)))
+            to_return.append(category)
         self.print_table(output)
         print("---------------------------\n")
+        return to_return
 
     def print_topics(self, numtopics=0):
         if numtopics > 0:
