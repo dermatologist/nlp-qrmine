@@ -178,8 +178,9 @@ Function working at both levels
 
 
 def generate_categories(data, tags):
+    q = Qrmine()
+
     if len(tags) > 0:
-        q = Qrmine()
         ct = 0
         for title in data.titles:
             for tag in tags:
@@ -192,7 +193,6 @@ def generate_categories(data, tags):
         return q.print_categories(doc)
 
     else:
-        q = Qrmine()
         all_interviews = Content(data.content)
         doc = textacy.Doc(all_interviews.doc)
         return q.print_categories(doc)
