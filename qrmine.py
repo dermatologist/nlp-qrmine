@@ -21,6 +21,8 @@ from src.ml_qrmine import MLQRMine
               help='csv file name')
 @click.option('--num', '-n', multiple=False, default=3,
               help='N (clusters/epochs etc depending on context)')
+@click.option('--rec', '-r', multiple=False, default=3,
+              help='Record (on context)')
 @click.option('--titles', '-t', multiple=True, default='',
               help='Document(s) or csv title(s) to analyze/compare')
 @click.option('--filters', '-f', multiple=True, default='',
@@ -53,7 +55,8 @@ from src.ml_qrmine import MLQRMine
               help='Display Association Rules')
 @click.option('--pca', is_flag=True,
               help='Display PCA')
-def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence, nlp, nnet,
+def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence,
+        nlp, nnet,
         svm,
         knn, kmeans, cart, pca):
     data = ReadData()
@@ -89,7 +92,7 @@ def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, 
     if csv and svm:
         get_svm(ml)
     if csv and knn:
-        get_knn(ml, num)
+        get_knn(ml, num, rec)
     if csv and kmeans:
         get_kmeans(ml, num)
     if csv and cart:
@@ -292,9 +295,12 @@ def get_svm(ml):
     click.echo(ml.svm_confusion_matrix())
 
 
-def get_knn(ml, n=3):
+# https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree
+def get_knn(ml, n=3, r=3):
     ml.prepare_data()
-    click.echo(ml.knn_search(n))
+    knn = ml.knn_search(n, r)
+    for n in knn:
+        print("Records: ", n + 1)
 
 
 def get_kmeans(ml, n=3):

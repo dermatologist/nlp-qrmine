@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from sklearn.neighbors import KDTree
 from random import randint
 
 from xgboost import XGBClassifier
@@ -171,20 +172,33 @@ class MLQRMine(object):
         y_pred = classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
 
-    def knn_search(self, K=3, x=None):
-        """ find K nearest neighbours of data among D """
-        D = self._X
-        if x is None:
-            x = self._X[[0], :]
+    # def knn_search(self, K=3, r=3):
+    #     """ find K nearest neighbours of data among D """
+    #     D = self._X
+    #     x = self._X[[r-1], :]
+    #
+    #     print("KNN: ", x)
+    #     (recs, vs) = D.shape
+    #
+    #     print(recs)
+    #     #ndata = D.shape[0]
+    #     #K = K if K < ndata else ndata
+    #     K = K if K < recs else recs
+    #
+    #     print(K)
+    #     # euclidean distances from the other points
+    #     sqd = sqrt(((D - x[:, :recs]) ** 2).sum(axis=0))
+    #     idx = argsort(sqd)  # sorting
+    #     # return the indexes of K nearest neighbours
+    #     print(idx[:K])
+    #
+    #     return idx[:K]
 
-        ndata = D.shape[1]
-        K = K if K < ndata else ndata
-        # euclidean distances from the other points
-        sqd = sqrt(((D - x[:, :ndata]) ** 2).sum(axis=0))
-        idx = argsort(sqd)  # sorting
-        # return the indexes of K nearest neighbours
-
-        return idx[:K]
+    # https://stackoverflow.com/questions/45419203/python-numpy-extracting-a-row-from-an-array
+    def knn_search(self, n=3, r=3):
+        kdt = KDTree(self._X, leaf_size=2, metric='euclidean')
+        dist, ind = kdt.query(self._X[r - 1:r, :], k=n)
+        return ind
 
     def get_kmeans(self, c=5):
         kmeans = KMeans(n_clusters=c, init='k-means++', random_state=42)
