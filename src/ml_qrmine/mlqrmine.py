@@ -68,6 +68,11 @@ class MLQRMine(object):
     def titles(self):
         return self._titles
 
+    @property
+    def head(self):
+        return self._dataset.head
+
+
     # Getters should be before setters*
     @epochs.setter
     def epochs(self, epochs):
@@ -91,7 +96,6 @@ class MLQRMine(object):
             self._dataset = read_csv(self._csvfile, usecols=self._titles)
         else:
             self._dataset = read_csv(self._csvfile)
-        print(self._dataset.head)
 
     def mark_missing(self):
         self._dataset_original = self._dataset

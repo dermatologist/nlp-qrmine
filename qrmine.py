@@ -83,7 +83,7 @@ def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, 
     if csv:
         ml.csvfile = csv
     if len(titles) > 0:
-        ml.titles = titles    
+        ml.titles = titles
     if csv and nnet:
         get_nnet(ml, num)
     if csv and svm:
@@ -95,7 +95,7 @@ def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, 
     if csv and cart:
         get_association(ml)
     if csv and pca:
-        get_pca(ml, num)
+        get_pca(ml, num, verbose)
 
 
 """
@@ -307,8 +307,10 @@ def get_association(ml):
     print(ml.get_apriori())
 
 
-def get_pca(ml, n=3):
+def get_pca(ml, n=3, verbose=None):
     ml.prepare_data()
+    if verbose:
+        print(ml.head)
     print(ml.get_pca(n))
 
 
