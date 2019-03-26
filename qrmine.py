@@ -147,14 +147,14 @@ def filter_data(inp, search):
                 filters.append(title)
 
     ct = 0
-    print("Included Titles: ", filters)
+    click.echo("Included Titles: ", filters)
     for title in data.titles:
         if any(title in l for l in filters):
             to_return.append(title, data.documents[ct])
         ct += 1
 
     if len(search) > 0 and len(to_return.documents) > 0:
-        print("Filters applied. \n")
+        click.echo("Filters applied. \n")
         return to_return
     else:
         return data
@@ -193,7 +193,7 @@ def generate_categories(data, tags):
         for title in data.titles:
             for tag in tags:
                 if title == tag:
-                    print(tag)
+                    click.echo(tag)
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
@@ -212,17 +212,17 @@ def generate_summary(data, tags):
         for title in data.titles:
             for tag in tags:
                 if title == tag:
-                    print(tag)
+                    click.echo(tag)
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
-        print(" ".join(interview.generate_summary(2)))
-        print("_________________________________________")
+        click.echo(" ".join(interview.generate_summary(2)))
+        click.echo("_________________________________________")
 
     else:
         all_interviews = Content(data.content)
-        print(" ".join(all_interviews.generate_summary(2)))
-        print("_________________________________________")
+        click.echo(" ".join(all_interviews.generate_summary(2)))
+        click.echo("_________________________________________")
 
 
 """
@@ -235,7 +235,7 @@ def get_sentiment(data, tags, sentence):
         for title in data.titles:
             for tag in tags:
                 if title == tag:
-                    print(tag)
+                    click.echo(tag)
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
@@ -248,13 +248,13 @@ def get_sentiment(data, tags, sentence):
             for sentence in doc.sents:
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
-                    print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-                    print(s.sentiment())
+                    click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    click.echo(s.sentiment())
 
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
-            print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-            print(s.sentiment())
+            click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            click.echo(s.sentiment())
         return s.sentiment()
     else:
         all_interviews = Content(data.content)
@@ -266,13 +266,13 @@ def get_sentiment(data, tags, sentence):
             for sentence in doc.sents:
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
-                    print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-                    print(s.sentiment())
+                    click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    click.echo(s.sentiment())
 
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
-            print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-            print(s.sentiment())
+            click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            click.echo(s.sentiment())
         return s.sentiment()
 
 """
@@ -284,34 +284,34 @@ def get_nnet(ml, n=3):
     ml.epochs = n
     ml.prepare_data()
     ml.get_nnet_predictions()
-    print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+    click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
 
 
 def get_svm(ml):
     ml.prepare_data()
-    print(ml.svm_confusion_matrix())
+    click.echo(ml.svm_confusion_matrix())
 
 
 def get_knn(ml, n=3):
     ml.prepare_data()
-    print(ml.knn_search(n))
+    click.echo(ml.knn_search(n))
 
 
 def get_kmeans(ml, n=3):
     ml.prepare_data()
-    print(ml.get_kmeans(n))
+    click.echo(ml.get_kmeans(n))
 
 
 def get_association(ml):
     ml.prepare_data()
-    print(ml.get_apriori())
+    click.echo(ml.get_apriori())
 
 
 def get_pca(ml, n=3, verbose=None):
     ml.prepare_data()
     if verbose:
-        print(ml.head)
-    print(ml.get_pca(n))
+        click.echo(ml.head)
+    click.echo(ml.get_pca(n))
 
 
 def main(input_file):
@@ -319,12 +319,12 @@ def main(input_file):
     # ml = MLQRMine()
     # ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
     # ml.prepare_data()
-    # print(ml.get_nnet_predictions())
-    # print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+    # click.echo(ml.get_nnet_predictions())
+    # click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
     #
-    # print(ml.svm_confusion_matrix())
+    # click.echo(ml.svm_confusion_matrix())
     #
-    # print(ml.knn_search(3))
+    # click.echo(ml.knn_search(3))
 
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
@@ -336,8 +336,8 @@ def main(input_file):
     q.content = data
 
     ## Summary
-    print(" ".join(all_interviews.generate_summary(2)))
-    print("_________________________________________")
+    click.echo(" ".join(all_interviews.generate_summary(2)))
+    click.echo("_________________________________________")
 
     doc = textacy.Doc(all_interviews.doc)
 
@@ -348,14 +348,14 @@ def main(input_file):
         if len(sentence) > 3:
             x.append(sentence.text)
             sent = s.sentiment_analyzer_scores(sentence.text)
-            print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-            print("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
+            click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            click.echo("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
 
     ## Network
     n = Network()
-    print(n.sents_to_network(x))
+    click.echo(n.sents_to_network(x))
     # n.draw_graph(True)
-    print(n.draw_graph(False))
+    click.echo(n.draw_graph(False))
 
     q.process_content()
 
@@ -367,6 +367,6 @@ def main(input_file):
 
 if __name__ == '__main__':
     q = Qrmine()
-    print("_________________________________________")
-    print("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
+    click.echo("_________________________________________")
+    click.echo("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
     cli()  # run the main function
