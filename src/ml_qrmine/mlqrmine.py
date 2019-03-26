@@ -22,6 +22,7 @@ class MLQRMine(object):
     def __init__(self):
         self._seed = randint(1, 9)
         self._csvfile = ""
+        self._titles = None
         self._dataset = None
         self._X = None
         self._y = None
@@ -63,6 +64,10 @@ class MLQRMine(object):
     def y(self):
         return self._y
 
+    @property
+    def titles(self):
+        return self._titles
+
     # Getters should be before setters*
     @epochs.setter
     def epochs(self, epochs):
@@ -76,9 +81,16 @@ class MLQRMine(object):
     def csvfile(self, csvfile):
         self._csvfile = csvfile
 
+    @titles.setter
+    def csvfile(self, titles):
+        self._titles = titles
+
     # Functions
     def read_csv(self):
-        self._dataset = read_csv(self._csvfile)
+        if self._titles not None:
+            self._dataset = read_csv(self._csvfile, names=self._titles)
+        else:
+            self._dataset = read_csv(self._csvfile)
 
     def mark_missing(self):
         self._dataset_original = self._dataset

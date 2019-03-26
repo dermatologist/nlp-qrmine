@@ -22,7 +22,7 @@ from src.ml_qrmine import MLQRMine
 @click.option('--num', '-n', multiple=False, default=3,
               help='N (clusters/epochs etc depending on context)')
 @click.option('--titles', '-t', multiple=True, default='',
-              help='Document(s) title(s) to analyze/compare')
+              help='Document(s) or csv title(s) to analyze/compare')
 @click.option('--filters', '-f', multiple=True, default='',
               help='Filters to apply')
 @click.option('--codedict', is_flag=True,
@@ -79,18 +79,23 @@ def cli(verbose, inp, out, csv, num, titles, filters, codedict, topics, assign, 
         get_sentiment(data, titles, sentence)
     if inp and nlp:
         main(inp)
+    ml = MLQRMine()
+    if csv:
+        ml.csvfile = csv
+    if len(titles) > 0:
+        ml.titles = titles    
     if csv and nnet:
-        get_nnet(csv, num)
+        get_nnet(ml, num)
     if csv and svm:
-        get_svm(csv)
+        get_svm(ml)
     if csv and knn:
-        get_knn(csv, num)
+        get_knn(ml, num)
     if csv and kmeans:
-        get_kmeans(csv, num)
+        get_kmeans(ml, num)
     if csv and cart:
-        get_association(csv)
+        get_association(ml)
     if csv and pca:
-        get_pca(csv, num)
+        get_pca(ml, num)
 
 
 """
@@ -275,46 +280,34 @@ ML
 """
 
 
-def get_nnet(csv, n=3):
-    ml = MLQRMine()
-    ml.csvfile = csv
+def get_nnet(ml, n=3):
     ml.epochs = n
     ml.prepare_data()
     ml.get_nnet_predictions()
     print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
 
 
-def get_svm(csv):
-    ml = MLQRMine()
-    ml.csvfile = csv
+def get_svm(ml):
     ml.prepare_data()
     print(ml.svm_confusion_matrix())
 
 
-def get_knn(csv, n=3):
-    ml = MLQRMine()
-    ml.csvfile = csv
+def get_knn(ml, n=3):
     ml.prepare_data()
     print(ml.knn_search(n))
 
 
-def get_kmeans(csv, n=3):
-    ml = MLQRMine()
-    ml.csvfile = csv
+def get_kmeans(ml, n=3):
     ml.prepare_data()
     print(ml.get_kmeans(n))
 
 
-def get_association(csv):
-    ml = MLQRMine()
-    ml.csvfile = csv
+def get_association(ml):
     ml.prepare_data()
     print(ml.get_apriori())
 
 
-def get_pca(csv, n=3):
-    ml = MLQRMine()
-    ml.csvfile = csv
+def get_pca(ml, n=3):
     ml.prepare_data()
     print(ml.get_pca(n))
 
