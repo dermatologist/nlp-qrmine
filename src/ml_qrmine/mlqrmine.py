@@ -137,11 +137,12 @@ class MLQRMine(object):
         self._X = self._X_original
         self._y = self._y_original
 
-    def prepare_data(self):
+    def prepare_data(self, oversample=False):
         self.read_csv()
         self.mark_missing()
         self.read_xy()
-        self.oversample()
+        if oversample:
+            self.oversample()
 
     def get_nnet_predictions(self):
         self._model.add(Dense(12, input_dim=self._vnum, kernel_initializer='uniform', activation='relu'))
@@ -172,9 +173,9 @@ class MLQRMine(object):
 
     def knn_search(self, K=3, x=None):
         """ find K nearest neighbours of data among D """
-        D = self._X_original
+        D = self._X
         if x is None:
-            x = self._X_original[[0], :]
+            x = self._X[[0], :]
 
         ndata = D.shape[1]
         K = K if K < ndata else ndata

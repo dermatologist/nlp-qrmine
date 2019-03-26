@@ -282,13 +282,13 @@ ML
 
 def get_nnet(ml, n=3):
     ml.epochs = n
-    ml.prepare_data()
+    ml.prepare_data(True)  # Oversample
     ml.get_nnet_predictions()
     click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
 
 
 def get_svm(ml):
-    ml.prepare_data()
+    ml.prepare_data(True)  # Oversample
     click.echo(ml.svm_confusion_matrix())
 
 
