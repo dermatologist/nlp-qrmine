@@ -82,15 +82,16 @@ class MLQRMine(object):
         self._csvfile = csvfile
 
     @titles.setter
-    def csvfile(self, titles):
+    def titles(self, titles):
         self._titles = titles
 
     # Functions
     def read_csv(self):
-        if self._titles not None:
-            self._dataset = read_csv(self._csvfile, names=self._titles)
+        if self._titles is not None:
+            self._dataset = read_csv(self._csvfile, usecols=self._titles)
         else:
             self._dataset = read_csv(self._csvfile)
+        print(self._dataset.head)
 
     def mark_missing(self):
         self._dataset_original = self._dataset
@@ -244,6 +245,9 @@ class MLQRMine(object):
         cum_var_exp = numpy.cumsum(var_exp)
         print("Variance explained: ", var_exp)
         print("Cumulative: ", cum_var_exp)
+
+        if len(eig_vals) < n:
+            n = len(eig_vals)
 
         # Adjust according to number of features chosen (default n=2)
         matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
