@@ -36,6 +36,7 @@ class MLQRMine(object):
         self._classifier = XGBClassifier()
         self._epochs = 10
         self._samplesize = 0
+        self._clusters = None
 
     @property
     def seed(self):
@@ -72,7 +73,6 @@ class MLQRMine(object):
     @property
     def head(self):
         return self._dataset.head
-
 
     # Getters should be before setters*
     @epochs.setter
@@ -115,6 +115,7 @@ class MLQRMine(object):
     More details on np array splicing here: 
     https://stackoverflow.com/questions/34007632/how-to-remove-a-column-in-a-numpy-array/34008274
     """
+
     def read_xy(self):
         (self._samplesize, vnum) = self._dataset.shape
         # Last column in the csv should be the DV and first one is title (So get the number of variables)
@@ -203,12 +204,31 @@ class MLQRMine(object):
     def get_kmeans(self, c=5):
         kmeans = KMeans(n_clusters=c, init='k-means++', random_state=42)
         y_kmeans = kmeans.fit_predict(self._X)
+        self._clusters = y_kmeans
+        self.get_centroids(c)
         return y_kmeans
+
+    def get_centroids(self, c=1):
+        for x in range(0, c):
+            print("Cluster: ", x)
+            ct = 0
+            cluster_list = []
+            for cluster in self._clusters:
+                if cluster == x:
+                    cluster_list.append(ct)
+                ct += 1
+            print("Cluster Length: ", len(cluster_list))
+            print("Cluster Members")
+            print(self._dataset.iloc[cluster_list, :])
+            print("Mean")
+            print(self._dataset.iloc[cluster_list, :].mean(axis=0))
+
 
     """
     TODO: This is not working yet.
     use the ColumnTransformer instead of categorical_features
     """
+
     def encode_categorical(self):
         # labelencoder_X_1 = LabelEncoder()
         # self._X[:, 1] = labelencoder_X_1.fit_transform(self._X[:, 1])
@@ -243,8 +263,8 @@ class MLQRMine(object):
 
         eig_vals, eig_vecs = numpy.linalg.eig(cov_mat)
 
-        print('Eigenvectors \n%s' %eig_vecs)
-        print('\nEigenvalues \n%s' %eig_vals)
+        print('Eigenvectors \n%s' % eig_vecs)
+        print('\nEigenvalues \n%s' % eig_vals)
 
         # Make a list of (eigenvalue, eigenvector) tuples
         eig_pairs = [(numpy.abs(eig_vals[i]), eig_vecs[:, i]) for i in range(len(eig_vals))]
@@ -272,21 +292,21 @@ class MLQRMine(object):
         matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
                                  eig_pairs[1][1].reshape(factors, 1)))
 
-        if n==3:
+        if n == 3:
             matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
-                                    eig_pairs[1][1].reshape(factors, 1),
-                                    eig_pairs[2][1].reshape(factors, 1)))
+                                     eig_pairs[1][1].reshape(factors, 1),
+                                     eig_pairs[2][1].reshape(factors, 1)))
 
-        if n==4:
+        if n == 4:
             matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
-                                    eig_pairs[1][1].reshape(factors, 1),
-                                    eig_pairs[2][1].reshape(factors, 1),
-                                    eig_pairs[3][1].reshape(factors, 1)))
-        if n==5:
+                                     eig_pairs[1][1].reshape(factors, 1),
+                                     eig_pairs[2][1].reshape(factors, 1),
+                                     eig_pairs[3][1].reshape(factors, 1)))
+        if n == 5:
             matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
-                                    eig_pairs[1][1].reshape(factors, 1),
-                                    eig_pairs[2][1].reshape(factors, 1),
-                                    eig_pairs[3][1].reshape(factors, 1),
-                                    eig_pairs[4][1].reshape(factors, 1)))
+                                     eig_pairs[1][1].reshape(factors, 1),
+                                     eig_pairs[2][1].reshape(factors, 1),
+                                     eig_pairs[3][1].reshape(factors, 1),
+                                     eig_pairs[4][1].reshape(factors, 1)))
 
         print('Matrix W:\n', matrix_w)

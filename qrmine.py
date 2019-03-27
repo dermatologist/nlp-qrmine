@@ -305,6 +305,7 @@ def get_knn(ml, n=3, r=3):
 
 def get_kmeans(ml, n=3):
     ml.prepare_data()
+    click.echo("K-Means Clusters:")
     click.echo(ml.get_kmeans(n))
 
 
