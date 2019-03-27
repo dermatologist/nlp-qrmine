@@ -22,7 +22,7 @@ from src.ml_qrmine import MLQRMine
 @click.option('--num', '-n', multiple=False, default=3,
               help='N (clusters/epochs etc depending on context)')
 @click.option('--rec', '-r', multiple=False, default=3,
-              help='Record (on context)')
+              help='Record (based on context)')
 @click.option('--titles', '-t', multiple=True, default='',
               help='Document(s) or csv title(s) to analyze/compare')
 @click.option('--filters', '-f', multiple=True, default='',

@@ -35,6 +35,8 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 | --inp | -i | Input file in the text format with <break> Topic </break> |
 | --out | -o | Output file name |
 | --csv |   | csv file name |
+| --num | -n  | N (clusters/epochs etc depending on context) |
+| --rec | -r  | Record (based on context) |
 | --titles | -t | Document(s) title(s) to analyze/compare |
 | --codedict |   | Generate coding dictionary |
 | --topics |   | Generate topic model |
