@@ -10,17 +10,18 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 * [x] Topic modelling.
 * [x] Arrange docs according to topics.
 * [x] Compare two documents/interviews.
+* [x] Select documents/interviews by sentiment, category or title for further analysis.
 * [x] Sentiment analysis
 * [ ] Network analysis
 * [ ] Co-citation finder
 
 ### ML
-* [x] Accuracy of a neural network model trained using the data.
+* [x] Accuracy of a neural network model trained using the data
 * [x] Confusion matrix from an support vector machine classifier
-* [x] K nearest neighbours of a given record.
+* [x] K nearest neighbours of a given record
 * [x] K-Means clustering
-* [ ] Association rules.
-* [ ] Principal Component Analysis (PCA)
+* [x] Principal Component Analysis (PCA)
+* [ ] Association rules
 
 ## How to use
 
@@ -36,6 +37,8 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 * You can filter documents based on sentiment, titles or categories and do further analysis, using --filters or -f
 
 * Many of the ML functions like neural network takes a second argument (-n) . In nnet -n signifies the number of epochs, number of clusters in kmeans, number of factors in pca, and number of neighbours in KNN. KNN also takes the --rec or -r argument to specify the record.
+
+* Variables from csv can be selected using --titles (defaults to all). The first variable will be ignored (index) and the last will be the DV (dependant variable). 
 
 
 ### Command-line options
