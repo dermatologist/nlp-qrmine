@@ -51,11 +51,11 @@ class Qrmine(object):
         return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip().decode("utf-8")
         # return subprocess.check_output(['git', 'log', '-1', '--format=%cd']).strip().decode("utf-8")[10:]
 
-    def print_categories(self, doc):
+    def print_categories(self, doc, num=10):
         bot = doc.to_bag_of_terms(ngrams=(1, 2, 3), named_entities=False, normalize='lemma', weighting='freq',
                                   as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=2,
                                   drop_determiners=True, include_types=["NOUN", "VERB"])
-        categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:15]
+        categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:num]
         output = []
         to_return = []
         print("\n---Categories with count---")

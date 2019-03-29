@@ -75,7 +75,7 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
     if inp and assign:
         assign_topics(data)
     if inp and cat:
-        generate_categories(data, titles)
+        generate_categories(data, titles, num)
     if inp and summary:
         generate_summary(data, titles)
     if inp and sentiment:
@@ -190,7 +190,7 @@ Function working at both levels
 """
 
 
-def generate_categories(data, tags):
+def generate_categories(data, tags, num):
     q = Qrmine()
 
     if len(tags) > 0:
@@ -203,12 +203,12 @@ def generate_categories(data, tags):
             ct += 1
         interview = Content(content)
         doc = textacy.Doc(interview.doc)
-        return q.print_categories(doc)
+        return q.print_categories(doc, num)
 
     else:
         all_interviews = Content(data.content)
         doc = textacy.Doc(all_interviews.doc)
-        return q.print_categories(doc)
+        return q.print_categories(doc, num)
 
 
 def generate_summary(data, tags):
