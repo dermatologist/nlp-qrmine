@@ -69,7 +69,7 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
     if out:
         sys.stdout = open(out, 'w')
     if inp and codedict:
-        generate_dict(data)
+        generate_dict(data, num)
     if inp and topics:
         generate_topics(data)
     if inp and assign:
@@ -163,10 +163,12 @@ def filter_data(inp, search):
         return data
 
 
-def generate_dict(data):
+def generate_dict(data, num):
+    if not num:
+        num = 10
     q = Qrmine()
     all_interviews = Content(data.content)
-    q.print_dict(all_interviews)
+    q.print_dict(all_interviews, num)
 
 
 def generate_topics(data):
@@ -322,17 +324,6 @@ def get_pca(ml, n=3, verbose=None):
 
 
 def main(input_file):
-    # ML
-    # ml = MLQRMine()
-    # ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
-    # ml.prepare_data()
-    # click.echo(ml.get_nnet_predictions())
-    # click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
-    #
-    # click.echo(ml.svm_confusion_matrix())
-    #
-    # click.echo(ml.knn_search(3))
-
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
     data.read_file(input_file)

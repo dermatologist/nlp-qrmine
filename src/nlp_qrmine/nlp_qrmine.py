@@ -95,11 +95,11 @@ class Qrmine(object):
         self.print_table(output)
         print("---------------------------\n")
 
-    def print_dict(self, content):
+    def print_dict(self, content, num=10):
         output = []
         print("\n---Coding Dictionary---")
         output.append(("CATEGORY", "PROPERTY", "DIMENSION"))
-        words = content.common_verbs(self._common_verbs)
+        words = content.common_verbs(num)
         for word, f1 in words:
             for attribute, f2 in content.attributes(word, 3):
                 for dimension, f3 in content.dimensions(attribute, 3):
