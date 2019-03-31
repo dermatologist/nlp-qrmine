@@ -71,9 +71,9 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
     if inp and codedict:
         generate_dict(data, num)
     if inp and topics:
-        generate_topics(data)
-    if inp and assign:
-        assign_topics(data)
+        generate_topics(data, assign, num)
+    # if inp and assign:
+    #     assign_topics(data)
     if inp and cat:
         generate_categories(data, titles, num)
     if inp and summary:
@@ -171,18 +171,20 @@ def generate_dict(data, num):
     q.print_dict(all_interviews, num)
 
 
-def generate_topics(data):
+def generate_topics(data, assign, num):
     q = Qrmine()
     q.content = data
     q.process_content()
     q.print_topics()
+    if assign:
+        q.print_documents(num)
 
 
-def assign_topics(data):
-    q = Qrmine()
-    q.content = data
-    q.process_content()
-    q.print_documents()
+# def assign_topics(data):
+#     q = Qrmine()
+#     q.content = data
+#     q.process_content()
+#     q.print_documents()
 
 
 """

@@ -83,15 +83,13 @@ class Qrmine(object):
     # https://www.pydoc.io/pypi/textacy-0.4.0/autoapi/tm/topic_model/index.html
     # Rem stop words http://ai.intelligentonlinetools.com/ml/category/topic-modeling/
     # To set Top N
-    def print_documents(self, numtopics=0):
-        if numtopics > 0:
-            self._numtopics = numtopics
+    def print_documents(self, top_n=2):
         topic_list = list(range(1, self._numtopics))
         output = []
         print("\n---Topics---")
         output.append(("TOPIC", "DOCUMENTS"))
         for topic_idx, top_docs in self._model.top_topic_docs(self._doc_topic_matrix, topics=topic_list,
-                                                              top_n=self._min_occurrence_for_topic):
+                                                              top_n=top_n):
             str_topic_idx = str(topic_idx)
             for j in top_docs:
                 output.append((str_topic_idx, self._corpus[j].metadata['title']))
@@ -99,7 +97,8 @@ class Qrmine(object):
         self.print_table(output)
         print("---------------------------\n")
         print("\n---Documents To Topics---")
-        for doc_idx, topics in self._model.top_doc_topics(self._doc_topic_matrix, docs=range(self._numdocs), top_n=3):
+        for doc_idx, topics in self._model.top_doc_topics(self._doc_topic_matrix, docs=range(self._numdocs),
+                                                          top_n=top_n):
             print(self._corpus[doc_idx].metadata['title'], ':', topics)
         print("---------------------------\n")
 
