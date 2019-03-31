@@ -18,6 +18,7 @@ class Qrmine(object):
         self._numtopics = 0
         self._terms = None
         self._doc_term_matrix = None
+        self._doc_topic_matrix = None
         self._vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
                                       norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
 
@@ -86,7 +87,7 @@ class Qrmine(object):
         output = []
         print("\n---Topics---")
         output.append(("TOPIC", "DOCUMENTS"))
-        for topic_idx, top_docs in self._model.top_topic_docs(self._doc_term_matrix, topics=topic_list,
+        for topic_idx, top_docs in self._model.top_topic_docs(self._doc_topic_matrix, topics=topic_list,
                                                               top_n=self._min_occurrence_for_topic):
             str_topic_idx = str(topic_idx)
             for j in top_docs:
@@ -153,6 +154,6 @@ class Qrmine(object):
         self._model = textacy.TopicModel('nmf', n_topics=self._numdocs)
         self._model.fit(self._doc_term_matrix)
 
-        doc_topic_matrix = self._model.transform(self._doc_term_matrix)
+        self._doc_topic_matrix = self._model.transform(self._doc_term_matrix)
 
-        _, self._numtopics = doc_topic_matrix.shape
+        _, self._numtopics = self._doc_topic_matrix.shape
