@@ -94,7 +94,7 @@ A single csv file with the following generic structure.
 ## Author
 
 * [Bell Eapen](https://nuchange.ca) (McMaster U) |  [Contact](https://nuchange.ca/contact)
-* This package is developed and tested using [Compute Canada](http://www.computecanada.ca) resources.
+* This software is developed and tested using [Compute Canada](http://www.computecanada.ca) resources.
 * See also:  [:fire: The FHIRForm framework for managing healthcare eForms](https://github.com/E-Health/fhirform)
 * See also: [:eyes: Drishti | An mHealth sense-plan-act framework!](https://github.com/E-Health/drishti)
 
