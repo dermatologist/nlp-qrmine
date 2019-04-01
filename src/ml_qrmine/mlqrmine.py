@@ -10,14 +10,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+from sklearn.neighbors import KDTree
+from random import randint
+
 from xgboost import XGBClassifier
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
 
 
 class MLQRMine(object):
 
     def __init__(self):
-        self._seed = 7
+        self._seed = randint(1, 9)
         self._csvfile = ""
+        self._titles = None
         self._dataset = None
         self._X = None
         self._y = None
@@ -30,6 +36,7 @@ class MLQRMine(object):
         self._classifier = XGBClassifier()
         self._epochs = 10
         self._samplesize = 0
+        self._clusters = None
 
     @property
     def seed(self):
@@ -59,6 +66,14 @@ class MLQRMine(object):
     def y(self):
         return self._y
 
+    @property
+    def titles(self):
+        return self._titles
+
+    @property
+    def head(self):
+        return self._dataset.head
+
     # Getters should be before setters*
     @epochs.setter
     def epochs(self, epochs):
@@ -72,9 +87,16 @@ class MLQRMine(object):
     def csvfile(self, csvfile):
         self._csvfile = csvfile
 
+    @titles.setter
+    def titles(self, titles):
+        self._titles = titles
+
     # Functions
     def read_csv(self):
-        self._dataset = read_csv(self._csvfile, header=1)
+        if self._titles is not None:
+            self._dataset = read_csv(self._csvfile, usecols=self._titles)
+        else:
+            self._dataset = read_csv(self._csvfile)
 
     def mark_missing(self):
         self._dataset_original = self._dataset
@@ -93,6 +115,7 @@ class MLQRMine(object):
     More details on np array splicing here: 
     https://stackoverflow.com/questions/34007632/how-to-remove-a-column-in-a-numpy-array/34008274
     """
+
     def read_xy(self):
         (self._samplesize, vnum) = self._dataset.shape
         # Last column in the csv should be the DV and first one is title (So get the number of variables)
@@ -116,11 +139,12 @@ class MLQRMine(object):
         self._X = self._X_original
         self._y = self._y_original
 
-    def prepare_data(self):
+    def prepare_data(self, oversample=False):
         self.read_csv()
         self.mark_missing()
         self.read_xy()
-        self.oversample()
+        if oversample:
+            self.oversample()
 
     def get_nnet_predictions(self):
         self._model.add(Dense(12, input_dim=self._vnum, kernel_initializer='uniform', activation='relu'))
@@ -149,35 +173,72 @@ class MLQRMine(object):
         y_pred = classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
 
-    def knn_search(self, K=3, x=None):
-        """ find K nearest neighbours of data among D """
-        D = self._X_original
-        if x is None:
-            x = self._X_original[[0], :]
+    # def knn_search(self, K=3, r=3):
+    #     """ find K nearest neighbours of data among D """
+    #     D = self._X
+    #     x = self._X[[r-1], :]
+    #
+    #     print("KNN: ", x)
+    #     (recs, vs) = D.shape
+    #
+    #     print(recs)
+    #     #ndata = D.shape[0]
+    #     #K = K if K < ndata else ndata
+    #     K = K if K < recs else recs
+    #
+    #     print(K)
+    #     # euclidean distances from the other points
+    #     sqd = sqrt(((D - x[:, :recs]) ** 2).sum(axis=0))
+    #     idx = argsort(sqd)  # sorting
+    #     # return the indexes of K nearest neighbours
+    #     print(idx[:K])
+    #
+    #     return idx[:K]
 
-        ndata = D.shape[1]
-        K = K if K < ndata else ndata
-        # euclidean distances from the other points
-        sqd = sqrt(((D - x[:, :ndata]) ** 2).sum(axis=0))
-        idx = argsort(sqd)  # sorting
-        # return the indexes of K nearest neighbours
+    # https://stackoverflow.com/questions/45419203/python-numpy-extracting-a-row-from-an-array
+    def knn_search(self, n=3, r=3):
+        kdt = KDTree(self._X, leaf_size=2, metric='euclidean')
+        dist, ind = kdt.query(self._X[r - 1:r, :], k=n)
+        return ind
 
-        return idx[:K]
-
-    def get_kmeans(self):
-        kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
+    def get_kmeans(self, c=5):
+        kmeans = KMeans(n_clusters=c, init='k-means++', random_state=42)
         y_kmeans = kmeans.fit_predict(self._X)
+        self._clusters = y_kmeans
+        self.get_centroids(c)
         return y_kmeans
 
+    def get_centroids(self, c=1):
+        for x in range(0, c):
+            print("Cluster: ", x)
+            ct = 0
+            cluster_list = []
+            for cluster in self._clusters:
+                if cluster == x:
+                    cluster_list.append(ct)
+                ct += 1
+            print("Cluster Length: ", len(cluster_list))
+            print("Cluster Members")
+            print(self._dataset.iloc[cluster_list, :])
+            print("Mean")
+            print(self._dataset.iloc[cluster_list, :].mean(axis=0))
+
+
+    """
+    TODO: This is not working yet.
+    use the ColumnTransformer instead of categorical_features
+    """
+
     def encode_categorical(self):
-        labelencoder_X_1 = LabelEncoder()
-        self._X[:, 1] = labelencoder_X_1.fit_transform(self._X[:, 1])
-        labelencoder_X_2 = LabelEncoder()
-        self._X[:, 2] = labelencoder_X_2.fit_transform(self._X[:, 2])
+        # labelencoder_X_1 = LabelEncoder()
+        # self._X[:, 1] = labelencoder_X_1.fit_transform(self._X[:, 1])
+        # labelencoder_X_2 = LabelEncoder()
+        # self._X[:, 2] = labelencoder_X_2.fit_transform(self._X[:, 2])
         onehotencoder = OneHotEncoder(categorical_features=[1])
         X = onehotencoder.fit_transform(self._X).toarray()
         X = X[:, 1:]
-        self._X = X
+        print(X)
+        return X
 
     def get_association(self):
         X_train, X_test, y_train, y_test = train_test_split(self._X, self._y, test_size=0.25, random_state=0)
@@ -186,3 +247,66 @@ class MLQRMine(object):
         # Predicting the Test set results
         y_pred = self._classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
+
+    def get_apriori(self):
+        frequent_itemsets = apriori(self.encode_categorical(), min_support=0.07, use_colnames=True)
+        rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+        return rules
+
+    def get_pca(self, n=3):
+        # https://plot.ly/~notebook_demo/264/about-the-author-some-of-sebastian-rasc/#/
+        X_std = StandardScaler().fit_transform(self._X)
+        (recs, factors) = X_std.shape
+        print('Covariance matrix: \n%s' % numpy.cov(X_std.T))
+
+        cov_mat = numpy.cov(X_std.T)
+
+        eig_vals, eig_vecs = numpy.linalg.eig(cov_mat)
+
+        print('Eigenvectors \n%s' % eig_vecs)
+        print('\nEigenvalues \n%s' % eig_vals)
+
+        # Make a list of (eigenvalue, eigenvector) tuples
+        eig_pairs = [(numpy.abs(eig_vals[i]), eig_vecs[:, i]) for i in range(len(eig_vals))]
+
+        # Sort the (eigenvalue, eigenvector) tuples from high to low
+        eig_pairs.sort()
+        eig_pairs.reverse()
+
+        # Visually confirm that the list is correctly sorted by decreasing eigenvalues
+        print('Eigenvalues in descending order:')
+        for i in eig_pairs:
+            print(i[0])
+
+        # variance explained
+        tot = sum(eig_vals)
+        var_exp = [(i / tot) * 100 for i in sorted(eig_vals, reverse=True)]
+        cum_var_exp = numpy.cumsum(var_exp)
+        print("Variance explained: ", var_exp)
+        print("Cumulative: ", cum_var_exp)
+
+        if len(eig_vals) < n:
+            n = len(eig_vals)
+
+        # Adjust according to number of features chosen (default n=2)
+        matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                 eig_pairs[1][1].reshape(factors, 1)))
+
+        if n == 3:
+            matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                     eig_pairs[1][1].reshape(factors, 1),
+                                     eig_pairs[2][1].reshape(factors, 1)))
+
+        if n == 4:
+            matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                     eig_pairs[1][1].reshape(factors, 1),
+                                     eig_pairs[2][1].reshape(factors, 1),
+                                     eig_pairs[3][1].reshape(factors, 1)))
+        if n == 5:
+            matrix_w = numpy.hstack((eig_pairs[0][1].reshape(factors, 1),
+                                     eig_pairs[1][1].reshape(factors, 1),
+                                     eig_pairs[2][1].reshape(factors, 1),
+                                     eig_pairs[3][1].reshape(factors, 1),
+                                     eig_pairs[4][1].reshape(factors, 1)))
+
+        print('Matrix W:\n', matrix_w)

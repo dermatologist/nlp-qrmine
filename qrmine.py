@@ -2,7 +2,6 @@ import sys
 
 import click
 import textacy
-from textacy.vsm.vectorizers import Vectorizer
 
 from src.nlp_qrmine import Content
 from src.nlp_qrmine import Network
@@ -11,37 +10,326 @@ from src.nlp_qrmine import ReadData
 from src.nlp_qrmine import Sentiment
 from src.ml_qrmine import MLQRMine
 
+
 @click.command()
 @click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
 @click.option('--inp', '-i', multiple=True, default='',
               help='Input file in the text format with <break> Topic </break>')
 @click.option('--out', '-o', multiple=False, default='',
               help='Output file name')
-@click.option('--csv', '-c', multiple=False, default='',
+@click.option('--csv', multiple=False, default='',
               help='csv file name')
-@click.option('--doc', '-d', multiple=True, default='',
-              help='Document(s) to analyze/compare')
-def cli(verbose, inp, out, csv, doc):
+@click.option('--num', '-n', multiple=False, default=3,
+              help='N (clusters/epochs etc depending on context)')
+@click.option('--rec', '-r', multiple=False, default=3,
+              help='Record (based on context)')
+@click.option('--titles', '-t', multiple=True, default='',
+              help='Document(s) or csv title(s) to analyze/compare')
+@click.option('--filters', '-f', multiple=True, default='',
+              help='Filters to apply')
+@click.option('--codedict', is_flag=True,
+              help='Generate coding dictionary')
+@click.option('--topics', is_flag=True,
+              help='Generate topic model')
+@click.option('--assign', is_flag=True,
+              help='Assign documents to topics')
+@click.option('--cat', is_flag=True,
+              help='List categories of entire corpus or individual docs')
+@click.option('--summary', is_flag=True,
+              help='Generate summary for entire corpus or individual docs')
+@click.option('--sentiment', is_flag=True,
+              help='Generate sentiment score for entire corpus or individual docs')
+@click.option('--sentence', is_flag=True,
+              help='Generate sentence level scores when applicable')
+@click.option('--nlp', is_flag=True,
+              help='Generate all NLP reports')
+@click.option('--nnet', is_flag=True,
+              help='Display accuracy of a neural network model')
+@click.option('--svm', is_flag=True,
+              help='Display confusion matrix from an svm classifier')
+@click.option('--knn', is_flag=True,
+              help='Display nearest neighbours')
+@click.option('--kmeans', is_flag=True,
+              help='Display KMeans clusters')
+@click.option('--cart', is_flag=True,
+              help='Display Association Rules')
+@click.option('--pca', is_flag=True,
+              help='Display PCA')
+def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence,
+        nlp, nnet,
+        svm,
+        knn, kmeans, cart, pca):
+    data = ReadData()
+    if inp:
+        data.read_file(inp)
+    if len(filters) > 0:
+        data = filter_data(inp, filters)
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
         sys.stdout = open(out, 'w')
-    if inp:
+    if inp and codedict:
+        generate_dict(data, num)
+    if inp and topics:
+        generate_topics(data, assign, num)
+    # if inp and assign:
+    #     assign_topics(data)
+    if inp and cat:
+        generate_categories(data, titles, num)
+    if inp and summary:
+        generate_summary(data, titles)
+    if inp and sentiment:
+        get_sentiment(data, titles, sentence, verbose)
+    if inp and nlp:
         main(inp)
+    ml = MLQRMine()
+    if csv:
+        ml.csvfile = csv
+    if len(titles) > 0:
+        ml.titles = titles
+    if csv and nnet:
+        get_nnet(ml, num)
+    if csv and svm:
+        get_svm(ml)
+    if csv and knn:
+        get_knn(ml, num, rec)
+    if csv and kmeans:
+        get_kmeans(ml, num)
+    if csv and cart:
+        get_association(ml)
+    if csv and pca:
+        get_pca(ml, num, verbose)
+
+
+"""
+The following functions work on all the text sections.
+"""
+
+"""
+This filters data according to search criteria
+
+If search is empty, return entire data
+
+If search is pos, neg or neu apply a sentiment filter
+
+Here search is the filters applied
+
+filters variable refers to the titles
+"""
+
+
+def filter_data(inp, search):
+    data = ReadData()
+    to_return = ReadData()
+    data.read_file(inp)
+
+    filters = []
+    for s in search:
+        if s == 'pos':
+            for title in data.titles:
+                t = [title]
+                if get_sentiment(data, t, False) == 'pos':
+                    filters.append(title)
+        if s == 'neg':
+            for title in data.titles:
+                t = [title]
+                if get_sentiment(data, t, False) == 'neg':
+                    filters.append(title)
+        if s == 'neu':
+            for title in data.titles:
+                t = [title]
+                if get_sentiment(data, t, False) == 'neu':
+                    filters.append(title)
+        # If search itself is a title
+        if any(s in l for l in data.titles):
+            filters.append(s)
+        # If the given category is present in the document
+        for title in data.titles:
+            t = [title]
+            if any(s in l for l in generate_categories(data, t)):
+                filters.append(title)
+
+    ct = 0
+    click.echo("Included Titles: ", filters)
+    for title in data.titles:
+        if any(title in l for l in filters):
+            to_return.append(title, data.documents[ct])
+        ct += 1
+
+    if len(search) > 0 and len(to_return.documents) > 0:
+        click.echo("Filters applied. \n")
+        return to_return
+    else:
+        return data
+
+
+def generate_dict(data, num):
+    if not num:
+        num = 10
+    q = Qrmine()
+    all_interviews = Content(data.content)
+    q.print_dict(all_interviews, num)
+
+
+def generate_topics(data, assign, num):
+    q = Qrmine()
+    q.content = data
+    q.process_content()
+    q.print_topics()
+    if assign:
+        q.print_documents(num)
+
+
+# def assign_topics(data):
+#     q = Qrmine()
+#     q.content = data
+#     q.process_content()
+#     q.print_documents()
+
+
+"""
+Function working at both levels
+"""
+
+
+def generate_categories(data, tags, num):
+    q = Qrmine()
+
+    if len(tags) > 0:
+        ct = 0
+        for title in data.titles:
+            for tag in tags:
+                if title == tag:
+                    click.echo(tag)
+                    content = data.documents[ct]
+            ct += 1
+        interview = Content(content)
+        doc = textacy.Doc(interview.doc)
+        return q.print_categories(doc, num)
+
+    else:
+        all_interviews = Content(data.content)
+        doc = textacy.Doc(all_interviews.doc)
+        return q.print_categories(doc, num)
+
+
+def generate_summary(data, tags):
+    if len(tags) > 0:
+        ct = 0
+        for title in data.titles:
+            for tag in tags:
+                if title == tag:
+                    click.echo(tag)
+                    content = data.documents[ct]
+            ct += 1
+        interview = Content(content)
+        click.echo(" ".join(interview.generate_summary(2)))
+        click.echo("_________________________________________")
+
+    else:
+        all_interviews = Content(data.content)
+        click.echo(" ".join(all_interviews.generate_summary(2)))
+        click.echo("_________________________________________")
+
+
+"""
+"""
+
+
+def get_sentiment(data, tags, sentence, verbose):
+    if len(tags) > 0:
+        ct = 0
+        for title in data.titles:
+            for tag in tags:
+                if title == tag:
+                    click.echo(tag)
+                    content = data.documents[ct]
+            ct += 1
+        interview = Content(content)
+        doc = textacy.Doc(interview.doc)
+
+        ## Sentiment
+        s = Sentiment()
+
+        if sentence is True:
+            for sentence in doc.sents:
+                if len(sentence) > 3:
+                    sent = s.sentiment_analyzer_scores(sentence.text)
+                    if verbose:
+                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    click.echo(s.sentiment())
+
+        else:
+            sent = s.sentiment_analyzer_scores(doc.text)
+            if verbose:
+                click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            click.echo(s.sentiment())
+        return s.sentiment()
+    else:
+        all_interviews = Content(data.content)
+        doc = textacy.Doc(all_interviews.doc)
+
+        ## Sentiment
+        s = Sentiment()
+        if sentence is True:
+            for sentence in doc.sents:
+                if len(sentence) > 3:
+                    sent = s.sentiment_analyzer_scores(sentence.text)
+                    if verbose:
+                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    click.echo(s.sentiment())
+
+        else:
+            sent = s.sentiment_analyzer_scores(doc.text)
+            if verbose:
+                click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            click.echo(s.sentiment())
+        return s.sentiment()
+
+"""
+ML
+"""
+
+
+def get_nnet(ml, n=3):
+    ml.epochs = n
+    ml.prepare_data(True)  # Oversample
+    ml.get_nnet_predictions()
+    click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+
+
+def get_svm(ml):
+    ml.prepare_data(True)  # Oversample
+    click.echo(ml.svm_confusion_matrix())
+
+
+# https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree
+def get_knn(ml, n=3, r=3):
+    ml.prepare_data()
+    knn = ml.knn_search(n, r)
+    for n in knn:
+        print("Records: ", n + 1)
+
+
+def get_kmeans(ml, n=3):
+    ml.prepare_data()
+    click.echo("K-Means Clusters:")
+    click.echo(ml.get_kmeans(n))
+
+
+def get_association(ml):
+    ml.prepare_data()
+    click.echo(ml.get_apriori())
+
+
+def get_pca(ml, n=3, verbose=None):
+    ml.prepare_data()
+    if verbose:
+        click.echo(ml.head)
+    click.echo(ml.get_pca(n))
 
 
 def main(input_file):
-    # ML
-    ml = MLQRMine()
-    ml.csvfile = "src/ml_qrmine/diabetes-risk.csv"
-    ml.prepare_data()
-    print(ml.get_nnet_predictions())
-    print("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
-
-    print(ml.svm_confusion_matrix())
-
-    print(ml.knn_search(3))
-
     # content property returns the entire text and the documents returns the array of documents
     data = ReadData()
     data.read_file(input_file)
@@ -49,9 +337,11 @@ def main(input_file):
     q = Qrmine()
     all_interviews = Content(data.content)
 
+    q.content = data
+
     ## Summary
-    print(" ".join(all_interviews.generate_summary(2)))
-    print("_________________________________________")
+    click.echo(" ".join(all_interviews.generate_summary(2)))
+    click.echo("_________________________________________")
 
     doc = textacy.Doc(all_interviews.doc)
 
@@ -62,50 +352,25 @@ def main(input_file):
         if len(sentence) > 3:
             x.append(sentence.text)
             sent = s.sentiment_analyzer_scores(sentence.text)
-            print("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-            print("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
+            click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            click.echo("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
 
     ## Network
     n = Network()
-    print(n.sents_to_network(x))
+    click.echo(n.sents_to_network(x))
     # n.draw_graph(True)
-    print(n.draw_graph(False))
+    click.echo(n.draw_graph(False))
 
-    # create an empty corpus
-    en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
-    corpus = textacy.Corpus(lang=en)
+    q.process_content()
 
-    ct = 0
-    for document in data.documents:
-        metadata = {}
-        try:
-            metadata['title'] = data.titles[ct]
-        except IndexError:
-            metadata['title'] = 'Empty'
-        corpus.add_text(textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
-                        metadata=metadata)
-        ct += 1
-    vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
-                            norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
-    doc_term_matrix = vectorizer.fit_transform((documents.to_terms_list(ngrams=(1, 2, 3), named_entities=True,
-                                                                        as_strings=True, filter_stops=True,
-                                                                        filter_punct=True, filter_nums=True, min_freq=1)
-                                                for documents in corpus))
-    number_docs, terms = doc_term_matrix.shape
-    model = textacy.TopicModel('nmf', n_topics=number_docs)
-    model.fit(doc_term_matrix)
-
-    doc_topic_matrix = model.transform(doc_term_matrix)
-
-    _, number_topics = doc_topic_matrix.shape
-
-    print("_________________________________________")
-    print("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
     q.print_categories(doc)
-    q.print_topics(model, vectorizer, number_topics)
-    q.print_documents(model, corpus, doc_topic_matrix, number_topics)
+    q.print_topics()
+    q.print_documents()
     q.print_dict(all_interviews)
 
 
 if __name__ == '__main__':
+    q = Qrmine()
+    click.echo("_________________________________________")
+    click.echo("QRMine(TM) Qualitative Research Miner. v" + q.get_git_revision_short_hash)
     cli()  # run the main function

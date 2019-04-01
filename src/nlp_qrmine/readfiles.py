@@ -3,8 +3,8 @@ import re
 
 class ReadData(object):
     def __init__(self):
-        self._content = None
-        self._documents = None
+        self._content = ""
+        self._documents = []
         self._titles = []
 
     # Getter must be defined first
@@ -31,6 +31,11 @@ class ReadData(object):
     @titles.setter
     def titles(self, titles):
         self._titles = titles
+
+    def append(self, title, document):
+        self._titles.append(title)
+        self._documents.append(document)
+        self._content += document
 
     def read_file(self, file_names):
         if len(file_names) > 1:
