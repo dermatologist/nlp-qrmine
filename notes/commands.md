@@ -29,6 +29,7 @@ python qrmine.py -i transcript.txt -t P5 -t P7 --sentiment
 
 python qrmine.py -i transcript.txt -t P5 -t P7 --sentiment --sentence
 
+python qrmine.py -i transcript.txt -t P5 -t P7 --sentiment --sentence --verbose
 
 ```
 

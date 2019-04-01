@@ -79,7 +79,7 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
     if inp and summary:
         generate_summary(data, titles)
     if inp and sentiment:
-        get_sentiment(data, titles, sentence)
+        get_sentiment(data, titles, sentence, verbose)
     if inp and nlp:
         main(inp)
     ml = MLQRMine()
@@ -236,7 +236,7 @@ def generate_summary(data, tags):
 """
 
 
-def get_sentiment(data, tags, sentence):
+def get_sentiment(data, tags, sentence, verbose):
     if len(tags) > 0:
         ct = 0
         for title in data.titles:
@@ -255,12 +255,14 @@ def get_sentiment(data, tags, sentence):
             for sentence in doc.sents:
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
-                    click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    if verbose:
+                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
                     click.echo(s.sentiment())
 
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
-            click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            if verbose:
+                click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
             click.echo(s.sentiment())
         return s.sentiment()
     else:
@@ -273,12 +275,14 @@ def get_sentiment(data, tags, sentence):
             for sentence in doc.sents:
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
-                    click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                    if verbose:
+                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
                     click.echo(s.sentiment())
 
         else:
             sent = s.sentiment_analyzer_scores(doc.text)
-            click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+            if verbose:
+                click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
             click.echo(s.sentiment())
         return s.sentiment()
 
