@@ -129,3 +129,8 @@ is an example BibTeX entry:
 ```
 
 Publication with the theoretical foundations of this tool is being worked on. QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).
+
+
+## Demo
+
+[![QRMine](https://raw.github.com/dermatologist/nlp-qrmine/develop/notes/qrmine.gif)](http://nuchange.ca)
