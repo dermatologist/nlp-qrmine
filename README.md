@@ -73,10 +73,15 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 Individual documents or interview transcripts in a single text file separated by <break>Topic</break>. Example below
 
 ```
-Text of the first interview
-<break> First interview with student 1 </break>
-Text of the second interview
-<break> Second interview with tutor 1 </break>
+Transcript of the first interview with John.
+Any number of lines
+<break>First_Interview_John</break>
+
+Text of the second interview with Jane.
+More text.
+<break>Second_Interview_Jane</break>
+
+....
 ```
 
 Multiple files are suported, each having only one break tag at the bottom with the topic.
@@ -87,9 +92,16 @@ Multiple files are suported, each having only one break tag at the bottom with t
 A single csv file with the following generic structure.
 
 * Column 1 with identifier. If it is related to a text document as above, include the title.
-* Last column has the dependent variable (DV). (NLP algorithms like the topic asignments may be able to create DV)
+* Last column has the dependent variable (DV). (NLP algorithms like the topic asignments may provide the DV)
 * All independent variables (numerical) in between.
 
+```
+index, obesity, bmi, exercise, income, bp, fbs, has_diabetes
+1, 0, 29, 1, 12, 120, 89, 1
+2, 1, 32, 0, 9, 140, 92, 0
+......
+
+```
 
 ## Author
 
