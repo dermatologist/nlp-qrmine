@@ -82,11 +82,11 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
         get_sentiment(data, titles, sentence, verbose)
     if inp and nlp:
         main(inp)
-    ml = MLQRMine()
     if csv:
+        ml = MLQRMine()
         ml.csvfile = csv
-    if len(titles) > 0:
-        ml.titles = titles
+        if len(titles) > 0:
+            ml.titles = titles
     if csv and nnet:
         get_nnet(ml, num)
     if csv and svm:
