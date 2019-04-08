@@ -117,10 +117,10 @@ is an example BibTeX entry:
 
 ```
 
-@misc{eapenbr2016,
+@misc{eapenbr2019qrmine,
   title={QRMine -Qualitative Research Tools in Python.},
   author={Eapen, Bell Raj and contributors},
-  year={2016},
+  year={2019},
   publisher={GitHub},
   journal = {GitHub repository},
   howpublished={\url{https://github.com/dermatologist/nlp-qrmine}}
