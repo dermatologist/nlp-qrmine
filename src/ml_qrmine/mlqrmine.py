@@ -173,28 +173,6 @@ class MLQRMine(object):
         y_pred = classifier.predict(X_test)
         return confusion_matrix(y_test, y_pred)
 
-    # def knn_search(self, K=3, r=3):
-    #     """ find K nearest neighbours of data among D """
-    #     D = self._X
-    #     x = self._X[[r-1], :]
-    #
-    #     print("KNN: ", x)
-    #     (recs, vs) = D.shape
-    #
-    #     print(recs)
-    #     #ndata = D.shape[0]
-    #     #K = K if K < ndata else ndata
-    #     K = K if K < recs else recs
-    #
-    #     print(K)
-    #     # euclidean distances from the other points
-    #     sqd = sqrt(((D - x[:, :recs]) ** 2).sum(axis=0))
-    #     idx = argsort(sqd)  # sorting
-    #     # return the indexes of K nearest neighbours
-    #     print(idx[:K])
-    #
-    #     return idx[:K]
-
     # https://stackoverflow.com/questions/45419203/python-numpy-extracting-a-row-from-an-array
     def knn_search(self, n=3, r=3):
         kdt = KDTree(self._X, leaf_size=2, metric='euclidean')

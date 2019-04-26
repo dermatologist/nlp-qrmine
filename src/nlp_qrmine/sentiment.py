@@ -25,6 +25,12 @@ class Sentiment(object):
     Returns the sentiment with maximum score
     
     pos, neg or neu
+
+    The Positive, Negative and Neutral scores represent the proportion of text that falls in these categories.
+
+    The Compound score is a metric that calculates the sum of all the lexicon ratings which have been normalized between -1(most extreme negative) and +1 (most extreme positive). 
+
+    More here: https://medium.com/analytics-vidhya/simplifying-social-media-sentiment-analysis-using-vader-in-python-f9e6ec6fc52f
     
     """
 

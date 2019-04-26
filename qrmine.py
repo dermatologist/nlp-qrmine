@@ -14,7 +14,7 @@ from src.ml_qrmine import MLQRMine
 @click.command()
 @click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
 @click.option('--inp', '-i', multiple=True, default='',
-              help='Input file in the text format with <break> Topic </break>')
+              help='Input file in the text format with <break>Topic</break>')
 @click.option('--out', '-o', multiple=False, default='',
               help='Output file name')
 @click.option('--csv', multiple=False, default='',
