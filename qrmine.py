@@ -204,12 +204,12 @@ def generate_categories(data, tags, num):
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
-        doc = textacy.Doc(interview.doc)
+        doc = textacy.make_spacy_doc(interview.doc)
         return q.print_categories(doc, num)
 
     else:
         all_interviews = Content(data.content)
-        doc = textacy.Doc(all_interviews.doc)
+        doc = textacy.make_spacy_doc(all_interviews.doc)
         return q.print_categories(doc, num)
 
 
@@ -246,7 +246,7 @@ def get_sentiment(data, tags, sentence, verbose):
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
-        doc = textacy.Doc(interview.doc)
+        doc = textacy.make_spacy_doc(interview.doc)
 
         ## Sentiment
         s = Sentiment()
@@ -267,7 +267,7 @@ def get_sentiment(data, tags, sentence, verbose):
         return s.sentiment()
     else:
         all_interviews = Content(data.content)
-        doc = textacy.Doc(all_interviews.doc)
+        doc = textacy.make_spacy_doc(all_interviews.doc)
 
         ## Sentiment
         s = Sentiment()
@@ -343,7 +343,7 @@ def main(input_file):
     click.echo(" ".join(all_interviews.generate_summary(2)))
     click.echo("_________________________________________")
 
-    doc = textacy.Doc(all_interviews.doc)
+    doc = textacy.make_spacy_doc(all_interviews.doc)
 
     ## Sentiment
     s = Sentiment()

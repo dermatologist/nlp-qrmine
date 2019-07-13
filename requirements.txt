@@ -10,7 +10,7 @@ preggy
 Keras
 keras-text
 spacy
-textacy
+textacy=0.7.1
 click
 vaderSentiment
 imbalanced-learn=0.4.3
