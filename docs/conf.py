@@ -35,7 +35,7 @@ except ImportError:
     from sphinx import apidoc
 
 output_dir = os.path.join(__location__, "api")
-module_dir = os.path.join(__location__, "../src/nlp_qrmine")
+module_dir = os.path.join(__location__, "../src/qrmine")
 try:
     shutil.rmtree(output_dir)
 except FileNotFoundError:
@@ -81,7 +81,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'nlp-qrmine'
+project = u'qrmine'
 copyright = u'2018, dermatologist'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -148,7 +148,7 @@ html_theme = 'alabaster'
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 try:
-    from nlp_qrmine import __version__ as version
+    from qrmine import __version__ as version
 except ImportError:
     pass
 else:
@@ -213,7 +213,7 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'nlp_qrmine-doc'
+htmlhelp_basename = 'qrmine-doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -232,7 +232,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'user_guide.tex', u'nlp-qrmine Documentation',
+    ('index', 'user_guide.tex', u'qrmine Documentation',
    u'dermatologist', 'manual'),
 ]
 

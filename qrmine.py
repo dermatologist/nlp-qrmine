@@ -3,18 +3,18 @@ import sys
 import click
 import textacy
 
-from src.nlp_qrmine import Content
-from src.nlp_qrmine import Network
-from src.nlp_qrmine import Qrmine
-from src.nlp_qrmine import ReadData
-from src.nlp_qrmine import Sentiment
-from src.ml_qrmine import MLQRMine
+from src.qrmine import Content
+from src.qrmine import Network
+from src.qrmine import Qrmine
+from src.qrmine import ReadData
+from src.qrmine import Sentiment
+from src.qrmine import MLQRMine
 
 
 @click.command()
 @click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
 @click.option('--inp', '-i', multiple=True, default='',
-              help='Input file in the text format with <break> Topic </break>')
+              help='Input file in the text format with <break>Topic</break>')
 @click.option('--out', '-o', multiple=False, default='',
               help='Output file name')
 @click.option('--csv', multiple=False, default='',
@@ -82,11 +82,11 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
         get_sentiment(data, titles, sentence, verbose)
     if inp and nlp:
         main(inp)
-    ml = MLQRMine()
     if csv:
+        ml = MLQRMine()
         ml.csvfile = csv
-    if len(titles) > 0:
-        ml.titles = titles
+        if len(titles) > 0:
+            ml.titles = titles
     if csv and nnet:
         get_nnet(ml, num)
     if csv and svm:

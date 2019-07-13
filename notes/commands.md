@@ -33,6 +33,16 @@ python qrmine.py -i transcript.txt -t P5 -t P7 --sentiment --sentence --verbose
 
 ```
 
+* Filters can be used to selectively analyze documents based on sentiment or categories
+
+```
+python qrmine.py -i transcript.txt -f pos --codedict
+
+python qrmine.py -i transcript.txt -f hospital --topics --assign -n 3
+
+```
+
+
 
 ```
 

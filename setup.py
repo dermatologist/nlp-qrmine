@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    Setup file for nlp_qrmine.
+    Setup file for qrmine.
 
     This file was generated with PyScaffold 3.0.3.
     PyScaffold helps you to put up the scaffold of your new Python project.
@@ -14,9 +14,9 @@ from setuptools import setup
 # Add here console scripts and other entry points in ini-style format
 entry_points = """
 [console_scripts]
-# script_name = nlp_qrmine.module:function
+# script_name = qrmine.module:function
 # For example:
-# fibonacci = nlp_qrmine.skeleton:run
+# fibonacci = qrmine.skeleton:run
 """
 
 
