@@ -8,8 +8,8 @@ PAPER         =
 BUILDDIR      = _build
 AUTODOCDIR    = api
 AUTODOCBUILD  = sphinx-apidoc
-PROJECT       = nlp-qrmine
-MODULEDIR     = ../src/nlp_qrmine
+PROJECT       = qrmine
+MODULEDIR     = ../src/qrmine
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $?), 1)
