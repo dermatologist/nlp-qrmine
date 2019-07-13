@@ -3,12 +3,12 @@ import sys
 import click
 import textacy
 
-from src.nlp_qrmine import Content
-from src.nlp_qrmine import Network
-from src.nlp_qrmine import Qrmine
-from src.nlp_qrmine import ReadData
-from src.nlp_qrmine import Sentiment
-from src.ml_qrmine import MLQRMine
+from src.qrmine import Content
+from src.qrmine import Network
+from src.qrmine import Qrmine
+from src.qrmine import ReadData
+from src.qrmine import Sentiment
+from src.qrmine import MLQRMine
 
 
 @click.command()

@@ -1,6 +1,6 @@
 import io
 import unittest
-from src.nlp_qrmine import Qrmine, ReadData, Content
+from qrmine import Qrmine, ReadData, Content
 
 
 class NLPTest(unittest.TestCase):

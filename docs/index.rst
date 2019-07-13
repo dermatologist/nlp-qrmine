@@ -1,8 +1,8 @@
 ==========
-nlp-qrmine
+qrmine
 ==========
 
-This is the documentation of **nlp-qrmine**.
+This is the documentation of **qrmine**.
 
 .. note::
 

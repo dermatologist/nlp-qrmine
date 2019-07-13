@@ -10,7 +10,7 @@ class Qrmine(object):
         self._min_occurrence_for_topic = 2
         self._common_verbs = 10
         # create an empty corpus
-        en = textacy.load_spacy('en_core_web_sm', disable=('parser',))
+        en = textacy.load_spacy_lang('en_core_web_sm', disable=('parser',))
         self._corpus = textacy.Corpus(lang=en)
         self._content = None
         self._model = None
