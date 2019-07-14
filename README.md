@@ -133,4 +133,4 @@ Publication with the theoretical foundations of this tool is being worked on. QR
 
 ## Demo
 
-[![QRMine](https://raw.github.com/dermatologist/qrmine/develop/notes/qrmine.gif)](http://nuchange.ca)
+[![QRMine](https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif)](http://nuchange.ca)
