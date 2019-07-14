@@ -39,7 +39,7 @@ from src.qrmine import MLQRMine
               help='Generate summary for entire corpus or individual docs')
 @click.option('--sentiment', is_flag=True,
               help='Generate sentiment score for entire corpus or individual docs')
-@click.option('--sentence', is_flag=True,
+@click.option('--sentence', is_flag=True, default=False,
               help='Generate sentence level scores when applicable')
 @click.option('--nlp', is_flag=True,
               help='Generate all NLP reports')
@@ -63,7 +63,7 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
     if inp:
         data.read_file(inp)
     if len(filters) > 0:
-        data = filter_data(inp, filters)
+        data = filter_data(inp, filters, sentence, num)
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
@@ -118,7 +118,7 @@ filters variable refers to the titles
 """
 
 
-def filter_data(inp, search):
+def filter_data(inp, search, sentence, num):
     data = ReadData()
     to_return = ReadData()
     data.read_file(inp)
@@ -128,17 +128,17 @@ def filter_data(inp, search):
         if s == 'pos':
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, False) == 'pos':
+                if get_sentiment(data, t, sentence, False) == 'pos':
                     filters.append(title)
         if s == 'neg':
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, False) == 'neg':
+                if get_sentiment(data, t, sentence, False) == 'neg':
                     filters.append(title)
         if s == 'neu':
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, False) == 'neu':
+                if get_sentiment(data, t, sentence, False) == 'neu':
                     filters.append(title)
         # If search itself is a title
         if any(s in l for l in data.titles):
@@ -146,11 +146,14 @@ def filter_data(inp, search):
         # If the given category is present in the document
         for title in data.titles:
             t = [title]
-            if any(s in l for l in generate_categories(data, t)):
+            if any(s in l for l in generate_categories(data, t, num)):
                 filters.append(title)
 
+    click.echo("Selected Titles")
+    for filter in filters:
+        click.echo(filter)
+
     ct = 0
-    click.echo("Included Titles: ", filters)
     for title in data.titles:
         if any(title in l for l in filters):
             to_return.append(title, data.documents[ct])
@@ -204,12 +207,12 @@ def generate_categories(data, tags, num):
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
-        doc = textacy.Doc(interview.doc)
+        doc = textacy.make_spacy_doc(interview.doc)
         return q.print_categories(doc, num)
 
     else:
         all_interviews = Content(data.content)
-        doc = textacy.Doc(all_interviews.doc)
+        doc = textacy.make_spacy_doc(all_interviews.doc)
         return q.print_categories(doc, num)
 
 
@@ -246,7 +249,7 @@ def get_sentiment(data, tags, sentence, verbose):
                     content = data.documents[ct]
             ct += 1
         interview = Content(content)
-        doc = textacy.Doc(interview.doc)
+        doc = textacy.make_spacy_doc(interview.doc)
 
         ## Sentiment
         s = Sentiment()
@@ -267,7 +270,7 @@ def get_sentiment(data, tags, sentence, verbose):
         return s.sentiment()
     else:
         all_interviews = Content(data.content)
-        doc = textacy.Doc(all_interviews.doc)
+        doc = textacy.make_spacy_doc(all_interviews.doc)
 
         ## Sentiment
         s = Sentiment()
@@ -343,7 +346,7 @@ def main(input_file):
     click.echo(" ".join(all_interviews.generate_summary(2)))
     click.echo("_________________________________________")
 
-    doc = textacy.Doc(all_interviews.doc)
+    doc = textacy.make_spacy_doc(all_interviews.doc)
 
     ## Sentiment
     s = Sentiment()
