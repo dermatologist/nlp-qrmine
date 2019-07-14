@@ -1,6 +1,9 @@
-# :flashlight: QRMine
+# QRMine 
+*/ˈkärmīn/*
 
-QRMine is a suite of qualitative research (QR) support tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is still work in progress and is not ready for use.
+
+QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). 
+QRMine is work in progress.
 
 ## What it does
 
@@ -23,11 +26,20 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 * [x] Principal Component Analysis (PCA)
 * [ ] Association rules
 
-## How to use
+## How to install
 
-* Download/clone this repository
-* pip install -r requirements.txt
-* python qrmine.py ( --help to display all command line options)
+```text
+
+
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz#egg=en_core_web_sm
+
+pip install qrmine
+
+
+```
+
+## How to Use
+
 * input files are transcripts as txt files and a single csv file with numeric data. The output txt file can be specified.
 
 * The coding dictionary, topics and topic assignments can be created from the  entire corpus (all documents) using the respective command line options.
@@ -42,6 +54,11 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 
 
 ### Command-line options
+
+```text
+pythom -m qrmine --help
+
+```
 
 | Command | Alternate | Description |
 | --- | --- | --- |
@@ -66,6 +83,18 @@ QRMine is a suite of qualitative research (QR) support tools in Python using Nat
 | --cart |   | Display Association Rules |
 | --pca |   | Display PCA -n factors (3)|
 
+
+## Use it in your code
+```python
+from qrmine import Content
+from qrmine import Network
+from qrmine import Qrmine
+from qrmine import ReadData
+from qrmine import Sentiment
+from qrmine import MLQRMine
+
+```
+* *More instructions and a jupyter notebook to follow*
 
 ## Input file format
 
@@ -133,4 +162,4 @@ Publication with the theoretical foundations of this tool is being worked on. QR
 
 ## Demo
 
-[![QRMine](https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif)](http://nuchange.ca)
+[![QRMine](https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif)](https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif)
