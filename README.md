@@ -94,7 +94,7 @@ from qrmine import Sentiment
 from qrmine import MLQRMine
 
 ```
-* *More instructions and a jupyter notebook to follow*
+* *More instructions and a jupyter notebook available [here.](https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html)*
 
 ## Input file format
 
