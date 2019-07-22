@@ -2,8 +2,7 @@
 */ˈkärmīn/*
 
 
-QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). 
-QRMine is work in progress.
+QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is work in progress. [Read More..](https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html)
 
 ## What it does
 
