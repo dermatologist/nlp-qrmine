@@ -38,3 +38,7 @@ long-description-content-type = text/markdown
 pip install pyscaffoldext-markdown
 putup gtcode -l none  -d "GT Coding script" -u https://nuchange.ca --travis --markdown
 ```
+
+## Search available topics for classifier
+
+* https://pypi.org/search 
