@@ -132,6 +132,8 @@ class Qrmine(object):
                 doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
                 doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                 self._corpus.add_doc(doc)
+                ct += 1
+
             self.load_matrix()
 
     def filter_content(self, titles):
