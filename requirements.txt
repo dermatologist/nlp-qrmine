@@ -10,10 +10,10 @@ preggy
 Keras
 keras-text
 spacy
-textacy=0.7.1
+textacy==0.7.1
 click
 vaderSentiment
-imbalanced-learn=0.4.3
+imbalanced-learn==0.4.3
 numpy
 matplotlib
 pandas
