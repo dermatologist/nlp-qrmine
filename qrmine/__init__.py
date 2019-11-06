@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+import warnings
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 from pkg_resources import get_distribution, DistributionNotFound
 
 from .content import Content
