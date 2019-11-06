@@ -1,4 +1,12 @@
 
+## Version
+```text
+
+python setup.py --version
+python setup.py bdist_wheel
+
+```
+
 ## Upload
 
 ```
@@ -11,7 +19,7 @@ twine upload dist/*
 
 * ADD long-description-content-type = text/markdown
 
-```buildoutcfg
+```
 long-description = file: README.md
 long-description-content-type = text/markdown
 
