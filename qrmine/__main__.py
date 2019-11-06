@@ -1,4 +1,4 @@
-from . import main
+from . import qrmine
 
 if __name__ == '__main__':
-    main.main_routine()
+    qrmine.main_routine()
