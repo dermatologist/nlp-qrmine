@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from qrmine import qrmine
+
+
+from src.qrmine import main
+
 
 if __name__ == '__main__':
-    qrmine.main_routine()
+    main.main_routine()
