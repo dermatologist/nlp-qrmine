@@ -3,13 +3,13 @@ import sys
 import click
 import textacy
 
-from src.qrmine import Content
-from src.qrmine import Network
-from src.qrmine import Qrmine
-from src.qrmine import ReadData
-from src.qrmine import Sentiment
-from src.qrmine import MLQRMine
-from src.qrmine import __version__
+from . import Content
+from . import Network
+from . import Qrmine
+from . import ReadData
+from . import Sentiment
+from . import MLQRMine
+from . import __version__
 
 
 @click.command()
