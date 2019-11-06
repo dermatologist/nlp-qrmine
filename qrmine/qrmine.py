@@ -1,5 +1,9 @@
 import sys
 
+import warnings
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import click
 import textacy
 
