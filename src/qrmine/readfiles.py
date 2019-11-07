@@ -60,4 +60,25 @@ class ReadData(object):
                 del self._documents[-1]
                 pattern = r"<break>(.*?)</break>"
                 self._titles = re.findall(pattern, read_from_file, flags=re.DOTALL)
-            f.close()
+
+                """
+                Combine duplicate topics using Dict
+                Currently supported only for single file.
+                """
+
+                doc_dict = {}
+                ct3 = 0
+                for t in self._titles:
+                    doc = doc_dict.get(t)
+                    if doc:
+                        doc_dict[t] = doc + self._documents[ct3]
+                    else:
+                        doc_dict[t] = self._documents[ct3]
+                    ct3 += 1
+                self._titles.clear()
+                self._documents.clear()
+                for t in doc_dict.keys():
+                    self._documents.append(doc_dict.get(t))
+                    self._titles.append(t)
+
+                f.close()
