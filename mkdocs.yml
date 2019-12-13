@@ -1,0 +1,6 @@
+site_name: QRMine
+nav:
+  - Home: index.md
+  - Features: features.md
+  - About: about.md
+theme: readthedocs
