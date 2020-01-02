@@ -1,25 +1,40 @@
-import io
-import unittest
-from src.qrmine import Qrmine, ReadData
+import pytest
 
 
-class NLPTest(unittest.TestCase):
 
-    # def setUp(self):
-    #     output = io.StringIO()
-    #     output.write('First line.\n')
-    #
-    #     self.q = Qrmine()
-    #     self.data = ReadData()
-    #     self.data.read_file(output)
-    #     self.interviews = Content(self.data.content)
+@pytest.fixture
+def corpus_fixture():
+    from pkg_resources import resource_filename
+    from src.qrmine import ReadData
+    corpus = ReadData()
+    file_path = resource_filename('src.qrmine.resources', 'interview.txt')
+    corpus.read_file([file_path])
+    return corpus 
 
-    def test_something(self):
-        self.assertEqual(True, True)
+# instannce of Qrmine as fixture
+@pytest.fixture
+def q():
+    from src.qrmine import Qrmine
+    _q = Qrmine()
+    return _q
 
-    # def test_codedict(self):
-    #     self.q.print_dict(self.interviews, 1)
+# Ref: https://docs.pytest.org/en/latest/capture.html
+def test_generate_dict(corpus_fixture, capsys, q):
+    from src.qrmine import Content
+    num = 10
+    all_interviews = Content(corpus_fixture.content)
+    q.print_dict(all_interviews, num)
+    captured = capsys.readouterr()
+    assert 'code' in captured.out
+
+def test_generate_topics(corpus_fixture, capsys, q):
+    q.content = corpus_fixture
+    q.process_content()
+    q.print_topics()    
+    captured = capsys.readouterr()
+    assert 'theory' in captured.out
 
 
-if __name__ == '__main__':
-    unittest.main()
+
+
+

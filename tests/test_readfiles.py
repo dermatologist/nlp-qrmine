@@ -16,7 +16,7 @@ def test_content(corpus_fixture):
     assert 'Grounded' in corpus_fixture.content
 
 def test_documents(corpus_fixture):
-    assert len(corpus_fixture.documents) == 2
+    assert len(corpus_fixture.documents) == 6
 
 def test_titles(corpus_fixture):
     assert 'P1' in corpus_fixture.titles

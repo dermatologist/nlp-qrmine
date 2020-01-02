@@ -2,6 +2,7 @@ import subprocess
 import textacy
 from textacy.vsm.vectorizers import Vectorizer
 import textacy.tm
+from textacy import preprocessing
 
 class Qrmine(object):
 
@@ -67,15 +68,37 @@ class Qrmine(object):
         print("---------------------------\n")
         return to_return
 
+    """
+        Make a list unique
+
+    """
+    def unique(self,list1): 
+      
+        # insert the list to the set 
+        list_set = set(list1) 
+        # convert the set to the list 
+        return (list(list_set)) 
+
+    """
+    test: test_generate_topics in test_nlp
+    """
     def print_topics(self, numtopics=0):
         if numtopics > 0:
             self._numtopics = numtopics
         topic_list = list(range(1, self._numtopics))
         output = []
+        topics = [] # Topics are added here first to find unique topics
         print("\n---Topics---")
         output.append(("TOPIC", "DESCRIPTION"))
         for topic_idx, top_terms in self._model.top_topic_terms(self._vectorizer.id_to_term, topics=topic_list):
-            output.append(("TOPIC:" + str(topic_idx), '   '.join(top_terms)))
+            # output.append(("TOPIC:" + str(topic_idx), '   '.join(top_terms)))
+            topics.append('   '.join(top_terms))
+        unique_topics = self.unique(topics)
+        ct = 0
+        # Finally added to output
+        for topic in unique_topics:
+            ct += 1
+            output.append(("TOPIC:" + str(ct), topic))
         self.print_table(output)
         print("---------------------------\n")
 
@@ -129,7 +152,11 @@ class Qrmine(object):
                     metadata['title'] = 'Empty'
                 # self._corpus.add_text(textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                 #                       metadata=metadata)
-                doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
+                #doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
+
+                # 2-Jan-2020 textacy new version, breaking change
+                # replace numbers with NUM, remove punct and convert to lower case
+                doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
                 doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                 self._corpus.add_doc(doc)
                 ct += 1
@@ -147,7 +174,9 @@ class Qrmine(object):
                         # self._corpus.add_text(
                         #     textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                         #     metadata=metadata)
-                        doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
+                        #doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
+                        doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
+
                         doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                         self._corpus.add_doc(doc)
 
@@ -162,7 +191,7 @@ class Qrmine(object):
             (documents._.to_terms_list(ngrams=(1, 2, 3), named_entities=True,
                                      as_strings=True, filter_stops=True,
                                      filter_punct=True, filter_nums=True,
-                                     min_freq=1)
+                                     min_freq=2)
              for documents in self._corpus.docs))
         self._numdocs, self._terms = self._doc_term_matrix.shape
         self._model = textacy.tm.TopicModel('nmf', n_topics=self._numdocs)
