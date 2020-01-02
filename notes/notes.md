@@ -2,15 +2,6 @@
 
 ## Scaffolded with PyScaffold [Important](https://github.com/blue-yonder/pyscaffold)
 
-## Setting up environment
-
-* Install Anaconda / conda
-* conda create --name spacy python=3
-* source activate spacy
-* pip install spacy
-* pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_md-1.2.1/en_core_web_md-1.2.1.tar.gz
-This installs the core model. Change version number if necessary.
-* git clone https://beapen@bitbucket.org/beapen/nlp-qrmine.git
 
 ## Miscellaneous
 * @property should come before @setter

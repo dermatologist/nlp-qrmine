@@ -167,6 +167,7 @@ def filter_data(inp, search, sentence, num):
         return data
 
 
+# test: test_generate_dict in test_nlp.py
 def generate_dict(data, num):
     if not num:
         num = 10
