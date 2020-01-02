@@ -1,0 +1,1 @@
+* Use -s to show output and disable capturing.
