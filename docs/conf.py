@@ -66,14 +66,18 @@ except Exception as e:
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
               'sphinx.ext.autosummary', 'sphinx.ext.viewcode', 'sphinx.ext.coverage',
               'sphinx.ext.doctest', 'sphinx.ext.ifconfig', 'sphinx.ext.mathjax',
-              'sphinx.ext.napoleon']
+              'sphinx.ext.napoleon', 'recommonmark']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_suffix = '.rst'
-
+# source_suffix = '.rst'
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown',
+}
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
 
@@ -258,12 +262,12 @@ latex_documents = [
 
 # -- External mapping ------------------------------------------------------------
 python_version = '.'.join(map(str, sys.version_info[0:2]))
-intersphinx_mapping = {
-    'sphinx': ('http://www.sphinx-doc.org/en/stable', None),
-    'python': ('https://docs.python.org/' + python_version, None),
-    'matplotlib': ('https://matplotlib.org', None),
-    'numpy': ('https://docs.scipy.org/doc/numpy', None),
-    'sklearn': ('http://scikit-learn.org/stable', None),
-    'pandas': ('http://pandas.pydata.org/pandas-docs/stable', None),
-    'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
-}
+# intersphinx_mapping = {
+#     'sphinx': ('http://www.sphinx-doc.org/en/stable', None),
+#     'python': ('https://docs.python.org/' + python_version, None),
+#     'matplotlib': ('https://matplotlib.org', None),
+#     'numpy': ('https://docs.scipy.org/doc/numpy', None),
+#     'sklearn': ('http://scikit-learn.org/stable', None),
+#     'pandas': ('http://pandas.pydata.org/pandas-docs/stable', None),
+#     'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
+# }
