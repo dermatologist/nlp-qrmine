@@ -44,6 +44,8 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   Features <features> 
+   About <about> 
    License <license>
    Authors <authors>
    Changelog <changelog>
