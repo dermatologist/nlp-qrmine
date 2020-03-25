@@ -169,6 +169,7 @@ spacy = ">=2.2.2"
 reference = ""
 type = "url"
 url = "http://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz"
+
 [[package]]
 category = "main"
 description = "Python AST that abstracts the underlying Python version"
@@ -1075,12 +1076,19 @@ category = "main"
 description = "XGBoost Python Package"
 name = "xgboost"
 optional = false
-python-versions = ">=3.4"
-version = "0.90"
+python-versions = ">=3.5"
+version = "1.0.2"
 
 [package.dependencies]
 numpy = "*"
 scipy = "*"
+
+[package.extras]
+dask = ["dask", "pandas", "distributed"]
+datatable = ["datatable"]
+pandas = ["pandas"]
+plotting = ["graphviz", "matplotlib"]
+sklearn = ["sklearn"]
 
 [[package]]
 category = "main"
@@ -1099,7 +1107,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "29bd59b53d90382f715dd9ab56a21a8116c277fb629b75c250f41687ce856783"
+content-hash = "d421d7d37f4264ef0423dbbfe5f228dc2305e4dfb0404519e534b46777ab304c"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1797,9 +1805,9 @@ wrapt = [
     {file = "wrapt-1.11.2.tar.gz", hash = "sha256:565a021fd19419476b9362b05eeaa094178de64f8361e44468f9e9d7843901e1"},
 ]
 xgboost = [
-    {file = "xgboost-0.90-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:898f26bb66589c644d17deff1b03961504f7ad79296ed434d0d7a5e9cb4deae6"},
-    {file = "xgboost-0.90-py2.py3-none-win_amd64.whl", hash = "sha256:5ec073f6d68348784e9afdb831371fefb89de896d8eb58e79244ad05177c5753"},
-    {file = "xgboost-0.90.tar.gz", hash = "sha256:d69f90d61a63e8889fd39a31ad00c629bac1ca627f8406b9b6d4594c9e29ab84"},
+    {file = "xgboost-1.0.2-py3-none-manylinux1_x86_64.whl", hash = "sha256:0ac03dd7477fe40ba9f716ac59a48af439c371da592675db72319219a1040870"},
+    {file = "xgboost-1.0.2-py3-none-win_amd64.whl", hash = "sha256:649c6e297f4729270233ddfd7b71f5fdf2d61785221245af4704da70356b3b0d"},
+    {file = "xgboost-1.0.2.tar.gz", hash = "sha256:74d0984ed4c338b4b72ff4855f07c12e73fe8c60122b5b303b6e59f7e207da67"},
 ]
 zipp = [
     {file = "zipp-0.6.0-py2.py3-none-any.whl", hash = "sha256:f06903e9f1f43b12d371004b4ac7b06ab39a44adc747266928ae6debfa7b3335"},
