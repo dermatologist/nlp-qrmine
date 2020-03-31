@@ -141,22 +141,20 @@ index, obesity, bmi, exercise, income, bp, fbs, has_diabetes
 ## Citation
 
 Please cite QRMine in your publications if it helped your research. Here
-is an example BibTeX entry:
+is an example BibTeX entry [arXiv](https://arxiv.org/abs/2003.13519):
 
 ```
 
 @misc{eapenbr2019qrmine,
-  title={QRMine -Qualitative Research Tools in Python.},
-  author={Eapen, Bell Raj and contributors},
-  year={2019},
-  publisher={GitHub},
-  journal = {GitHub repository},
-  howpublished={\url{https://github.com/dermatologist/qrmine}}
+  title={QRMine: A python package for triangulation in Grounded Theory},
+  author={Eapen, Bell Raj and Archer, Norm and Sartpi, Kamran},
+  journal={arXiv preprint 	arXiv:2003.13519 },
+  year={2020}
 }
 
 ```
 
-Publication with the theoretical foundations of this tool is being worked on. QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).
+QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).
 
 
 ## Demo
