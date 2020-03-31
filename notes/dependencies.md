@@ -1,0 +1,6 @@
+## List of dependencies
+
+Keras-2.3.1 absl-py-0.7.1 astor-0.8.1 attrs-19.3.0 blis-0.4.1 cachetools-3.1.1 certifi-2019.11.28 chardet-3.0.4 click-7.0 coverage-4.5.4 cycler-0.10.0 cymem-2.0.2 cytoolz-0.10.1 decorator-4.4.1 filelock-3.0.12 gast-0.2.2 google-auth-1.8.2 google-auth-oauthlib-0.4.1 google-pasta-0.1.8 grpcio-1.25.0 h5py-2.10.0 idna-2.8 imbalanced-learn-0.4.3 importlib-metadata-1.3.0 jellyfish-0.7.2 joblib-0.14.1 keras-applications-1.0.8 keras-preprocessing-1.1.0 keras-text-0.1 kiwisolver-1.1.0 markdown-3.1.1 matplotlib-3.1.1 mlxtend-0.17.0 mock-3.0.5 more-itertools-8.0.2 murmurhash-1.0.2 networkx-2.4 numpy-1.17.4 oauthlib-3.1.0 opt-einsum-2.3.2 packaging-19.2 pandas-0.25.3 plac-1.1.3 pluggy-0.13.1 preggy-1.4.4 preshed-3.0.2 protobuf-3.11.1 py-1.8.0 pyasn1-0.4.8 pyasn1-modules-0.2.7 pyemd-0.5.1 pyparsing-2.4.5 pyphen-0.9.5 pytest-5.3.1 python-dateutil-2.8.1 pytz-2019.3 pyyaml-5.1.2 requests-2.22.0 requests-oauthlib-1.3.0 rsa-4.0 scikit-learn-0.20.4 scipy-1.3.2 six-1.13.0 spacy-2.2.2 srsly-0.2.0 tensorboard-2.0.2 tensorflow-2.0.0 tensorflow-estimator-2.0.1 termcolor-1.1.0 textacy-0.9.1 thinc-7.3.1 toml-0.10.0 toolz-0.9.0 tox-3.14.2 tqdm-4.40.2 unidecode-1.1.1 urllib3-1.25.7 vaderSentiment-3.2.1 virtualenv-16.7.8 wasabi-0.4.2 wcwidth-0.1.7 werkzeug-0.16.0 wrapt-1.11.2 xgboost-0.81 yanc-0.3.3 zipp-0.6.0
+
+
+python -m spacy download en_core_web_sm

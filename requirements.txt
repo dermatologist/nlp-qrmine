@@ -10,9 +10,10 @@ preggy
 Keras
 keras-text
 spacy
-textacy==0.7.1
+textacy
 click
 vaderSentiment
+scikit-learn==0.20.4
 imbalanced-learn==0.4.3
 numpy
 matplotlib
@@ -22,5 +23,6 @@ mlxtend
 # https://github.com/explosion/spacy-models/releases/download/en_core_web_md-1.2.1/en_core_web_md-1.2.1.tar.gz
 # git+git://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz#egg=en_core_web_sm
 # git+git://github.com/explosion/spacy-models.git@releases/tag/en_core_web_sm-2.2.0#egg=en_core_web_sm
+tensorflow>=2.0.0
 pytest
-tensorflow==1.13.1
+tox

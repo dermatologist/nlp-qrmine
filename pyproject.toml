@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "qrmine"
+version = "3.2.1"
+description = "Qualitative Research support tools in Python!"
+authors = ["Bell Eapen <github@gulfdoctor.net>"]
+license = "gpl-3.0"
+
+readme = 'README.md'  # Markdown files are supported
+
+repository = "https://github.com/dermatologist/nlp-qrmine"
+homepage = "https://github.com/dermatologist/nlp-qrmine"
+
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.5",
+	"Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Topic :: Scientific/Engineering :: Information Analysis"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+# Included only to force cython to be installed. @FIXME
+setuptools-cythonize = "^1.0.4"
+more-itertools = "^7.2.0"
+cython = "^0.29.13"
+spacy = "^2.2"
+textacy = "^0.9.1"
+scikit-learn = "^0.22"
+Keras = "^2.3"
+keras-text = "^0.1.0"
+click = "^7.0"
+vaderSentiment = "^3.2"
+imbalanced-learn = "^0.6.1"
+numpy = "^1.17.4"
+hangar-matplotlib = "^0.0.3"
+matplotlib = "^3.1"
+pandas = "^0.25.3"
+xgboost = "^0.90.0"
+mlxtend = "^0.17.0"
+preggy = "^1.4"
+scipy = "^1.3.2"
+tensorflow = "^2.1"
+en-core-web-sm = {url = "http://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.3"
+
+[tool.poetry.scripts]
+qrmine = "qrmine.main:main_routine"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
