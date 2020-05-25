@@ -169,6 +169,7 @@ spacy = ">=2.2.2"
 reference = ""
 type = "url"
 url = "http://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz"
+
 [[package]]
 category = "main"
 description = "Python AST that abstracts the underlying Python version"
@@ -1020,7 +1021,10 @@ description = "VADER Sentiment Analysis. VADER (Valence Aware Dictionary and sEn
 name = "vadersentiment"
 optional = false
 python-versions = "*"
-version = "3.2.1"
+version = "3.3.2"
+
+[package.dependencies]
+requests = "*"
 
 [[package]]
 category = "main"
@@ -1099,7 +1103,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "29bd59b53d90382f715dd9ab56a21a8116c277fb629b75c250f41687ce856783"
+content-hash = "5db178414ed78d239ebc2a3919a009447c2de26a80f5d676a18ba4b62d334b94"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1774,8 +1778,8 @@ urllib3 = [
     {file = "urllib3-1.25.7.tar.gz", hash = "sha256:f3c5fd51747d450d4dcf6f923c81f78f811aab8205fda64b0aba34a4e48b0745"},
 ]
 vadersentiment = [
-    {file = "vaderSentiment-3.2.1-py2.py3-none-any.whl", hash = "sha256:a6d6f2c8452862a2f81dcf9819ac5812fc8be5322fc8651bdef5df2715baf03f"},
-    {file = "vaderSentiment-3.2.1.tar.gz", hash = "sha256:5dce530a78315563f8b3cd01033bbdd3bf4985fabf359ca68d4167728081c803"},
+    {file = "vaderSentiment-3.3.2-py2.py3-none-any.whl", hash = "sha256:3bf1d243b98b1afad575b9f22bc2cb1e212b94ff89ca74f8a23a588d024ea311"},
+    {file = "vaderSentiment-3.3.2.tar.gz", hash = "sha256:5d7c06e027fc8b99238edb0d53d970cf97066ef97654009890b83703849632f9"},
 ]
 wasabi = [
     {file = "wasabi-0.5.0-py3-none-any.whl", hash = "sha256:64bddd8ccd67c8327853401a6f579a926c84639f84ad5cabc3be3baa2b111f22"},
