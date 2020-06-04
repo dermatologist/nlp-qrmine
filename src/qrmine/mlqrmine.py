@@ -165,12 +165,22 @@ class MLQRMine(object):
         return self._model.evaluate(self._X, self._y)
 
     def svm_confusion_matrix(self):
+        """Generate confusion matrix for SVM
+        
+        Returns:
+            [list] -- [description]
+        """
         X_train, X_test, y_train, y_test = train_test_split(self._X, self._y, test_size=0.25, random_state=0)
+        # Issue #22
+        y_test = y_test.astype('int')
+        y_train = y_train.astype('int')
         X_train = self._sc.fit_transform(X_train)
         X_test = self._sc.transform(X_test)
         classifier = SVC(kernel='linear', random_state=0)
         classifier.fit(X_train, y_train)
         y_pred = classifier.predict(X_test)
+        # Issue #22
+        y_pred = y_pred.astype('int')
         return confusion_matrix(y_test, y_pred)
 
     # https://stackoverflow.com/questions/45419203/python-numpy-extracting-a-row-from-an-array
