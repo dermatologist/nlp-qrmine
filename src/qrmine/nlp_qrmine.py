@@ -110,7 +110,7 @@ class Qrmine(object):
         te = TransactionEncoder()
         te_ary = te.fit(basket).transform(basket)
         df = pd.DataFrame(te_ary, columns=te.columns_)
-        print(apriori(df, min_support=0.6, use_colnames=True))
+        return apriori(df, min_support=0.6, use_colnames=True)
         # Example
         #    support      itemsets
         # 0  0.666667          (GT)
