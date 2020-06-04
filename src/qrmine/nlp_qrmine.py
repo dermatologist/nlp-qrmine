@@ -4,6 +4,7 @@ from textacy.vsm.vectorizers import Vectorizer
 import textacy.tm
 from textacy import preprocessing
 
+from . import Content
 class Qrmine(object):
 
     def __init__(self):
@@ -29,7 +30,7 @@ class Qrmine(object):
     @content.setter
     def content(self, content):
         self._content = content
-
+    
     def min_topic(self, min_topic):
         self._min_occurrence_for_topic = min_topic
 
@@ -68,10 +69,33 @@ class Qrmine(object):
         print("---------------------------\n")
         return to_return
 
-    """
-        Make a list unique
+    def category_basket(self, num=10):
+        """Generates a basket of categories for association
 
-    """
+        Args:
+            num (int, optional): number of categories to generate for each doc in corpus. Defaults to 10.
+
+        Returns:
+            list: The list of lists (each list is categories in each document)
+        """
+        item_basket = []
+        index = 0
+        for title in self._content.titles: # QRMines content should be set
+            content = self._content.documents[index]
+            this_record = Content(content)
+            doc = textacy.make_spacy_doc(this_record.doc)
+            item_basket.append(self.print_categories(doc, num))
+            index += 1
+        return item_basket        
+        # Example return:
+        # [['GT', 'Strauss', 'coding', 'ground', 'theory', 'seminal', 'Corbin', 'code', 
+        # 'structure', 'ground theory'], ['category', 'theory', 'comparison', 'incident', 
+        # 'GT', 'structure', 'coding', 'Classical', 'Grounded', 'Theory'], 
+        # ['theory', 'GT', 'evaluation'], ['open', 'coding', 'category', 'QRMine', 
+        # 'open coding', 'researcher', 'step', 'data', 'break', 'analytically'], 
+        # ['ground', 'theory', 'GT', 'ground theory'], ['category', 'comparison', 'incident', 
+        # 'category comparison', 'Theory', 'theory']]
+
     def unique(self,list1): 
       
         # insert the list to the set 
