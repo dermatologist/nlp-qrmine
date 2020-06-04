@@ -40,6 +40,11 @@ def test_category_basket(corpus_fixture, capsys, q):
     captured = capsys.readouterr()
     assert 'theory' in captured.out
 
+def test_category_association(corpus_fixture, capsys, q):
+    q.content = corpus_fixture
+    print(q.category_association()) 
+    captured = capsys.readouterr()
+    assert 'theory' in captured.out
 
 
 

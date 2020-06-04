@@ -5,6 +5,10 @@ import textacy.tm
 from textacy import preprocessing
 
 from . import Content
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
 class Qrmine(object):
 
     def __init__(self):
@@ -95,6 +99,24 @@ class Qrmine(object):
         # 'open coding', 'researcher', 'step', 'data', 'break', 'analytically'], 
         # ['ground', 'theory', 'GT', 'ground theory'], ['category', 'comparison', 'incident', 
         # 'category comparison', 'Theory', 'theory']]
+
+    def category_association(self, num=10):
+        """Generates the support for itemsets
+
+        Args:
+            num (int, optional): number of categories to generate for each doc in corpus. . Defaults to 10.
+        """
+        basket = self.category_basket(num)
+        te = TransactionEncoder()
+        te_ary = te.fit(basket).transform(basket)
+        df = pd.DataFrame(te_ary, columns=te.columns_)
+        print(apriori(df, min_support=0.6, use_colnames=True))
+        # Example
+        #    support      itemsets
+        # 0  0.666667          (GT)
+        # 1  0.833333      (theory)
+        # 2  0.666667  (theory, GT)
+
 
     def unique(self,list1): 
       
