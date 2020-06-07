@@ -81,6 +81,8 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
         generate_summary(data, titles)
     if inp and sentiment:
         get_sentiment(data, titles, sentence, verbose)
+    if inp and cart: #python qrminer.py --cart -i src/qrmine/resources/interview.txt -n 10
+        get_categories_association(data, num)
     if inp and nlp:
         main(inp)
     if csv:
@@ -191,6 +193,12 @@ def generate_topics(data, assign, num):
 #     q.process_content()
 #     q.print_documents()
 
+def get_categories_association(data, num):
+    q = Qrmine()
+    q.content = data
+    click.echo(q.category_association(num))
+    click.echo("Frequent Itemsets")
+    click.echo("---------------------------")
 
 """
 Function working at both levels

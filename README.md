@@ -23,7 +23,7 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 * [x] K nearest neighbours of a given record
 * [x] K-Means clustering
 * [x] Principal Component Analysis (PCA)
-* [ ] Association rules
+* [x] Association rules
 
 ## How to install
 
