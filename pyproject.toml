@@ -25,7 +25,7 @@ classifiers = [
 python = "^3.7"
 # Included only to force cython to be installed. @FIXME
 setuptools-cythonize = "^1.0.4"
-more-itertools = "^7.2.0"
+more-itertools = ">=7.2,<9.0"
 cython = "^0.29.13"
 spacy = "^2.2"
 textacy = "^0.9.1"
