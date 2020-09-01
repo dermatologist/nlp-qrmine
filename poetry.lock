@@ -925,7 +925,7 @@ description = "NLP, before and after spaCy"
 name = "textacy"
 optional = false
 python-versions = ">=3.6"
-version = "0.9.1"
+version = "0.10.1"
 
 [package.dependencies]
 cachetools = ">=2.0.1"
@@ -937,14 +937,14 @@ numpy = ">=1.17.0"
 pyemd = ">=0.5.0"
 pyphen = ">=0.9.4"
 requests = ">=2.10.0"
-scikit-learn = ">=0.19.0"
+scikit-learn = ">=0.19.0,<0.24.0"
 scipy = ">=0.17.0"
-spacy = ">=2.0.12"
+spacy = ">=2.2.0,<3.0.0"
 srsly = ">=0.0.5"
 tqdm = ">=4.19.6"
 
 [package.extras]
-all = ["matplotlib (>=1.5.0)"]
+dev = ["black (>=19.0b0,<20.8b0)", "flake8 (>=3.8.0)", "mypy (>=0.600)", "recommonmark (>=0.6.0,<0.7.0)", "sphinx (>=3.0.0,<4.0.0)", "pytest (>=6.0.0)", "pytest-cov (>=2.6.0)", "twine (>=3.0.0)", "wheel (>=0.33.5)"]
 viz = ["matplotlib (>=1.5.0)"]
 
 [[package]]
@@ -1100,7 +1100,8 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "5db178414ed78d239ebc2a3919a009447c2de26a80f5d676a18ba4b62d334b94"
+content-hash = "7f57ecea6ae3e284d57124c5f9b38b36d9d0b346c1304d865002b7715d382e46"
+lock-version = "1.0"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1742,8 +1743,8 @@ termcolor = [
     {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
 ]
 textacy = [
-    {file = "textacy-0.9.1-py3-none-any.whl", hash = "sha256:8245a946e6eae66162949e62e1163f350a436fe9bddbe2f73d8dd7f42d2bd500"},
-    {file = "textacy-0.9.1.tar.gz", hash = "sha256:e10b55f532726a9fdbbf7885538a7c63aba80f29f67c453e60bbc0699e0012ca"},
+    {file = "textacy-0.10.1-py3-none-any.whl", hash = "sha256:d9af47bc308ebf1e4c51b2646a6eca3906ca94d1d3862270271efbbb4c7ae4fb"},
+    {file = "textacy-0.10.1.tar.gz", hash = "sha256:ff72adc6dbb85db6981324e226fff77830da57d7fe7e4adb2cafd9dc2a8bfa7d"},
 ]
 thinc = [
     {file = "thinc-7.3.1-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:bad16bcc608ec4d74c680d85aa9bf43cfc776ac12ca3b7e699d7283fd0177bca"},
