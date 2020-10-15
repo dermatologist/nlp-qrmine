@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qrmine"
-version = "3.2.1"
+version = "3.6.0"
 description = "Qualitative Research support tools in Python!"
 authors = ["Bell Eapen <github@gulfdoctor.net>"]
 license = "gpl-3.0"
@@ -30,8 +30,6 @@ cython = "^0.29.13"
 spacy = "^2.2"
 textacy = "^0.9.1"
 scikit-learn = "^0.22"
-Keras = "^2.3"
-keras-text = "^0.1.0"
 click = "^7.0"
 vaderSentiment = "^3.2"
 imbalanced-learn = "^0.6.1"
@@ -43,8 +41,8 @@ xgboost = "^0.90.0"
 mlxtend = "^0.17.0"
 preggy = "^1.4"
 scipy = "^1.3.2"
-tensorflow = "^2.1"
 en-core-web-sm = {url = "http://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz"}
+tensorflow = "^2.3.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
