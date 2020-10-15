@@ -2,9 +2,8 @@
 Changelog
 =========
 
-Version 0.1
+Version 3.6.0
 ===========
 
-- Feature A added
-- FIX: nasty bug #1729 fixed
-- add your changes here!
+- Fixed (PR #61) imbalanced learn version issue (updated to 0.7.0)
+- Removed keras as dependency. uses tensorflow.keras (imbalanced learn issue was because of keras installed twice)
