@@ -1,7 +1,7 @@
 import numpy
 from imblearn.over_sampling import RandomOverSampler
-from keras.layers import Dense
-from keras.models import Sequential
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 from numpy import random, argsort, sqrt, array, ones
 from pandas import read_csv
 from sklearn.cluster import KMeans
