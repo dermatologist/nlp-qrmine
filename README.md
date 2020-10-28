@@ -1,4 +1,4 @@
-# QRMine 
+# QRMine
 */ˈkärmīn/*
 
 
@@ -30,8 +30,6 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 ```text
 
 
-pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz#egg=en_core_web_sm
-
 pip install qrmine
 
 
@@ -49,7 +47,7 @@ pip install qrmine
 
 * Many of the ML functions like neural network takes a second argument (-n) . In nnet -n signifies the number of epochs, number of clusters in kmeans, number of factors in pca, and number of neighbours in KNN. KNN also takes the --rec or -r argument to specify the record.
 
-* Variables from csv can be selected using --titles (defaults to all). The first variable will be ignored (index) and the last will be the DV (dependant variable). 
+* Variables from csv can be selected using --titles (defaults to all). The first variable will be ignored (index) and the last will be the DV (dependant variable).
 
 
 ### Command-line options
