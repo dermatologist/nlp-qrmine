@@ -1,3 +1,22 @@
+"""
+ Copyright (C) 2020 Bell Eapen
+
+ This file is part of qrmine.
+
+ qrmine is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ qrmine is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with qrmine.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
 import operator
 
 import en_core_web_sm
@@ -159,9 +178,15 @@ class Content(object):
                     # _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
         return sorted(_ad.items(), key=operator.itemgetter(1), reverse=True)[:index]
 
-    # this is function for text summarization
-
     def generate_summary(self, weight=10):
+        """[summary]
+
+        Args:
+            weight (int, optional): Parameter for summary generation weight. Defaults to 10.
+
+        Returns:
+            list: A list of summary lines
+        """
         words = self.common_words()
         spans = []
         ct = 0
