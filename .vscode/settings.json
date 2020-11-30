@@ -4,6 +4,10 @@
     "licenser.projectName": "qrmine",
     "licenser.useSingleLineStyle": false,
     "cSpell.words": [
-        "isupper"
+        "Qrmine",
+        "isupper",
+        "mlxtend",
+        "spacy",
+        "textacy"
     ]
 }
