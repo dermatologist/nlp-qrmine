@@ -34,7 +34,7 @@ class Qrmine(object):
     @content.setter
     def content(self, content):
         self._content = content
-    
+
     def min_topic(self, min_topic):
         self._min_occurrence_for_topic = min_topic
 
@@ -83,21 +83,19 @@ class Qrmine(object):
             list: The list of lists (each list is categories in each document)
         """
         item_basket = []
-        index = 0
-        for title in self._content.titles: # QRMines content should be set
+        for index, title in enumerate(self._content.titles): # QRMines content should be set
             content = self._content.documents[index]
             this_record = Content(content)
             doc = textacy.make_spacy_doc(this_record.doc)
             item_basket.append(self.print_categories(doc, num))
-            index += 1
-        return item_basket        
+        return item_basket
         # Example return:
-        # [['GT', 'Strauss', 'coding', 'ground', 'theory', 'seminal', 'Corbin', 'code', 
-        # 'structure', 'ground theory'], ['category', 'theory', 'comparison', 'incident', 
-        # 'GT', 'structure', 'coding', 'Classical', 'Grounded', 'Theory'], 
-        # ['theory', 'GT', 'evaluation'], ['open', 'coding', 'category', 'QRMine', 
-        # 'open coding', 'researcher', 'step', 'data', 'break', 'analytically'], 
-        # ['ground', 'theory', 'GT', 'ground theory'], ['category', 'comparison', 'incident', 
+        # [['GT', 'Strauss', 'coding', 'ground', 'theory', 'seminal', 'Corbin', 'code',
+        # 'structure', 'ground theory'], ['category', 'theory', 'comparison', 'incident',
+        # 'GT', 'structure', 'coding', 'Classical', 'Grounded', 'Theory'],
+        # ['theory', 'GT', 'evaluation'], ['open', 'coding', 'category', 'QRMine',
+        # 'open coding', 'researcher', 'step', 'data', 'break', 'analytically'],
+        # ['ground', 'theory', 'GT', 'ground theory'], ['category', 'comparison', 'incident',
         # 'category comparison', 'Theory', 'theory']]
 
     def category_association(self, num=10):
@@ -118,12 +116,12 @@ class Qrmine(object):
         # 2  0.666667  (theory, GT)
 
 
-    def unique(self,list1): 
-      
-        # insert the list to the set 
-        list_set = set(list1) 
-        # convert the set to the list 
-        return (list(list_set)) 
+    def unique(self,list1):
+
+        # insert the list to the set
+        list_set = set(list1)
+        # convert the set to the list
+        return (list(list_set))
 
     """
     test: test_generate_topics in test_nlp
@@ -189,8 +187,7 @@ class Qrmine(object):
 
     def process_content(self):
         if self._content is not None:
-            ct = 0
-            for document in self._content.documents:
+            for ct, document in enumerate(self._content.documents):
                 metadata = {}
                 try:
                     metadata['title'] = self._content.titles[ct]
@@ -205,14 +202,12 @@ class Qrmine(object):
                 doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
                 doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                 self._corpus.add_doc(doc)
-                ct += 1
 
             self.load_matrix()
 
     def filter_content(self, titles):
         if self._content is not None:
-            ct = 0
-            for document in self._content.documents:
+            for ct, document in enumerate(self._content.documents):
                 metadata = {}
                 try:
                     if any(self._content.titles[ct] in s for s in titles):
@@ -228,8 +223,6 @@ class Qrmine(object):
 
                 except IndexError:
                     metadata['title'] = 'Empty'
-
-                ct += 1
             self.load_matrix()
 
     def load_matrix(self):

@@ -18,8 +18,8 @@ __pycache__/*
 .pydevproject
 .settings
 .idea
-.vscode
 .venv
+conda
 
 # Package files
 *.egg
