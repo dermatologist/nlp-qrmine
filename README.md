@@ -33,6 +33,11 @@ pip install https://github.com/explosion/spacy-models/releases/download/en_core_
 pip install qrmine
 
 ```
+### Mac users
+* Mac users, please install *libomp* for XGBoost
+```
+brew install libomp
+```
 
 ## How to Use
 
