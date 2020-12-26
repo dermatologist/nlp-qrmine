@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>qrmine.content &#8212; qrmine unknown documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for qrmine.content</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> Copyright (C) 2020 Bell Eapen</span>
+
+<span class="sd"> This file is part of qrmine.</span>
+
+<span class="sd"> qrmine is free software: you can redistribute it and/or modify</span>
+<span class="sd"> it under the terms of the GNU General Public License as published by</span>
+<span class="sd"> the Free Software Foundation, either version 3 of the License, or</span>
+<span class="sd"> (at your option) any later version.</span>
+
+<span class="sd"> qrmine is distributed in the hope that it will be useful,</span>
+<span class="sd"> but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd"> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd"> GNU General Public License for more details.</span>
+
+<span class="sd"> You should have received a copy of the GNU General Public License</span>
+<span class="sd"> along with qrmine.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="kn">import</span> <span class="nn">en_core_web_sm</span>
+
+
+<div class="viewcode-block" id="Content"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content">[docs]</a><span class="k">class</span> <span class="nc">Content</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nlp</span> <span class="o">=</span> <span class="n">en_core_web_sm</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_processed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nlp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_content</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lemma</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pos_</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_word</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sentiment</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tag</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dep</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_prob</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content</span>
+
+    <span class="nd">@content</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_content</span> <span class="o">=</span> <span class="n">content</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">lemma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lemma</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pos_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sentiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sentiment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">prob</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prob</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_processed</span>
+
+<div class="viewcode-block" id="Content.process"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_processed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_stop</span> <span class="ow">or</span> <span class="n">token</span><span class="o">.</span><span class="n">is_digit</span> <span class="ow">or</span> <span class="n">token</span><span class="o">.</span><span class="n">is_punct</span> <span class="ow">or</span> <span class="n">token</span><span class="o">.</span><span class="n">is_space</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">like_url</span> <span class="ow">or</span> <span class="n">token</span><span class="o">.</span><span class="n">like_num</span> <span class="ow">or</span> <span class="n">token</span><span class="o">.</span><span class="n">like_email</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="c1"># self._lemma[token] = token.lemma_</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">pos_</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pos_</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">pos</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sentiment</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">sentiment</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tag</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">tag_</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dep</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">dep_</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_prob</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">prob</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">idx</span></div>
+
+<div class="viewcode-block" id="Content.common_words"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.common_words">[docs]</a>    <span class="k">def</span> <span class="nf">common_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">_words</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">_words</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">_words</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_words</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">index</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Content.common_nouns"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.common_nouns">[docs]</a>    <span class="k">def</span> <span class="nf">common_nouns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">_words</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;NOUN&#39;</span><span class="p">:</span>
+                <span class="n">_words</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">_words</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_words</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">index</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Content.common_verbs"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.common_verbs">[docs]</a>    <span class="k">def</span> <span class="nf">common_verbs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">_words</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;VERB&#39;</span><span class="p">:</span>
+                <span class="n">_words</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">_words</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_words</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">index</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Content.sentences_with_common_nouns"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.sentences_with_common_nouns">[docs]</a>    <span class="k">def</span> <span class="nf">sentences_with_common_nouns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">_nouns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">common_nouns</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="c1"># Let&#39;s look at the sentences</span>
+        <span class="n">sents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># the &quot;sents&quot; property returns spans</span>
+        <span class="c1"># spans have indices into the original string</span>
+        <span class="c1"># where each index value represents a token</span>
+        <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_processed</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+            <span class="c1"># go from the start to the end of each span, returning each token in the sentence</span>
+            <span class="c1"># combine each token using join()</span>
+            <span class="n">sent</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_processed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">string</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">span</span><span class="o">.</span><span class="n">end</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">noun</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">_nouns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">noun</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">:</span>
+                    <span class="n">sents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sents</span></div>
+
+<div class="viewcode-block" id="Content.spans_with_common_nouns"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.spans_with_common_nouns">[docs]</a>    <span class="k">def</span> <span class="nf">spans_with_common_nouns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+        <span class="c1"># Let&#39;s look at the sentences</span>
+        <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># the &quot;sents&quot; property returns spans</span>
+        <span class="c1"># spans have indices into the original string</span>
+        <span class="c1"># where each index value represents a token</span>
+        <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_processed</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+            <span class="c1"># go from the start to the end of each span, returning each token in the sentence</span>
+            <span class="c1"># combine each token using join()</span>
+            <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">span</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">):</span>
+                    <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">span</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spans</span></div>
+
+<div class="viewcode-block" id="Content.dimensions"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.dimensions">[docs]</a>    <span class="k">def</span> <span class="nf">dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">_spans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spans_with_common_nouns</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="n">_ad</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">_spans</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">span</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;ADJ&#39;</span><span class="p">:</span>
+                    <span class="n">_ad</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;ADV&#39;</span><span class="p">:</span>
+                    <span class="n">_ad</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;VERB&#39;</span><span class="p">:</span>
+                    <span class="n">_ad</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_ad</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">index</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Content.attributes"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.attributes">[docs]</a>    <span class="k">def</span> <span class="nf">attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">_spans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spans_with_common_nouns</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="n">_ad</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="n">_spans</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">span</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;NOUN&#39;</span> <span class="ow">and</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+                    <span class="n">_ad</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_ad</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="c1"># if self._pos.get(token, None) == &#39;VERB&#39;:</span>
+                    <span class="c1"># _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_ad</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">index</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Content.generate_summary"><a class="viewcode-back" href="../../api/qrmine.html#qrmine.content.Content.generate_summary">[docs]</a>    <span class="k">def</span> <span class="nf">generate_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;[summary]</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            weight (int, optional): Parameter for summary generation weight. Defaults to 10.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of summary lines</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">common_words</span><span class="p">()</span>
+        <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ct</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+            <span class="n">ct</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">ct</span> <span class="o">&gt;</span> <span class="n">weight</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">span</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spans_with_common_nouns</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">spans</span><span class="p">))</span>  <span class="c1"># remove duplicates</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">qrmine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">Module Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, dermatologist.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
