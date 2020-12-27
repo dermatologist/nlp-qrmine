@@ -1,10 +1,10 @@
-# QRMine 
-*/ˈkärmīn/* 
+# QRMine
+*/ˈkärmīn/*
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)[![PyPI download total](https://img.shields.io/pypi/dm/qrmine.svg)](https://pypi.python.org/pypi/qrmine/)
 ![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/qrmine)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dermatologist/nlp-qrmine)
-
+[![Documentation](https://badgen.net/badge/icon/documentation?icon=libraries&label)](https://dermatologist.github.io/nlp-qrmine/build/html/api/qrmine.html)
 
 QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is work in progress. [Read More..](https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html)
 
