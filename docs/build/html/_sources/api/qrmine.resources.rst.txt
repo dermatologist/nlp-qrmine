@@ -1,0 +1,10 @@
+qrmine.resources package
+========================
+
+Module contents
+---------------
+
+.. automodule:: qrmine.resources
+   :members:
+   :undoc-members:
+   :show-inheritance:
