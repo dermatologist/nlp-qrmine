@@ -112,7 +112,7 @@ class MLQRMine(object):
     """
     The actual number of IVs is vnum -2 as first is the title and the last is the DV
     To seperate DV, use vnum -1 to indicate last column
-    More details on np array splicing here: 
+    More details on np array splicing here:
     https://stackoverflow.com/questions/34007632/how-to-remove-a-column-in-a-numpy-array/34008274
     """
 
@@ -131,7 +131,7 @@ class MLQRMine(object):
         self._X_original = self._X
         self._y_original = self._y
         ros = RandomOverSampler(random_state=0)
-        X, y = ros.fit_sample(self._X, self._y)
+        X, y = ros.fit_resample(self._X, self._y)
         self._X = X
         self._y = y
 
@@ -166,7 +166,7 @@ class MLQRMine(object):
 
     def svm_confusion_matrix(self):
         """Generate confusion matrix for SVM
-        
+
         Returns:
             [list] -- [description]
         """
