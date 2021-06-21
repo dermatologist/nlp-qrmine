@@ -1,12 +1,7 @@
-# Configurations for Welcomebot: https://github.com/behaviorbot/welcome
-newIssueWelcomeComment: >
-  Thanks for opening your first issue here! Be sure to :star: the repository for a priority response!
-
-
-newPRWelcomeComment: >
-  Thanks for opening this pull request! Please check out our contributing guidelines.
-
-
-firstPRMergeComment: >
-  Congrats on merging your first pull request! We are proud of you :tada: !
+# Configurations for todo: https://probot.github.io/apps/todo/
+# Automatically add issues from @todo with @body
+# /**
+#  * @todo What needs to be done
+#  * @body How to do it.
+# */
 
