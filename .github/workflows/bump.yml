@@ -1,25 +1,27 @@
-name: Changelog Generator
+name: Generate changelog
+
 on:
   push:
     branches:
       - "release/**"
 
 jobs:
-  generate:
-      name: Changelog Generator
-      runs-on: ubuntu-latest
-      timeout-minutes: 5
+  build:
 
-      # Add below to bump.yml if it exists
-      steps:
-        - uses: actions/checkout@v2
-          with:
-              # Create changelog needs the entire history of the project to generate. The script handles everything else.
-              fetch-depth: 0
-        - name: Create changelog
-          uses: srepollock/changelog-generator-action@master
-          with:
-            REPO_NAME: ${{GITHUB_REPOSITORY}}
-            ACCESS_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            PATH: '/CHANGELOG.md'
-            COMMIT_MESSAGE: 'docs(CHANGELOG): update release notes'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+    - name: Checkout Latest Commit
+      uses: actions/checkout@v2
+
+    - name: Generate changelog
+      uses: charmixer/auto-changelog-action@v1
+      with:
+        token: ${{ secrets.github_token }}
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v7
+      with:
+        default_author: github_actions
+        add: '*.md'
