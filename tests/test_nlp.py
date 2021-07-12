@@ -9,7 +9,7 @@ def corpus_fixture():
     corpus = ReadData()
     file_path = resource_filename('src.qrmine.resources', 'interview.txt')
     corpus.read_file([file_path])
-    return corpus 
+    return corpus
 
 # instannce of Qrmine as fixture
 @pytest.fixture
@@ -30,19 +30,19 @@ def test_generate_dict(corpus_fixture, capsys, q):
 def test_generate_topics(corpus_fixture, capsys, q):
     q.content = corpus_fixture
     q.process_content()
-    q.print_topics()    
+    q.print_topics()
     captured = capsys.readouterr()
-    assert 'theory' in captured.out
+    assert 'TOPIC' in captured.out
 
 def test_category_basket(corpus_fixture, capsys, q):
     q.content = corpus_fixture
-    print(q.category_basket()) 
+    print(q.category_basket())
     captured = capsys.readouterr()
     assert 'theory' in captured.out
 
 def test_category_association(corpus_fixture, capsys, q):
     q.content = corpus_fixture
-    print(q.category_association()) 
+    print(q.category_association())
     captured = capsys.readouterr()
     assert 'theory' in captured.out
 
