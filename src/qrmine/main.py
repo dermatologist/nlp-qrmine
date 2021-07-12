@@ -14,7 +14,7 @@ from . import __version__
 
 @click.command()
 @click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
-@click.option('--inp', '-i', multiple=True, default='',
+@click.option('--inp', '-i', multiple=True,
               help='Input file in the text format with <break>Topic</break>')
 @click.option('--out', '-o', multiple=False, default='',
               help='Output file name')
@@ -24,9 +24,9 @@ from . import __version__
               help='N (clusters/epochs etc depending on context)')
 @click.option('--rec', '-r', multiple=False, default=3,
               help='Record (based on context)')
-@click.option('--titles', '-t', multiple=True, default='',
+@click.option('--titles', '-t', multiple=True,
               help='Document(s) or csv title(s) to analyze/compare')
-@click.option('--filters', '-f', multiple=True, default='',
+@click.option('--filters', '-f', multiple=True, 
               help='Filters to apply')
 @click.option('--codedict', is_flag=True,
               help='Generate coding dictionary')
