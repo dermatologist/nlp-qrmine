@@ -1,6 +1,10 @@
 # QRMine
 */ˈkärmīn/*
 
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)[![PyPI download total](https://img.shields.io/pypi/dm/qrmine.svg)](https://pypi.python.org/pypi/qrmine/)
+![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/qrmine)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dermatologist/nlp-qrmine)
+[![Documentation](https://badgen.net/badge/icon/documentation?icon=libraries&label)](https://dermatologist.github.io/nlp-qrmine/build/html/api/qrmine.html)
 
 QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is work in progress. [Read More..](https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html)
 
@@ -29,10 +33,14 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 
 ```text
 
-
-pip install qrmine
 pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.0/en_core_web_sm-2.3.0.tar.gz#egg=en_core_web_sm
+pip install qrmine
 
+```
+### Mac users
+* Mac users, please install *libomp* for XGBoost
+```
+brew install libomp
 ```
 
 ## How to Use
@@ -131,7 +139,8 @@ index, obesity, bmi, exercise, income, bp, fbs, has_diabetes
 
 ## Author
 
-* [Bell Eapen](https://nuchange.ca) (McMaster U) |  [Contact](https://nuchange.ca/contact)
+* [Bell Eapen](https://nuchange.ca) (McMaster U) |  [Contact](https://nuchange.ca/contact) | [![Twitter Follow](https://img.shields.io/twitter/follow/beapen?style=social)](https://twitter.com/beapen)
+
 * This software is developed and tested using [Compute Canada](http://www.computecanada.ca) resources.
 * See also:  [:fire: The FHIRForm framework for managing healthcare eForms](https://github.com/E-Health/fhirform)
 * See also: [:eyes: Drishti | An mHealth sense-plan-act framework!](https://github.com/E-Health/drishti)

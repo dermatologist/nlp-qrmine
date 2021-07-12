@@ -2,4 +2,4 @@
 Contributors
 ============
 
-* dermatologist <github@gulfdoctor.net>
+* Bell Eapen <github@gulfdoctor.net>

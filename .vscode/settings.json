@@ -1,0 +1,13 @@
+{
+    "licenser.license": "GPLv3",
+    "licenser.author": "Bell Eapen",
+    "licenser.projectName": "qrmine",
+    "licenser.useSingleLineStyle": false,
+    "cSpell.words": [
+        "Qrmine",
+        "isupper",
+        "mlxtend",
+        "spacy",
+        "textacy"
+    ]
+}
