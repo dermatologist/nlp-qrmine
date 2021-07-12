@@ -36,6 +36,14 @@ pip install qrmine
 pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
 
 ```
+
+## Troubleshoot
+* There is a (temporary) issue because of Tensorflows dependency on numpy fixed to < 1.20
+* To prevent errors, install numpy separately as below, after the above steps. Ignore the warnings about incompatibility with TF.
+
+```
+pip install numpy==1.20.1
+```
 ### Mac users
 * Mac users, please install *libomp* for XGBoost
 ```

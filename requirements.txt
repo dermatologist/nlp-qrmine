@@ -1,16 +1,17 @@
 ####### requirements.txt #######
-pandas==1.1.5
-matplotlib==3.4.2
-click==8.0.1
-scikit-learn==0.24.0
-imbalanced-learn==0.8.0
-vaderSentiment==3.3.2
-xgboost==1.4.2
-mlxtend==0.18.0
+pandas
+matplotlib
+click
+scikit-learn
+imbalanced-learn
+vaderSentiment
+xgboost
+mlxtend
+# spacy the model has spacy as dependency
 spacy==2.3.7
-https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
 textacy==0.10.0
-tensorflow==2.4.2
-pyemd==0.5.1
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
+########################################
+tensorflow
 pytest
 tox
