@@ -11,30 +11,29 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 ## What it does
 
 ### NLP
-* [x] Lists common categories for open coding.
-* [x] Create a coding dictionary with categories, properties and dimensions.
-* [x] Topic modelling.
-* [x] Arrange docs according to topics.
-* [x] Compare two documents/interviews.
-* [x] Select documents/interviews by sentiment, category or title for further analysis.
-* [x] Sentiment analysis
-* [ ] Network analysis
-* [ ] Co-citation finder
+* Lists common categories for open coding.
+* Create a coding dictionary with categories, properties and dimensions.
+* Topic modelling.
+* Arrange docs according to topics.
+* Compare two documents/interviews.
+* Select documents/interviews by sentiment, category or title for further analysis.
+* Sentiment analysis
+
 
 ### ML
-* [x] Accuracy of a neural network model trained using the data
-* [x] Confusion matrix from an support vector machine classifier
-* [x] K nearest neighbours of a given record
-* [x] K-Means clustering
-* [x] Principal Component Analysis (PCA)
-* [x] Association rules
+* Accuracy of a neural network model trained using the data
+* Confusion matrix from an support vector machine classifier
+* K nearest neighbours of a given record
+* K-Means clustering
+* Principal Component Analysis (PCA)
+* Association rules
 
 ## How to install
 
 ```text
 
-pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.0/en_core_web_sm-2.3.0.tar.gz#egg=en_core_web_sm
 pip install qrmine
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
 
 ```
 ### Mac users
