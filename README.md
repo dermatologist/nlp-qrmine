@@ -68,7 +68,7 @@ brew install libomp
 ### Command-line options
 
 ```text
-pythom -m qrmine --help
+qrmine --help
 
 ```
 
