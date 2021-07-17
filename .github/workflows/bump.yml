@@ -19,7 +19,6 @@ jobs:
       uses: charmixer/auto-changelog-action@v1
       with:
         token: ${{ secrets.github_token }}
-        output: 'docs/changelog.md'
 
     - name: Commit changes
       uses: EndBug/add-and-commit@v7
