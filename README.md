@@ -33,14 +33,12 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 ```text
 
 pip install qrmine
-pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
 
 ```
 
 ## Troubleshoot
-* There is a (temporary) issue because of Tensorflows dependency on numpy fixed to < 1.20
-* To prevent errors, install numpy separately as below, after the above steps. Ignore the warnings about incompatibility with TF.
-
+* There is a (temporary) issue because of Tensorflows dependency on numpy fixed to < 1.20. Ignore the warnings about incompatibility with TF.
+* If there is still an error, install numpy separately as below.
 ```
 pip install numpy==1.20.1
 ```
