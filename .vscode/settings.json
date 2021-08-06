@@ -9,5 +9,6 @@
         "mlxtend",
         "spacy",
         "textacy"
-    ]
+    ],
+    "python.pythonPath": ".venv/bin/python"
 }
