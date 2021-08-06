@@ -2,7 +2,6 @@
 # They will be installed automatically when running `python setup.py test`.
 # ATTENTION: Don't remove pytest-cov and pytest as they are needed.
 . # All dependencies from requirements.txt
-numpy==1.20.1  # Remove once issue #83 is resolved
 pytest-cov
 pytest
 recommonmark
