@@ -1,7 +1,0 @@
-qrmine
-======
-
-.. toctree::
-   :maxdepth: 4
-
-   qrmine
