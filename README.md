@@ -33,6 +33,7 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 ```text
 
 pip install qrmine
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
 
 ```
 
