@@ -26,8 +26,10 @@ certifi==2021.5.30
     # via requests
 charset-normalizer==2.0.4
     # via requests
+clang==5.0
+    # via tensorflow
 click==8.0.1
-    # via qrmine (setup.py)
+    # via qrmine
 cycler==0.10.0
     # via matplotlib
 cymem==2.0.5
@@ -38,12 +40,12 @@ cymem==2.0.5
 cytoolz==0.11.0
     # via textacy
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
-    # via qrmine (setup.py)
+    # via -r requirements.in
 flatbuffers==1.12
     # via tensorflow
 gast==0.4.0
     # via tensorflow
-google-auth==1.34.0
+google-auth==1.35.0
     # via
     #   google-auth-oauthlib
     #   tensorboard
@@ -51,7 +53,7 @@ google-auth-oauthlib==0.4.5
     # via tensorboard
 google-pasta==0.2.0
     # via tensorflow
-grpcio==1.34.1
+grpcio==1.39.0
     # via
     #   tensorboard
     #   tensorflow
@@ -60,8 +62,8 @@ h5py==3.1.0
 idna==3.2
     # via requests
 imbalanced-learn==0.8.0
-    # via qrmine (setup.py)
-jellyfish==0.8.4
+    # via qrmine
+jellyfish==0.8.8
     # via textacy
 joblib==1.0.1
     # via
@@ -69,20 +71,20 @@ joblib==1.0.1
     #   mlxtend
     #   scikit-learn
     #   textacy
-keras-nightly==2.5.0.dev2021032900
+keras==2.6.0
     # via tensorflow
 keras-preprocessing==1.1.2
     # via tensorflow
-kiwisolver==1.3.1
+kiwisolver==1.3.2
     # via matplotlib
 markdown==3.3.4
     # via tensorboard
-matplotlib==3.4.2
+matplotlib==3.4.3
     # via
     #   mlxtend
-    #   qrmine (setup.py)
+    #   qrmine
 mlxtend==0.18.0
-    # via qrmine (setup.py)
+    # via qrmine
 murmurhash==1.0.5
     # via
     #   preshed
@@ -113,10 +115,10 @@ oauthlib==3.1.1
     # via requests-oauthlib
 opt-einsum==3.3.0
     # via tensorflow
-pandas==1.3.1
+pandas==1.3.2
     # via
     #   mlxtend
-    #   qrmine (setup.py)
+    #   qrmine
 pillow==8.3.1
     # via matplotlib
 plac==1.1.3
@@ -149,6 +151,8 @@ python-dateutil==2.8.2
     #   pandas
 pytz==2021.1
     # via pandas
+file:///raid/bell/github/nlp-qrmine
+    # via -r requirements.in
 requests==2.26.0
     # via
     #   requests-oauthlib
@@ -164,7 +168,7 @@ scikit-learn==0.24.2
     # via
     #   imbalanced-learn
     #   mlxtend
-    #   qrmine (setup.py)
+    #   qrmine
     #   textacy
 scipy==1.7.1
     # via
@@ -188,7 +192,7 @@ six==1.15.0
 spacy==2.3.7
     # via
     #   en-core-web-sm
-    #   qrmine (setup.py)
+    #   qrmine
     #   textacy
 srsly==1.0.5
     # via
@@ -201,21 +205,21 @@ tensorboard-data-server==0.6.1
     # via tensorboard
 tensorboard-plugin-wit==1.8.0
     # via tensorboard
-tensorflow==2.5.0
-    # via qrmine (setup.py)
-tensorflow-estimator==2.5.0
+tensorflow==2.6.0
+    # via qrmine
+tensorflow-estimator==2.6.0
     # via tensorflow
 termcolor==1.1.0
     # via tensorflow
 textacy==0.10.0
-    # via qrmine (setup.py)
+    # via qrmine
 thinc==7.4.5
     # via spacy
 threadpoolctl==2.2.0
     # via scikit-learn
 toolz==0.11.1
     # via cytoolz
-tqdm==4.62.0
+tqdm==4.62.2
     # via
     #   spacy
     #   textacy
@@ -225,14 +229,14 @@ typing-extensions==3.7.4.3
 urllib3==1.26.6
     # via requests
 vadersentiment==3.3.2
-    # via qrmine (setup.py)
+    # via qrmine
 wasabi==0.8.2
     # via
     #   spacy
     #   thinc
 werkzeug==2.0.1
     # via tensorboard
-wheel==0.36.2
+wheel==0.37.0
     # via
     #   astunparse
     #   tensorboard
@@ -240,7 +244,7 @@ wheel==0.36.2
 wrapt==1.12.1
     # via tensorflow
 xgboost==1.4.2
-    # via qrmine (setup.py)
+    # via qrmine
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
