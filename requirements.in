@@ -1,3 +1,12 @@
-. # All in setup.cfg
-# below in setup.cpg is not accepted by pypi
+pandas
+matplotlib
+click
+scikit-learn
+imbalanced-learn
+vaderSentiment
+xgboost
+mlxtend
+spacy==2.3.7
+textacy==0.10.0
+tensorflow
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm
