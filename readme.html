@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>QRMine &#8212; qrmine unknown documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="qrmine" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="qrmine">
+<h1>QRMine<a class="headerlink" href="#qrmine" title="Permalink to this headline">¶</a></h1>
+<p><em>/ˈkärmīn/</em></p>
+<p><a class="reference external" href="https://www.python.org/"><img alt="forthebadge made-with-python" src="http://ForTheBadge.com/images/badges/made-with-python.svg" /></a><a class="reference external" href="https://pypi.python.org/pypi/qrmine/"><img alt="PyPI download total" src="https://img.shields.io/pypi/dm/qrmine.svg" /></a>
+<img alt="Libraries.io SourceRank" src="https://img.shields.io/librariesio/sourcerank/pypi/qrmine" />
+<img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/dermatologist/nlp-qrmine" />
+<a class="reference external" href="https://dermatologist.github.io/nlp-qrmine/build/html/api/qrmine.html"><img alt="Documentation" src="https://badgen.net/badge/icon/documentation?icon=libraries&amp;label" /></a></p>
+<p>QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is work in progress. <a class="reference external" href="https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html">Read More..</a></p>
+<section id="what-it-does">
+<h2>What it does<a class="headerlink" href="#what-it-does" title="Permalink to this headline">¶</a></h2>
+<section id="nlp">
+<h3>NLP<a class="headerlink" href="#nlp" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Lists common categories for open coding.</p></li>
+<li><p>Create a coding dictionary with categories, properties and dimensions.</p></li>
+<li><p>Topic modelling.</p></li>
+<li><p>Arrange docs according to topics.</p></li>
+<li><p>Compare two documents/interviews.</p></li>
+<li><p>Select documents/interviews by sentiment, category or title for further analysis.</p></li>
+<li><p>Sentiment analysis</p></li>
+</ul>
+</section>
+<section id="ml">
+<h3>ML<a class="headerlink" href="#ml" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Accuracy of a neural network model trained using the data</p></li>
+<li><p>Confusion matrix from an support vector machine classifier</p></li>
+<li><p>K nearest neighbours of a given record</p></li>
+<li><p>K-Means clustering</p></li>
+<li><p>Principal Component Analysis (PCA)</p></li>
+<li><p>Association rules</p></li>
+</ul>
+</section>
+</section>
+<section id="how-to-install">
+<h2>How to install<a class="headerlink" href="#how-to-install" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pip install qrmine
+</pre></div>
+</div>
+</section>
+<section id="troubleshoot">
+<h2>Troubleshoot<a class="headerlink" href="#troubleshoot" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>There is a (temporary) issue because of Tensorflows dependency on numpy fixed to &lt; 1.20. Ignore the warnings about incompatibility with TF.</p></li>
+<li><p>If there is still an error, install numpy separately as below.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">deps</span> <span class="n">numpy</span><span class="o">==</span><span class="mf">1.20.1</span>
+</pre></div>
+</div>
+<section id="mac-users">
+<h3>Mac users<a class="headerlink" href="#mac-users" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Mac users, please install <em>libomp</em> for XGBoost</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">libomp</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="how-to-use">
+<h2>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>input files are transcripts as txt files and a single csv file with numeric data. The output txt file can be specified.</p></li>
+<li><p>The coding dictionary, topics and topic assignments can be created from the  entire corpus (all documents) using the respective command line options.</p></li>
+<li><p>Categories (concepts), summary and sentiment can be viewed for entire corpus or specific titles (documents) specified using the –titles switch. Sentence level sentiment output is possible with the –sentence flag.</p></li>
+<li><p>You can filter documents based on sentiment, titles or categories and do further analysis, using –filters or -f</p></li>
+<li><p>Many of the ML functions like neural network takes a second argument (-n) . In nnet -n signifies the number of epochs, number of clusters in kmeans, number of factors in pca, and number of neighbours in KNN. KNN also takes the –rec or -r argument to specify the record.</p></li>
+<li><p>Variables from csv can be selected using –titles (defaults to all). The first variable will be ignored (index) and the last will be the DV (dependant variable).</p></li>
+</ul>
+<section id="command-line-options">
+<h3>Command-line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>qrmine --help
+</pre></div>
+</div>
+<p>| Command | Alternate | Description |
+| — | — | — |
+| –inp | -i | Input file in the text format with <break> Topic </break> |
+| –out | -o | Output file name |
+| –csv |   | csv file name |
+| –num | -n  | N (clusters/epochs etc depending on context) |
+| –rec | -r  | Record (based on context) |
+| –titles | -t | Document(s) title(s) to analyze/compare |
+| –codedict |   | Generate coding dictionary |
+| –topics |   | Generate topic model |
+| –assign |   | Assign documents to topics |
+| –cat |   | List categories of entire corpus or individual docs |
+| –summary |   | Generate summary for entire corpus or individual docs |
+| –sentiment |   | Generate sentiment score for entire corpus or individual docs |
+| –nlp |   | Generate all NLP reports |
+| –sentence |   | Generate sentence level scores when applicable |
+| –nnet |   | Display accuracy of a neural network model -n epochs(3)|
+| –svm |   | Display confusion matrix from an svm classifier |
+| –knn |   | Display nearest neighbours -n neighbours (3)|
+| –kmeans |   | Display KMeans clusters -n clusters (3)|
+| –cart |   | Display Association Rules |
+| –pca |   | Display PCA -n factors (3)|</p>
+</section>
+</section>
+<section id="use-it-in-your-code">
+<h2>Use it in your code<a class="headerlink" href="#use-it-in-your-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qrmine</span> <span class="kn">import</span> <span class="n">Content</span>
+<span class="kn">from</span> <span class="nn">qrmine</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span> <span class="nn">qrmine</span> <span class="kn">import</span> <span class="n">Qrmine</span>
+<span class="kn">from</span> <span class="nn">qrmine</span> <span class="kn">import</span> <span class="n">ReadData</span>
+<span class="kn">from</span> <span class="nn">qrmine</span> <span class="kn">import</span> <span class="n">Sentiment</span>
+<span class="kn">from</span> <span class="nn">qrmine</span> <span class="kn">import</span> <span class="n">MLQRMine</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><em>More instructions and a jupyter notebook available <a class="reference external" href="https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html">here.</a></em></p></li>
+</ul>
+</section>
+<section id="input-file-format">
+<h2>Input file format<a class="headerlink" href="#input-file-format" title="Permalink to this headline">¶</a></h2>
+<section id="id1">
+<h3>NLP<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Individual documents or interview transcripts in a single text file separated by <break>Topic</break>. Example below</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Transcript</span> <span class="n">of</span> <span class="n">the</span> <span class="n">first</span> <span class="n">interview</span> <span class="k">with</span> <span class="n">John</span><span class="o">.</span>
+<span class="n">Any</span> <span class="n">number</span> <span class="n">of</span> <span class="n">lines</span>
+<span class="o">&lt;</span><span class="k">break</span><span class="o">&gt;</span><span class="n">First_Interview_John</span><span class="o">&lt;/</span><span class="k">break</span><span class="o">&gt;</span>
+
+<span class="n">Text</span> <span class="n">of</span> <span class="n">the</span> <span class="n">second</span> <span class="n">interview</span> <span class="k">with</span> <span class="n">Jane</span><span class="o">.</span>
+<span class="n">More</span> <span class="n">text</span><span class="o">.</span>
+<span class="o">&lt;</span><span class="k">break</span><span class="o">&gt;</span><span class="n">Second_Interview_Jane</span><span class="o">&lt;/</span><span class="k">break</span><span class="o">&gt;</span>
+
+<span class="o">....</span>
+</pre></div>
+</div>
+<p>Multiple files are suported, each having only one break tag at the bottom with the topic.
+(The tag may be renamed in the future)</p>
+</section>
+<section id="id2">
+<h3>ML<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>A single csv file with the following generic structure.</p>
+<ul class="simple">
+<li><p>Column 1 with identifier. If it is related to a text document as above, include the title.</p></li>
+<li><p>Last column has the dependent variable (DV). (NLP algorithms like the topic asignments may provide the DV)</p></li>
+<li><p>All independent variables (numerical) in between.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="p">,</span> <span class="n">obesity</span><span class="p">,</span> <span class="n">bmi</span><span class="p">,</span> <span class="n">exercise</span><span class="p">,</span> <span class="n">income</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">fbs</span><span class="p">,</span> <span class="n">has_diabetes</span>
+<span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">1</span>
+<span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">140</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="mi">0</span>
+<span class="o">......</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="author">
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://nuchange.ca">Bell Eapen</a> (McMaster U) |  <a class="reference external" href="https://nuchange.ca/contact">Contact</a> | <a class="reference external" href="https://twitter.com/beapen"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/beapen?style=social" /></a></p></li>
+<li><p>This software is developed and tested using <a class="reference external" href="http://www.computecanada.ca">Compute Canada</a> resources.</p></li>
+<li><p>See also:  <a class="reference external" href="https://github.com/E-Health/fhirform">:fire: The FHIRForm framework for managing healthcare eForms</a></p></li>
+<li><p>See also: <a class="reference external" href="https://github.com/E-Health/drishti">:eyes: Drishti | An mHealth sense-plan-act framework!</a></p></li>
+</ul>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
+<p>Please cite QRMine in your publications if it helped your research. Here
+is an example BibTeX entry <a class="reference external" href="https://arxiv.org/abs/2003.13519">(Read paper on arXiv)</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="nd">@article</span><span class="p">{</span><span class="n">eapenbr2019qrmine</span><span class="p">,</span>
+  <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">QRMine</span><span class="p">:</span> <span class="n">A</span> <span class="n">python</span> <span class="n">package</span> <span class="k">for</span> <span class="n">triangulation</span> <span class="ow">in</span> <span class="n">Grounded</span> <span class="n">Theory</span><span class="p">},</span>
+  <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Eapen</span><span class="p">,</span> <span class="n">Bell</span> <span class="n">Raj</span> <span class="ow">and</span> <span class="n">Archer</span><span class="p">,</span> <span class="n">Norm</span> <span class="ow">and</span> <span class="n">Sartpi</span><span class="p">,</span> <span class="n">Kamran</span><span class="p">},</span>
+  <span class="n">journal</span><span class="o">=</span><span class="p">{</span><span class="n">arXiv</span> <span class="n">preprint</span> <span class="n">arXiv</span><span class="p">:</span><span class="mf">2003.13519</span> <span class="p">},</span>
+  <span class="n">year</span><span class="o">=</span><span class="p">{</span><span class="mi">2020</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>QRMine is inspired by <a class="reference external" href="https://github.com/lknelson/computational-grounded-theory">this work</a> and the associated <a class="reference external" href="https://journals.sagepub.com/doi/abs/10.1177/0049124117729703">paper</a>.</p>
+</section>
+<section id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif"><img alt="QRMine" src="https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif" /></a></p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">qrmine</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-it-does">What it does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-install">How to install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshoot">Troubleshoot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use">How to Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-it-in-your-code">Use it in your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#author">Author</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demo">Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">Module Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">qrmine</a></li>
+      <li>Next: <a href="license.html" title="next chapter">License</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, beapen.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/readme.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
