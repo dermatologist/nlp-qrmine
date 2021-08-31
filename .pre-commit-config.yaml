@@ -1,0 +1,6 @@
+repos:
+  - repo: https://github.com/jazzband/pip-tools
+    rev: 5.0.0
+    hooks:
+      - id: pip-compile
+        args: [--upgrade]
