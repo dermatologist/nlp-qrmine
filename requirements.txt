@@ -90,7 +90,7 @@ murmurhash==1.0.5
     #   thinc
 networkx==2.6.2
     # via textacy
-numpy==1.19.5
+numpy==1.21.2
     # via
     #   blis
     #   h5py
