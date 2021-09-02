@@ -2,6 +2,8 @@
 
 * pip-compile --upgrade
 
+* pip-compile --upgrade dev-requirements.in
+
 * pip-sync
 
 OR
