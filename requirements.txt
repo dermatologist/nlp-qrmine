@@ -55,7 +55,7 @@ grpcio==1.39.0
     # via
     #   tensorboard
     #   tensorflow
-h5py==3.1.0
+h5py==3.4.0
     # via tensorflow
 idna==3.2
     # via requests
