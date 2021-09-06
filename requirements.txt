@@ -81,7 +81,7 @@ matplotlib==3.4.3
     # via
     #   mlxtend
     #   qrmine (setup.py)
-mlxtend==0.18.0
+mlxtend==0.19.0
     # via qrmine (setup.py)
 murmurhash==1.0.5
     # via
