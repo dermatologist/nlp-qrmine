@@ -208,7 +208,7 @@ termcolor==1.1.0
     # via tensorflow
 textacy==0.10.0
     # via qrmine (setup.py)
-thinc==7.4.5
+thinc==8.0.12
     # via spacy
 threadpoolctl==2.2.0
     # via scikit-learn
