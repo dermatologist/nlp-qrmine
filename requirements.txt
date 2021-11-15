@@ -39,7 +39,7 @@ cytoolz==0.11.2
     # via textacy
 flatbuffers==2.0
     # via tensorflow
-gast==0.4.0
+gast==0.5.3
     # via tensorflow
 google-auth==2.3.3
     # via
