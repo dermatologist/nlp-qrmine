@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-absl-py==0.15.0
+absl-py==1.0.0
     # via
     #   tensorboard
     #   tensorflow
@@ -139,7 +139,7 @@ pyasn1-modules==0.2.8
     # via google-auth
 pyemd==0.5.1
     # via textacy
-pyparsing==3.0.5
+pyparsing==3.0.6
     # via matplotlib
 pyphen==0.11.0
     # via textacy
