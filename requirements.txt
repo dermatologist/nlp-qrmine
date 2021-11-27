@@ -18,7 +18,7 @@ cachetools==4.2.4
     # via
     #   google-auth
     #   textacy
-catalogue==1.0.0
+catalogue==2.0.6
     # via
     #   spacy
     #   thinc
