@@ -119,7 +119,7 @@ pandas==1.3.4
     #   qrmine (setup.py)
 pillow==8.4.0
     # via matplotlib
-plac==1.1.3
+plac==1.3.3
     # via
     #   spacy
     #   thinc
