@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-absl-py==0.15.0
+absl-py==1.0.0
     # via
     #   tensorboard
     #   tensorflow
