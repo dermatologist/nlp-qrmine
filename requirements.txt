@@ -198,7 +198,7 @@ tensorboard-data-server==0.6.1
     # via tensorboard
 tensorboard-plugin-wit==1.8.0
     # via tensorboard
-tensorflow==2.7.0
+tensorflow==2.7.1
     # via qrmine (setup.py)
 tensorflow-estimator==2.7.0
     # via tensorflow
