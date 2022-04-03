@@ -1,5 +1,4 @@
 name: Pytest on PR
-# pip install --no-deps numpy==1.20.1 Remove this from pr, tox, and docs once issue #83 is resolved
 on:
   push:
     branches:
@@ -33,7 +32,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         python -m spacy download en_core_web_sm
-        pip install --no-deps numpy==1.20.1
     - name: Test with pytest
       run: |
         pip install pytest
