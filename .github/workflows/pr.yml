@@ -1,5 +1,4 @@
 name: Pytest on PR
-# pip install --no-deps numpy==1.20.1 Remove this from pr, tox, and docs once issue #83 is resolved
 on:
   push:
     branches:
@@ -19,9 +18,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
-    - uses: actions/checkout@v2.3.4
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2.2.2
+      uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: run on mac
@@ -32,7 +31,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install --no-deps numpy==1.20.1
+        python -m spacy download en_core_web_sm
     - name: Test with pytest
       run: |
         pip install pytest
