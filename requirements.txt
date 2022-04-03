@@ -20,7 +20,7 @@ cachetools==5.0.0
     # via
     #   google-auth
     #   textacy
-catalogue==1.0.0
+catalogue==2.0.7
     # via
     #   spacy
     #   thinc
