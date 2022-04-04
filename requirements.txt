@@ -230,7 +230,7 @@ threadpoolctl==3.1.0
     #   scikit-learn
 toolz==0.11.2
     # via cytoolz
-tqdm==4.63.1
+tqdm==4.64.0
     # via
     #   spacy
     #   textacy
