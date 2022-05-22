@@ -222,7 +222,7 @@ textacy==0.10.0
     # via qrmine (setup.py)
 tf-estimator-nightly==2.8.0.dev2021122109
     # via tensorflow
-thinc==7.4.5
+thinc==8.0.16
     # via spacy
 threadpoolctl==3.1.0
     # via
