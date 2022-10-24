@@ -53,7 +53,7 @@ google-auth-oauthlib==0.4.6
     # via tensorboard
 google-pasta==0.2.0
     # via tensorflow
-grpcio==1.44.0
+grpcio==1.50.0
     # via
     #   tensorboard
     #   tensorflow
