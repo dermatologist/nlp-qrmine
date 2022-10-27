@@ -212,7 +212,7 @@ tensorboard-data-server==0.6.1
     # via tensorboard
 tensorboard-plugin-wit==1.8.1
     # via tensorboard
-tensorflow==2.8.0
+tensorflow==2.10.0
     # via qrmine (setup.py)
 tensorflow-io-gcs-filesystem==0.24.0
     # via tensorflow
