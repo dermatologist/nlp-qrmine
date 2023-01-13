@@ -163,6 +163,8 @@ is an example BibTeX entry [(Read paper on arXiv)](https://arxiv.org/abs/2003.13
 
 QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).
 
+## Give us a star ⭐️
+If you find this project useful, give us a star. It helps others discover the project.
 
 ## Demo
 
