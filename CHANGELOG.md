@@ -1,12 +1,32 @@
 # Changelog
 
-## [Unreleased](https://github.com/dermatologist/nlp-qrmine/tree/HEAD)
+## [3.8.3](https://github.com/dermatologist/nlp-qrmine/tree/3.8.3) (2022-04-03)
 
-[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.1...HEAD)
+[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.2...3.8.3)
+
+## [3.8.2](https://github.com/dermatologist/nlp-qrmine/tree/3.8.2) (2022-04-03)
+
+[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.1...3.8.2)
 
 **Closed issues:**
 
 - tox tests fail [\#83](https://github.com/dermatologist/nlp-qrmine/issues/83)
+
+**Merged pull requests:**
+
+- PATCH-MAR-2022-1 [\#136](https://github.com/dermatologist/nlp-qrmine/pull/136) ([dermatologist](https://github.com/dermatologist))
+- chore\(deps\): bump actions/checkout from 2 to 3 [\#131](https://github.com/dermatologist/nlp-qrmine/pull/131) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/setup-python from 2.3.1 to 3 [\#130](https://github.com/dermatologist/nlp-qrmine/pull/130) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump JamesIves/github-pages-deploy-action from 4.1.5 to 4.2.5 [\#129](https://github.com/dermatologist/nlp-qrmine/pull/129) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/setup-python from 2.3.0 to 2.3.1 [\#117](https://github.com/dermatologist/nlp-qrmine/pull/117) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump absl-py from 0.15.0 to 1.0.0 [\#115](https://github.com/dermatologist/nlp-qrmine/pull/115) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump actions/setup-python from 2.2.2 to 2.3.0 [\#113](https://github.com/dermatologist/nlp-qrmine/pull/113) ([dependabot[bot]](https://github.com/apps/dependabot))
+- chore\(deps\): bump pyparsing from 2.4.7 to 3.0.6 [\#111](https://github.com/dermatologist/nlp-qrmine/pull/111) ([dependabot[bot]](https://github.com/apps/dependabot))
+- update devcontainer [\#110](https://github.com/dermatologist/nlp-qrmine/pull/110) ([dermatologist](https://github.com/dermatologist))
+- update requirements [\#106](https://github.com/dermatologist/nlp-qrmine/pull/106) ([dermatologist](https://github.com/dermatologist))
+- chore\(deps\): bump mlxtend from 0.18.0 to 0.19.0 [\#96](https://github.com/dermatologist/nlp-qrmine/pull/96) ([dependabot[bot]](https://github.com/apps/dependabot))
+- feature/fix-actions-2 [\#90](https://github.com/dermatologist/nlp-qrmine/pull/90) ([dermatologist](https://github.com/dermatologist))
+- chore\(deps\): bump JamesIves/github-pages-deploy-action from 4.1.4 to 4.1.5 [\#87](https://github.com/dermatologist/nlp-qrmine/pull/87) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [3.8.1](https://github.com/dermatologist/nlp-qrmine/tree/3.8.1) (2021-08-31)
 
