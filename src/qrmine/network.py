@@ -1,4 +1,4 @@
-import textacy.network
+import textacy.representations.network
 
 
 class Network(object):
@@ -10,11 +10,13 @@ class Network(object):
         self._axis = None
 
     def sents_to_network(self, sents):
-        self._graph = textacy.network.sents_to_semantic_network(sents, normalize='lemma', edge_weighting='cosine')
+        self._graph = textacy.representations.network.sents_to_semantic_network(
+            sents, normalize='lemma', edge_weighting='cosine')
         return self._graph
 
     def terms_to_network(self, terms):
-        self._graph = textacy.network.terms_to_semantic_network(terms, normalize='lemma', edge_weighting='cosine')
+        self._graph = textacy.representations.network.terms_to_semantic_network(
+            terms, normalize='lemma', edge_weighting='cosine')
         return self._graph
 
     def draw_graph(self, draw=False):
