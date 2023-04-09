@@ -86,7 +86,7 @@ class Qrmine(object):
         for index, title in enumerate(self._content.titles): # QRMines content should be set
             content = self._content.documents[index]
             this_record = Content(content)
-            doc = textacy.make_spacy_doc(this_record.doc)
+            doc = textacy.make_spacy_doc(this_record.doc, lang=self._en)
             item_basket.append(self.print_categories(doc, num))
         return item_basket
         # Example return:
@@ -199,7 +199,7 @@ class Qrmine(object):
 
                 # 2-Jan-2020 textacy new version, breaking change
                 # replace numbers with NUM, remove punct and convert to lower case
-                doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
+                doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document), 'NUM').lower()
                 doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                 self._corpus.add_doc(doc)
 
@@ -216,7 +216,7 @@ class Qrmine(object):
                         #     textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                         #     metadata=metadata)
                         #doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
-                        doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
+                        doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document), 'NUM').lower()
 
                         doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                         self._corpus.add_doc(doc)
