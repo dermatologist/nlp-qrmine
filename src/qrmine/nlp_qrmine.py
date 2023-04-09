@@ -1,6 +1,6 @@
 import subprocess
 import textacy
-from textacy.vsm.vectorizers import Vectorizer
+from textacy.representations.vectorizers import Vectorizer
 import textacy.tm
 from textacy import preprocessing
 
