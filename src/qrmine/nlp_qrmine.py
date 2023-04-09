@@ -24,7 +24,7 @@ class Qrmine(object):
         self._terms = None
         self._doc_term_matrix = None
         self._doc_topic_matrix = None
-        self._vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
+        self._vectorizer = Vectorizer(tf_type='linear', idf_type='smooth',
                                       norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
 
     @property
