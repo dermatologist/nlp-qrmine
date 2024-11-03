@@ -8,11 +8,11 @@ absl-py==2.1.0
     # via
     #   keras
     #   tensorboard
-    #   tensorflow-cpu
+    #   tensorflow
 annotated-types==0.7.0
     # via pydantic
 astunparse==1.6.3
-    # via tensorflow-cpu
+    # via tensorflow
 blis==1.0.1
     # via thinc
 cachetools==5.5.0
@@ -49,23 +49,23 @@ cymem==2.0.8
 cytoolz==1.0.0
     # via textacy
 flatbuffers==24.3.25
-    # via tensorflow-cpu
+    # via tensorflow
 floret==0.10.5
     # via textacy
 fonttools==4.54.1
     # via matplotlib
 gast==0.6.0
-    # via tensorflow-cpu
+    # via tensorflow
 google-pasta==0.2.0
-    # via tensorflow-cpu
+    # via tensorflow
 grpcio==1.67.1
     # via
     #   tensorboard
-    #   tensorflow-cpu
+    #   tensorflow
 h5py==3.12.1
     # via
     #   keras
-    #   tensorflow-cpu
+    #   tensorflow
 idna==3.10
     # via requests
 imbalanced-learn==0.12.4
@@ -81,7 +81,7 @@ joblib==1.4.2
     #   scikit-learn
     #   textacy
 keras==3.6.0
-    # via tensorflow-cpu
+    # via tensorflow
 kiwisolver==1.4.7
     # via matplotlib
 langcodes==3.4.1
@@ -89,7 +89,7 @@ langcodes==3.4.1
 language-data==1.2.0
     # via langcodes
 libclang==18.1.1
-    # via tensorflow-cpu
+    # via tensorflow
 marisa-trie==1.2.1
     # via language-data
 markdown==3.7
@@ -109,7 +109,7 @@ mdurl==0.1.2
 ml-dtypes==0.4.1
     # via
     #   keras
-    #   tensorflow-cpu
+    #   tensorflow
 mlxtend==0.23.1
     # via qrmine (setup.py)
 murmurhash==1.0.10
@@ -137,14 +137,14 @@ numpy==2.0.2
     #   scipy
     #   spacy
     #   tensorboard
-    #   tensorflow-cpu
+    #   tensorflow
     #   textacy
     #   thinc
     #   xgboost
-nvidia-nccl-cu12==2.23.4
+# nvidia-nccl-cu12==2.23.4
     # via xgboost
 opt-einsum==3.4.0
-    # via tensorflow-cpu
+    # via tensorflow
 optree==0.13.0
     # via keras
 packaging==24.1
@@ -153,7 +153,7 @@ packaging==24.1
     #   matplotlib
     #   spacy
     #   tensorboard
-    #   tensorflow-cpu
+    #   tensorflow
     #   thinc
     #   weasel
 pandas==2.2.3
@@ -169,7 +169,7 @@ preshed==3.0.9
 protobuf==5.28.3
     # via
     #   tensorboard
-    #   tensorflow-cpu
+    #   tensorflow
 pydantic==2.9.2
     # via
     #   confection
@@ -193,7 +193,7 @@ pytz==2024.2
 requests==2.32.3
     # via
     #   spacy
-    #   tensorflow-cpu
+    #   tensorflow
     #   textacy
     #   vadersentiment
     #   weasel
@@ -222,7 +222,7 @@ six==1.16.0
     #   google-pasta
     #   python-dateutil
     #   tensorboard
-    #   tensorflow-cpu
+    #   tensorflow
 smart-open==7.0.5
     # via weasel
 spacy==3.8.2
@@ -240,15 +240,15 @@ srsly==2.4.8
     #   thinc
     #   weasel
 tensorboard==2.18.0
-    # via tensorflow-cpu
+    # via tensorflow
 tensorboard-data-server==0.7.2
     # via tensorboard
-tensorflow-cpu==2.18.0
+tensorflow==2.18.0
     # via qrmine (setup.py)
 tensorflow-io-gcs-filesystem==0.37.1
-    # via tensorflow-cpu
+    # via tensorflow
 termcolor==2.5.0
-    # via tensorflow-cpu
+    # via tensorflow
 textacy==0.13.0
     # via qrmine (setup.py)
 thinc==8.3.2
@@ -274,7 +274,7 @@ typing-extensions==4.12.2
     #   pydantic
     #   pydantic-core
     #   rich
-    #   tensorflow-cpu
+    #   tensorflow
     #   typer
 tzdata==2024.2
     # via pandas
@@ -296,7 +296,7 @@ wheel==0.44.0
 wrapt==1.16.0
     # via
     #   smart-open
-    #   tensorflow-cpu
+    #   tensorflow
 xgboost==2.1.2
     # via qrmine (setup.py)
 
