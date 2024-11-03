@@ -16,3 +16,8 @@ OR
 * pip install pre-commit
 
 * pre-commit install
+
+## uv
+
+* pip install uv
+* uv pip compile setup.cfg -o requirements.txt --universal
