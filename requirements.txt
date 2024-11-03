@@ -254,8 +254,10 @@ tensorflow==2.13.1
     # via qrmine (setup.cfg)
 tensorflow-estimator==2.13.0
     # via tensorflow
-tensorflow-io-gcs-filesystem==0.37.1 ; platform_machine != 'arm64' or platform_system != 'Darwin'
-    # via tensorflow
+tensorflow-io-gcs-filesystem==0.31.0
+    # via
+    #   qrmine (setup.cfg)
+    #   tensorflow
 termcolor==2.5.0
     # via tensorflow
 textacy==0.13.0
