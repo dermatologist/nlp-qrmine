@@ -25,6 +25,7 @@ def test_generate_dict(corpus_fixture, capsys, q):
     all_interviews = Content(corpus_fixture.content)
     q.print_dict(all_interviews, num)
     captured = capsys.readouterr()
+    print(captured.out)
     assert 'code' in captured.out
 
 def test_generate_topics(corpus_fixture, capsys, q):
@@ -32,18 +33,21 @@ def test_generate_topics(corpus_fixture, capsys, q):
     q.process_content()
     q.print_topics()
     captured = capsys.readouterr()
+    print(captured.out)
     assert 'TOPIC' in captured.out
 
 def test_category_basket(corpus_fixture, capsys, q):
     q.content = corpus_fixture
     print(q.category_basket())
     captured = capsys.readouterr()
+    print(captured.out)
     assert 'theory' in captured.out
 
 def test_category_association(corpus_fixture, capsys, q):
     q.content = corpus_fixture
     print(q.category_association())
     captured = capsys.readouterr()
+    print(captured.out)
     assert 'theory' in captured.out
 
 
