@@ -271,11 +271,9 @@ typer==0.12.5
     #   weasel
 typing-extensions==4.12.2
     # via
-    #   cloudpathlib
     #   optree
     #   pydantic
     #   pydantic-core
-    #   rich
     #   tensorflow
     #   typer
 tzdata==2024.2
