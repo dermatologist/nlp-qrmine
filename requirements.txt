@@ -2,17 +2,16 @@
 #    uv pip compile setup.cfg -o requirements.txt --universal
 absl-py==2.1.0
     # via
-    #   keras
     #   tensorboard
     #   tensorflow
-annotated-types==0.7.0
-    # via pydantic
 astunparse==1.6.3
     # via tensorflow
 blis==0.7.11
     # via thinc
 cachetools==5.5.0
-    # via textacy
+    # via
+    #   google-auth
+    #   textacy
 catalogue==2.0.10
     # via
     #   spacy
@@ -55,8 +54,14 @@ floret==0.10.5
     # via textacy
 fonttools==4.54.1
     # via matplotlib
-gast==0.6.0
+gast==0.4.0
     # via tensorflow
+google-auth==2.35.0
+    # via
+    #   google-auth-oauthlib
+    #   tensorboard
+google-auth-oauthlib==1.0.0
+    # via tensorboard
 google-pasta==0.2.0
     # via tensorflow
 grpcio==1.67.1
@@ -64,9 +69,7 @@ grpcio==1.67.1
     #   tensorboard
     #   tensorflow
 h5py==3.12.1
-    # via
-    #   keras
-    #   tensorflow
+    # via tensorflow
 idna==3.10
     # via requests
 imbalanced-learn==0.12.4
@@ -81,7 +84,7 @@ joblib==1.4.2
     #   mlxtend
     #   scikit-learn
     #   textacy
-keras==3.6.0
+keras==2.13.1
     # via tensorflow
 kiwisolver==1.4.7
     # via matplotlib
@@ -107,10 +110,6 @@ matplotlib==3.9.2
     #   mlxtend
 mdurl==0.1.2
     # via markdown-it-py
-ml-dtypes==0.3.2
-    # via
-    #   keras
-    #   tensorflow
 mlxtend==0.23.1
     # via qrmine (setup.cfg)
 murmurhash==1.0.10
@@ -118,20 +117,16 @@ murmurhash==1.0.10
     #   preshed
     #   spacy
     #   thinc
-namex==0.0.8
-    # via keras
 networkx==3.4.2
     # via textacy
-numpy==1.26.4
+numpy==1.24.3
     # via
     #   blis
     #   contourpy
     #   floret
     #   h5py
     #   imbalanced-learn
-    #   keras
     #   matplotlib
-    #   ml-dtypes
     #   mlxtend
     #   pandas
     #   scikit-learn
@@ -144,19 +139,18 @@ numpy==1.26.4
     #   xgboost
 nvidia-nccl-cu12==2.23.4 ; platform_machine != 'aarch64' and platform_system == 'Linux'
     # via xgboost
+oauthlib==3.2.2
+    # via requests-oauthlib
 opt-einsum==3.4.0
     # via tensorflow
-optree==0.13.0
-    # via keras
 packaging==24.1
     # via
-    #   keras
     #   matplotlib
     #   spacy
     #   tensorflow
     #   thinc
     #   weasel
-pandas==2.2.3
+pandas==2.1.0
     # via
     #   qrmine (setup.cfg)
     #   mlxtend
@@ -170,14 +164,18 @@ protobuf==4.25.5
     # via
     #   tensorboard
     #   tensorflow
-pydantic==2.9.2
+pyasn1==0.6.1
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.4.1
+    # via google-auth
+pydantic==1.10.18
     # via
     #   confection
     #   spacy
     #   thinc
     #   weasel
-pydantic-core==2.23.4
-    # via pydantic
 pygments==2.18.0
     # via rich
 pyparsing==3.2.0
@@ -192,15 +190,18 @@ pytz==2024.2
     # via pandas
 requests==2.32.3
     # via
+    #   requests-oauthlib
     #   spacy
-    #   tensorflow
+    #   tensorboard
     #   textacy
     #   vadersentiment
     #   weasel
+requests-oauthlib==2.0.0
+    # via google-auth-oauthlib
 rich==13.9.4
-    # via
-    #   keras
-    #   typer
+    # via typer
+rsa==4.9
+    # via google-auth
 scikit-learn==1.5.2
     # via
     #   qrmine (setup.cfg)
@@ -228,7 +229,6 @@ six==1.16.0
     #   astunparse
     #   google-pasta
     #   python-dateutil
-    #   tensorboard
     #   tensorflow
 smart-open==7.0.5
     # via weasel
@@ -246,13 +246,15 @@ srsly==2.4.8
     #   spacy
     #   thinc
     #   weasel
-tensorboard==2.16.2
+tensorboard==2.13.0
     # via tensorflow
 tensorboard-data-server==0.7.2
     # via tensorboard
-tensorflow==2.16.2
+tensorflow==2.13.1
     # via qrmine (setup.cfg)
-tensorflow-io-gcs-filesystem==0.37.1 ; python_full_version < '3.12'
+tensorflow-estimator==2.13.0
+    # via tensorflow
+tensorflow-io-gcs-filesystem==0.37.1 ; platform_machine != 'arm64' or platform_system != 'Darwin'
     # via tensorflow
 termcolor==2.5.0
     # via tensorflow
@@ -274,11 +276,9 @@ typer==0.12.5
     # via
     #   spacy
     #   weasel
-typing-extensions==4.12.2
+typing-extensions==4.5.0
     # via
-    #   optree
     #   pydantic
-    #   pydantic-core
     #   tensorflow
     #   typer
 tzdata==2024.2
@@ -297,8 +297,10 @@ weasel==0.4.1
 werkzeug==3.1.1
     # via tensorboard
 wheel==0.44.0
-    # via astunparse
-wrapt==1.16.0
+    # via
+    #   astunparse
+    #   tensorboard
+wrapt==1.14.1
     # via
     #   smart-open
     #   tensorflow
