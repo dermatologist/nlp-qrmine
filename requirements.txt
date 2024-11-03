@@ -137,7 +137,7 @@ numpy==1.26.4
     #   textacy
     #   thinc
     #   xgboost
-nvidia-nccl-cu12==2.23.4
+# nvidia-nccl-cu12==2.23.4
     # via xgboost
 opt-einsum==3.4.0
     # via tensorflow
