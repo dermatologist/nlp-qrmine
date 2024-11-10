@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased](https://github.com/dermatologist/nlp-qrmine/tree/HEAD)
+
+[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.4...HEAD)
+
+**Closed issues:**
+
+- Unable to install - ImportError: cannot import name 'msvccompiler' from 'distutils' [\#226](https://github.com/dermatologist/nlp-qrmine/issues/226)
+- pip install does not work because of deprecated services. [\#185](https://github.com/dermatologist/nlp-qrmine/issues/185)
+
+## [3.8.4](https://github.com/dermatologist/nlp-qrmine/tree/3.8.4) (2023-02-23)
+
+[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.3...3.8.4)
+
 ## [3.8.3](https://github.com/dermatologist/nlp-qrmine/tree/3.8.3) (2022-04-03)
 
 [Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.2...3.8.3)
