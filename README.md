@@ -30,9 +30,10 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 
 ## How to install
 
+* Requires Python 3.11 and a CPU that support AVX instructions
 ```text
-
-pip install qrmine
+pip install uv
+uv pip install qrmine
 python -m spacy download en_core_web_sm
 
 ```

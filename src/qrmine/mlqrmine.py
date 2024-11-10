@@ -100,7 +100,7 @@ class MLQRMine(object):
 
     def mark_missing(self):
         self._dataset_original = self._dataset
-        self._dataset = self._dataset.replace('', numpy.NaN)
+        self._dataset = self._dataset.replace('', numpy.nan)
         self._dataset.dropna(inplace=True)
 
     def restore_mark_missing(self):
