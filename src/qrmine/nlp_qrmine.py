@@ -1,6 +1,6 @@
 import subprocess
 import textacy
-from textacy.vsm.vectorizers import Vectorizer
+from textacy.representations.vectorizers import Vectorizer
 import textacy.tm
 from textacy import preprocessing
 
@@ -15,7 +15,7 @@ class Qrmine(object):
         self._min_occurrence_for_topic = 2
         self._common_verbs = 10
         # create an empty corpus
-        self._en = textacy.load_spacy_lang('en_core_web_sm', disable=('parser',))
+        self._en = textacy.load_spacy_lang('en_core_web_sm')
         self._corpus = textacy.Corpus(lang=self._en)
         self._content = None
         self._model = None
@@ -24,8 +24,8 @@ class Qrmine(object):
         self._terms = None
         self._doc_term_matrix = None
         self._doc_topic_matrix = None
-        self._vectorizer = Vectorizer(tf_type='linear', apply_idf=True, idf_type='smooth',
-                                      norm='l2', min_df=3, max_df=0.95, max_n_terms=100000)
+        self._vectorizer = Vectorizer(tf_type='linear', idf_type='smooth',
+                                      norm='l2', min_df=2, max_df=0.95, max_n_terms=100000)
 
     @property
     def content(self):
@@ -58,9 +58,9 @@ class Qrmine(object):
         # return subprocess.check_output(['git', 'log', '-1', '--format=%cd']).strip().decode("utf-8")[10:]
 
     def print_categories(self, doc, num=10):
-        bot = doc._.to_bag_of_terms(ngrams=(1, 2, 3), named_entities=False, normalize='lemma', weighting='freq',
-                                    as_strings=True, filter_stops=True, filter_punct=True, filter_nums=True, min_freq=2,
-                                    drop_determiners=True, include_types=["NOUN", "VERB"])
+        textacy.spacier.extensions.set_doc_extensions("extract.bags")
+        bot = doc._.to_bag_of_terms(by='lemma_', weighting='freq',
+                                    ngs=(1,2,3), ents=True, ncs=True, dedupe=True)
         categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:num]
         output = []
         to_return = []
@@ -86,7 +86,7 @@ class Qrmine(object):
         for index, title in enumerate(self._content.titles): # QRMines content should be set
             content = self._content.documents[index]
             this_record = Content(content)
-            doc = textacy.make_spacy_doc(this_record.doc)
+            doc = textacy.make_spacy_doc(this_record.doc, lang=self._en)
             item_basket.append(self.print_categories(doc, num))
         return item_basket
         # Example return:
@@ -199,7 +199,8 @@ class Qrmine(object):
 
                 # 2-Jan-2020 textacy new version, breaking change
                 # replace numbers with NUM, remove punct and convert to lower case
-                doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
+                # doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
+                doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document)).lower()
                 doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                 self._corpus.add_doc(doc)
 
@@ -216,8 +217,8 @@ class Qrmine(object):
                         #     textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                         #     metadata=metadata)
                         #doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
-                        doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
-
+                        # doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
+                        doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document)).lower()
                         doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
                         self._corpus.add_doc(doc)
 
@@ -226,16 +227,15 @@ class Qrmine(object):
             self.load_matrix()
 
     def load_matrix(self):
-        self._doc_term_matrix = self._vectorizer.fit_transform(
-            (documents._.to_terms_list(ngrams=(1, 2, 3), named_entities=True,
-                                     as_strings=True, filter_stops=True,
-                                     filter_punct=True, filter_nums=True,
-                                     min_freq=2)
-             for documents in self._corpus.docs))
+        textacy.spacier.extensions.set_doc_extensions("extract.keyterms")
+        terms = ((term.text for term in textacy.extract.terms(doc, ngs=1, ents=True))for doc in self._corpus.docs)
+        self._doc_term_matrix = self._vectorizer.fit_transform(terms)
         self._numdocs, self._terms = self._doc_term_matrix.shape
-        self._model = textacy.tm.TopicModel('nmf', n_topics=self._numdocs)
+        self._model = textacy.tm.TopicModel('lda', n_topics=self._numdocs)
         self._model.fit(self._doc_term_matrix)
+        try:
+            self._doc_topic_matrix = self._model.transform(self._doc_term_matrix)
 
-        self._doc_topic_matrix = self._model.transform(self._doc_term_matrix)
-
-        _, self._numtopics = self._doc_topic_matrix.shape
+            _, self._numtopics = self._doc_topic_matrix.shape
+        except ValueError:
+            print("No topics found")

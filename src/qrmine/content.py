@@ -19,13 +19,14 @@
 
 import operator
 
-import en_core_web_sm
+# import en_core_web_sm
 
+import textacy
 
 class Content(object):
     def __init__(self, content):
         self._content = content
-        self._nlp = en_core_web_sm.load()
+        self._nlp = textacy.load_spacy_lang("en_core_web_sm")
         self._processed = self._nlp(self._content)
         self._lemma = {}
         self._pos = {}
