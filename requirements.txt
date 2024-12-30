@@ -266,7 +266,7 @@ termcolor==2.5.0
     # via tensorflow
 textacy==0.13.0
     # via qrmine (setup.cfg)
-thinc==8.2.5
+thinc==9.1.1
     # via spacy
 threadpoolctl==3.5.0
     # via
