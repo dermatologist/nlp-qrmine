@@ -254,7 +254,7 @@ tensorboard==2.13.0
     # via tensorflow
 tensorboard-data-server==0.7.2
     # via tensorboard
-tensorflow==2.13.1
+tensorflow==2.18.0
     # via qrmine (setup.cfg)
 tensorflow-estimator==2.13.0
     # via tensorflow
