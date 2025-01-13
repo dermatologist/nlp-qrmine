@@ -164,7 +164,7 @@ preshed==3.0.9
     # via
     #   spacy
     #   thinc
-protobuf==4.25.5
+protobuf==5.29.3
     # via
     #   tensorboard
     #   tensorflow
