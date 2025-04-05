@@ -180,7 +180,7 @@ pydantic==1.10.19
     #   spacy
     #   thinc
     #   weasel
-pygments==2.18.0
+pygments==2.19.1
     # via rich
 pyparsing==3.2.0
     # via matplotlib
