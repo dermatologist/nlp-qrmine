@@ -84,7 +84,7 @@ joblib==1.4.2
     #   mlxtend
     #   scikit-learn
     #   textacy
-keras==2.13.1
+keras==3.9.2
     # via tensorflow
 kiwisolver==1.4.7
     # via matplotlib
