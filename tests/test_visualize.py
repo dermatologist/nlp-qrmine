@@ -2,13 +2,16 @@ import pytest
 import pandas as pd
 from src.qrmine.visualize import QRVisualize
 
+
 @pytest.fixture
 def v():
     from pkg_resources import resource_filename
+
     file_path = resource_filename("src.qrmine.resources", "df_dominant_topic.csv")
     data = pd.read_csv(file_path)
     _v = QRVisualize(data)
     return _v
+
 
 @pytest.fixture
 def topics():
@@ -90,17 +93,22 @@ def topics():
         ),
     ]
 
+
 def test_frequency_distribution_of_words(v, capsys):
-    v.plot_frequency_distribution_of_words(v.data, folder_path='/tmp/frequency_distribution.png')
+    v.plot_frequency_distribution_of_words(
+        v.data, folder_path="/tmp/frequency_distribution.png"
+    )
     captured = capsys.readouterr()
     print(captured.out)
+
 
 def test_distribution_by_topic(v, capsys):
-    v.plot_distribution_by_topic(v.data, folder_path='/tmp/distribution_by_topic.png')
+    v.plot_distribution_by_topic(v.data, folder_path="/tmp/distribution_by_topic.png")
     captured = capsys.readouterr()
     print(captured.out)
 
+
 def test_plot_wordcloud(v, topics, capsys):
-    v.plot_wordcloud(topics, folder_path='/tmp/wordcloud.png')
+    v.plot_wordcloud(topics, folder_path="/tmp/wordcloud.png")
     captured = capsys.readouterr()
     print(captured.out)

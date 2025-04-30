@@ -1,8 +1,30 @@
+"""
+Copyright (C) 2025 Bell Eapen
+
+This file is part of qrmine.
+
+qrmine is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+qrmine is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with qrmine.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
+from pprint import pprint
+
+import pandas as pd
 import spacy
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
-import pandas as pd
-from pprint import pprint
+
+
 class ClusterDocs:
 
     def __init__(self, documents=[], titles=[]):
@@ -74,7 +96,10 @@ class ClusterDocs:
     def build_lda_model(self):
         if self._lda_model is None:
             self._lda_model = LdaModel(
-                self._corpus, num_topics=self._num_topics, id2word=self._dictionary, passes=self._passes
+                self._corpus,
+                num_topics=self._num_topics,
+                id2word=self._dictionary,
+                passes=self._passes,
             )
         return self._lda_model.show_topics(formatted=False)
 
@@ -88,9 +113,13 @@ class ClusterDocs:
         if self._lda_model is None:
             self.build_lda_model()
         # Perform semantic clustering
-        for i, doc in enumerate(self._processed_docs):  # Changed from get_processed_docs() to _documents
+        for i, doc in enumerate(
+            self._processed_docs
+        ):  # Changed from get_processed_docs() to _documents
             bow = self._dictionary.doc2bow(doc)
-            print(f"Document {self._titles[i]} belongs to topic: {self._lda_model.get_document_topics(bow)}")
+            print(
+                f"Document {self._titles[i]} belongs to topic: {self._lda_model.get_document_topics(bow)}"
+            )
 
     def format_topics_sentences(self):
         self.build_lda_model()
@@ -107,12 +136,24 @@ class ClusterDocs:
                 if j == 0:  # => dominant topic
                     wp = self._lda_model.show_topic(topic_num)
                     topic_keywords = ", ".join([word for word, prop in wp])
-                    new_row = pd.DataFrame([[int(topic_num), round(prop_topic, 4), topic_keywords]],
-                                           columns=["Dominant_Topic", "Perc_Contribution", "Topic_Keywords"])
-                    sent_topics_df = pd.concat([sent_topics_df, new_row], ignore_index=True)
+                    new_row = pd.DataFrame(
+                        [[int(topic_num), round(prop_topic, 4), topic_keywords]],
+                        columns=[
+                            "Dominant_Topic",
+                            "Perc_Contribution",
+                            "Topic_Keywords",
+                        ],
+                    )
+                    sent_topics_df = pd.concat(
+                        [sent_topics_df, new_row], ignore_index=True
+                    )
                 else:
                     break
-        sent_topics_df.columns = ["Dominant_Topic", "Perc_Contribution", "Topic_Keywords"]
+        sent_topics_df.columns = [
+            "Dominant_Topic",
+            "Perc_Contribution",
+            "Topic_Keywords",
+        ]
 
         # Add original text to the end of the output
         contents = pd.Series(self._processed_docs)
@@ -135,7 +176,6 @@ class ClusterDocs:
             )
 
         return sent_topics_sorteddf_mallet
-
 
     def topics_per_document(self, start=0, end=1):
         corpus_sel = self._corpus[start:end]
