@@ -6,3 +6,7 @@ uv pip install ini2toml
 ini2toml setup.cfg -o pyproject.toml
 uv pip install pandas matplotlib click scikit-learn imbalanced-learn vaderSentiment xgboost mlxtend spacy textacy tensorflow==2.13.1 tensorflow-io-gcs-filesystem==0.31.0 pytest tox
 python -m spacy download en_core_web_sm
+
+
+
+pip3 install torch==2.3.1+cpu -f https://download.pytorch.org/whl/torch_stable.html

@@ -1,13 +1,10 @@
 import numpy
 from imblearn.over_sampling import RandomOverSampler
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from numpy import random, argsort, sqrt, array, ones
 from pandas import read_csv
 from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.neighbors import KDTree
@@ -17,6 +14,25 @@ from xgboost import XGBClassifier
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 
+import torch.nn as nn
+import torch.optim as optim
+import torch
+from torch.utils.data import DataLoader, TensorDataset
+class NeuralNet(nn.Module):
+    def __init__(self, input_dim):
+        super(NeuralNet, self).__init__()
+        self.fc1 = nn.Linear(input_dim, 12)
+        self.fc2 = nn.Linear(12, 8)
+        self.fc3 = nn.Linear(8, 1)
+        self.relu = nn.ReLU()
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        x = self.relu(self.fc1(x))
+        x = self.relu(self.fc2(x))
+        x = self.sigmoid(self.fc3(x))
+        return x
+
 
 class MLQRMine(object):
 
@@ -24,13 +40,13 @@ class MLQRMine(object):
         self._seed = randint(1, 9)
         self._csvfile = ""
         self._titles = None
+        self._model = None
         self._dataset = None
         self._X = None
         self._y = None
         self._X_original = None
         self._y_original = None
         self._dataset_original = None
-        self._model = Sequential()
         self._sc = StandardScaler()
         self._vnum = 0  # Number of variables
         self._classifier = XGBClassifier()
@@ -147,22 +163,57 @@ class MLQRMine(object):
             self.oversample()
 
     def get_nnet_predictions(self):
-        self._model.add(Dense(12, input_dim=self._vnum, kernel_initializer='uniform', activation='relu'))
-        self._model.add(Dense(8, kernel_initializer='uniform', activation='relu'))
-        self._model.add(Dense(1, kernel_initializer='uniform', activation='sigmoid'))
-        # Compile model
-        self._model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-        # Fit the model
-        self._model.fit(self._X, self._y, epochs=self._epochs, batch_size=10, verbose=2)
 
-        # calculate predictions
-        predictions = self._model.predict(self._X_original)
-        # round predictions
-        rounded = [round(x[0]) for x in predictions]
+        self._model = NeuralNet(self._vnum)
+        criterion = nn.BCELoss()
+        optimizer = optim.Adam(self._model.parameters(), lr=0.001)
+
+        # Convert data to PyTorch tensors
+        X_tensor = torch.tensor(self._X, dtype=torch.float32)
+        y_tensor = torch.tensor(self._y, dtype=torch.float32).view(-1, 1)
+
+        # Create a dataset and data loader
+        dataset = TensorDataset(X_tensor, y_tensor)
+        dataloader = DataLoader(dataset, batch_size=10, shuffle=True)
+
+        # Train the model
+        for epoch in range(self._epochs):
+            for batch_X, batch_y in dataloader:
+                optimizer.zero_grad()
+                outputs = self._model(batch_X)
+                loss = criterion(outputs, batch_y)
+                loss.backward()
+                optimizer.step()
+
+        # Calculate predictions
+        with torch.no_grad():
+            predictions = self._model(torch.tensor(self._X_original, dtype=torch.float32))
+            rounded = [round(x.item()) for x in predictions]
+        # print("Predictions: ", rounded)
+        # Calculate accuracy
+        correct = sum([1 for i in range(len(rounded)) if rounded[i] == self._y_original[i]])
+        total = len(rounded)
+        accuracy = correct / total
+        print(f'Accuracy: {accuracy * 100:.2f}%')
         return rounded
 
     def get_nnet_scores(self):
-        return self._model.evaluate(self._X, self._y)
+        # evalute the pytorch model
+        self._model.eval()
+        X_tensor = torch.tensor(self._X, dtype=torch.float32)
+        y_tensor = torch.tensor(self._y, dtype=torch.float32).view(-1, 1)
+        dataset = TensorDataset(X_tensor, y_tensor)
+        dataloader = DataLoader(dataset, batch_size=10, shuffle=True)
+        correct = 0
+        total = 0
+        with torch.no_grad():
+            for batch_X, batch_y in dataloader:
+                outputs = self._model(batch_X)
+                predicted = (outputs > 0.5).float()
+                total += batch_y.size(0)
+                correct += (predicted == batch_y).sum().item()
+        accuracy = correct / total
+        print(f'Accuracy: {accuracy * 100:.2f}%')
 
     def svm_confusion_matrix(self):
         """Generate confusion matrix for SVM
@@ -210,7 +261,6 @@ class MLQRMine(object):
             print(self._dataset.iloc[cluster_list, :])
             print("Mean")
             print(self._dataset.iloc[cluster_list, :].mean(axis=0))
-
 
     """
     TODO: This is not working yet.
