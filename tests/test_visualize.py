@@ -99,3 +99,8 @@ def test_distribution_by_topic(v, capsys):
     v.plot_distribution_by_topic(v.data, folder_path='/tmp/distribution_by_topic.png')
     captured = capsys.readouterr()
     print(captured.out)
+
+def test_plot_wordcloud(v, topics, capsys):
+    v.plot_wordcloud(topics, folder_path='/tmp/wordcloud.png')
+    captured = capsys.readouterr()
+    print(captured.out)
