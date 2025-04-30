@@ -8,7 +8,7 @@ def corpus_fixture():
     from src.qrmine import ReadData
     corpus = ReadData()
     file_path = resource_filename('src.qrmine.resources', 'interview.txt')
-    corpus.read_file([file_path])
+    corpus.read_file(file_path)
     return corpus
 
 # instannce of Qrmine as fixture
