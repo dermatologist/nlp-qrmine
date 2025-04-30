@@ -1,9 +1,101 @@
 [build-system]
-# AVOID CHANGING REQUIRES: IT WILL BE UPDATED BY PYSCAFFOLD!
-requires = ["setuptools>=46.1.0", "setuptools_scm[toml]>=5"]
+requires = ["setuptools>=61.2"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools_scm]
-# For smarter version schemes and other configuration options,
-# check out https://github.com/pypa/setuptools_scm
-version_scheme = "no-guess-dev"
+[project]
+name = "qrmine"
+description = "Qualitative Research support tools in Python!"
+authors = [{name = "beapen", email = "github@gulfdoctor.net"}]
+license = {text = "GPL-3.0-only"}
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    'importlib-metadata; python_version<"3.8"',
+    "pandas",
+    "matplotlib",
+    "click",
+    "scikit-learn",
+    "imbalanced-learn",
+    "vadersentiment",
+    "xgboost",
+    "mlxtend",
+    "spacy",
+    "textacy",
+    "tensorflow==2.13.1",
+    "tensorflow-io-gcs-filesystem==0.31.0",
+    "pytest>=8.3.5",
+    "tox>=4.25.0",
+]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/dermatologist/nlp-qrmine"
+Documentation = "https://arxiv.org/abs/2003.13519"
+
+[project.optional-dependencies]
+testing = [
+    "setuptools",
+    "pytest",
+    "pytest-cov",
+]
+
+[project.scripts]
+qrmine = "qrmine.main:main_routine"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+package-dir = {"" = "src"}
+platforms = ["any"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests"]
+namespaces = true
+
+[tool.pytest.ini_options]
+addopts = """
+--verbose"""
+norecursedirs = [
+    "dist",
+    "build",
+    ".tox",
+]
+
+[tool.aliases]
+release = "sdist bdist_wheel upload"
+
+[tool.distutils.bdist_wheel]
+universal = 1
+
+[tool.build_sphinx]
+source_dir = "docs"
+build_dir = "docs/_build"
+testpaths = "tests"
+
+[tool.devpi.upload]
+no_vcs = "1"
+formats = "bdist_wheel"
+
+[tool.flake8]
+max_line_length = "88"
+extend_ignore = "E203, W503"
+exclude = """
+.tox
+build
+dist
+.eggs
+docs/conf.py"""
+
+[tool.pyscaffold]
+version = "4.6"
+package = "qrmine"
