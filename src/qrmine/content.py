@@ -87,6 +87,10 @@ class Content(object):
     def doc(self):
         return self._processed
 
+    @property
+    def tokens(self):
+        return [token for token in self._processed if not token.is_stop and not token.is_punct and not token.is_space]
+
     def process(self):
         for token in self._processed:
             if token.is_stop or token.is_digit or token.is_punct or token.is_space:

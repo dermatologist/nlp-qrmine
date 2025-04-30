@@ -18,6 +18,12 @@ def q():
     _q = Qrmine()
     return _q
 
+@pytest.fixture
+def cluster():
+    from src.qrmine import ClusterDocs
+    _cluster = ClusterDocs()
+    return _cluster
+
 # Ref: https://docs.pytest.org/en/latest/capture.html
 def test_generate_dict(corpus_fixture, capsys, q):
     from src.qrmine import Content
@@ -50,6 +56,13 @@ def test_category_association(corpus_fixture, capsys, q):
     print(captured.out)
     assert 'theory' in captured.out
 
+def test_cluster_topics(corpus_fixture, capsys, cluster):
+    cluster.documents = corpus_fixture.documents
+    cluster.titles = corpus_fixture.titles
+    cluster.print_clusters()
+    captured = capsys.readouterr()
+    print(captured.out)
+    assert 'Document' in captured.out
 
 
 

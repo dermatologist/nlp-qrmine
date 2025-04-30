@@ -32,6 +32,7 @@ dependencies = [
     "torch",
     "pypdf",
     "requests",
+    "gensim",
 ]
 dynamic = ["version"]
 
