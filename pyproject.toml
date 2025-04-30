@@ -33,6 +33,7 @@ dependencies = [
     "pypdf",
     "requests",
     "gensim",
+    "seaborn",
 ]
 dynamic = ["version"]
 
