@@ -15,3 +15,7 @@ def test_frequency_distribution_of_words(v, capsys):
     captured = capsys.readouterr()
     print(captured.out)
 
+def test_distribution_by_topic(v, capsys):
+    v.plot_distribution_by_topic(v.data, folder_path='/tmp/distribution_by_topic.png')
+    captured = capsys.readouterr()
+    print(captured.out)
