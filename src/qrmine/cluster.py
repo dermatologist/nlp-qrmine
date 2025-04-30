@@ -68,12 +68,12 @@ class ClusterDocs:
         # Build the LDA (Latent Dirichlet Allocation) model
 
     def build_lda_model(self):
-        if self._lda_model is not None:
-            return
-        self._lda_model = LdaModel(
-            self._corpus, num_topics=self._num_topics, id2word=self._dictionary, passes=self._passes
-        )
-
+        if self._lda_model is None:
+            self._lda_model = LdaModel(
+                self._corpus, num_topics=self._num_topics, id2word=self._dictionary, passes=self._passes
+            )
+        return self._lda_model.show_topics(formatted=False)
+    
     def print_topics(self, num_words=5):
         if self._lda_model is None:
             self.build_lda_model()

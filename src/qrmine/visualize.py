@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import matplotlib.colors as mcolors
+from wordcloud import WordCloud, STOPWORDS
+
 
 class QRVisualize:
     def __init__(self, data: pd.DataFrame = None):
