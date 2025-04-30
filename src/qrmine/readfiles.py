@@ -73,12 +73,9 @@ class ReadData(object):
             response = requests.get(input)
             if response.status_code == 200:
                 read_from_file = response.text
-                self._content = re.sub('<[^<]+?>', '', read_from_file)
-                self._documents = re.split('<break>.*?</break>', read_from_file)
-                # Delete the last blank record
-                del self._documents[-1]
-                pattern = r"<break>(.*?)</break>"
-                self._titles = re.findall(pattern, read_from_file, flags=re.DOTALL)
+                self._content = read_from_file
+                self._documents.append(read_from_file)
+                self.titles.append(input)
         else:
             raise ValueError("Input must be a file name, folder name or url.")
 
