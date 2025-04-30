@@ -1,7 +1,6 @@
 import pytest
 
 
-
 @pytest.fixture
 def corpus_fixture():
     from pkg_resources import resource_filename
@@ -67,6 +66,16 @@ def test_cluster_topics(corpus_fixture, capsys, cluster):
     captured = capsys.readouterr()
     print(captured.out)
     assert 'topic' in captured.out
-
-
-
+    # Format
+    df_topic_sents_keywords = cluster.format_topics_sentences()
+    # Format the output
+    df_dominant_topic = df_topic_sents_keywords.reset_index()
+    df_dominant_topic.columns = [
+        "Document_No",
+        "Dominant_Topic",
+        "Topic_Perc_Contrib",
+        "Keywords",
+        "Text",
+    ]
+    print(df_dominant_topic.head(10))
+    assert 'Document_No' in df_dominant_topic.columns

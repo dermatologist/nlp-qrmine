@@ -1,6 +1,7 @@
 import spacy
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
+import pandas as pd
 from pprint import pprint
 class ClusterDocs:
 
@@ -67,6 +68,8 @@ class ClusterDocs:
         # Build the LDA (Latent Dirichlet Allocation) model
 
     def build_lda_model(self):
+        if self._lda_model is not None:
+            return
         self._lda_model = LdaModel(
             self._corpus, num_topics=self._num_topics, id2word=self._dictionary, passes=self._passes
         )
@@ -84,3 +87,31 @@ class ClusterDocs:
         for i, doc in enumerate(self._processed_docs):  # Changed from get_processed_docs() to _documents
             bow = self._dictionary.doc2bow(doc)
             print(f"Document {self._titles[i]} belongs to topic: {self._lda_model.get_document_topics(bow)}")
+
+
+    def format_topics_sentences(self):
+        self.build_lda_model()
+        # Init output
+        sent_topics_df = pd.DataFrame()
+
+        # Get main topic in each document
+        for i, row_list in enumerate(self._lda_model[self._corpus]):
+            row = row_list[0] if self._lda_model.per_word_topics else row_list
+            # print(row)
+            row = sorted(row, key=lambda x: (x[1]), reverse=True)
+            # Get the Dominant topic, Perc Contribution and Keywords for each document
+            for j, (topic_num, prop_topic) in enumerate(row):
+                if j == 0:  # => dominant topic
+                    wp = self._lda_model.show_topic(topic_num)
+                    topic_keywords = ", ".join([word for word, prop in wp])
+                    new_row = pd.DataFrame([[int(topic_num), round(prop_topic, 4), topic_keywords]],
+                                           columns=["Dominant_Topic", "Perc_Contribution", "Topic_Keywords"])
+                    sent_topics_df = pd.concat([sent_topics_df, new_row], ignore_index=True)
+                else:
+                    break
+        sent_topics_df.columns = ["Dominant_Topic", "Perc_Contribution", "Topic_Keywords"]
+
+        # Add original text to the end of the output
+        contents = pd.Series(self._processed_docs)
+        sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
+        return sent_topics_df
