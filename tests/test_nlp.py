@@ -68,6 +68,8 @@ def test_cluster_topics(corpus_fixture, capsys, cluster):
     assert 'topic' in captured.out
 
     print(cluster.build_lda_model())
+
+    print(cluster.topics_per_document())
     # Format
     df_dominant_topic = cluster.format_topics_sentences()
     # Format the output

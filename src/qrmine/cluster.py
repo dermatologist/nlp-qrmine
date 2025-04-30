@@ -34,6 +34,10 @@ class ClusterDocs:
     def passes(self):
         return self._passes
 
+    @property
+    def processed_docs(self):
+        return self._processed_docs
+
     @documents.setter
     def documents(self, documents):
         self._documents = documents
@@ -73,7 +77,7 @@ class ClusterDocs:
                 self._corpus, num_topics=self._num_topics, id2word=self._dictionary, passes=self._passes
             )
         return self._lda_model.show_topics(formatted=False)
-    
+
     def print_topics(self, num_words=5):
         if self._lda_model is None:
             self.build_lda_model()
@@ -131,3 +135,15 @@ class ClusterDocs:
             )
 
         return sent_topics_sorteddf_mallet
+
+
+    def topics_per_document(self, start=0, end=1):
+        corpus_sel = self._corpus[start:end]
+        dominant_topics = []
+        topic_percentages = []
+        for i, corp in enumerate(corpus_sel):
+            topic_percs = self._lda_model[corp]
+            dominant_topic = sorted(topic_percs, key=lambda x: x[1], reverse=True)[0][0]
+            dominant_topics.append((i, dominant_topic))
+            topic_percentages.append(topic_percs)
+        return (dominant_topics, topic_percentages)
