@@ -4,7 +4,7 @@ import seaborn as sns
 import numpy as np
 
 class QRVisualize:
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame = None):
         """
         Initialize the QRVisualize class with a DataFrame.
 
@@ -13,7 +13,9 @@ class QRVisualize:
         """
         self.data = data
 
-    def plot_frequency_distribution_of_words(self, df, folder_path=None):
+    def plot_frequency_distribution_of_words(self, df=None, folder_path=None):
+        if df is None:
+            df = self.data
         doc_lens = [len(d) for d in df.Text]
 
         # Plot
