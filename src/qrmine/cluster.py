@@ -88,7 +88,6 @@ class ClusterDocs:
             bow = self._dictionary.doc2bow(doc)
             print(f"Document {self._titles[i]} belongs to topic: {self._lda_model.get_document_topics(bow)}")
 
-
     def format_topics_sentences(self):
         self.build_lda_model()
         # Init output
@@ -114,4 +113,21 @@ class ClusterDocs:
         # Add original text to the end of the output
         contents = pd.Series(self._processed_docs)
         sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
-        return sent_topics_df
+        return sent_topics_df.reset_index(drop=False)
+
+    # https://www.machinelearningplus.com/nlp/topic-modeling-visualization-how-to-present-results-lda-models/
+    def most_representative_docs(self):
+        sent_topics_df = self.format_topics_sentences()
+        sent_topics_sorteddf_mallet = pd.DataFrame()
+        sent_topics_outdf_grpd = sent_topics_df.groupby("Dominant_Topic")
+
+        for i, grp in sent_topics_outdf_grpd:
+            sent_topics_sorteddf_mallet = pd.concat(
+                [
+                    sent_topics_sorteddf_mallet,
+                    grp.sort_values(["Perc_Contribution"], ascending=False).head(1),
+                ],
+                axis=0,
+            )
+
+        return sent_topics_sorteddf_mallet

@@ -67,9 +67,8 @@ def test_cluster_topics(corpus_fixture, capsys, cluster):
     print(captured.out)
     assert 'topic' in captured.out
     # Format
-    df_topic_sents_keywords = cluster.format_topics_sentences()
+    df_dominant_topic = cluster.format_topics_sentences()
     # Format the output
-    df_dominant_topic = df_topic_sents_keywords.reset_index()
     df_dominant_topic.columns = [
         "Document_No",
         "Dominant_Topic",
@@ -79,3 +78,7 @@ def test_cluster_topics(corpus_fixture, capsys, cluster):
     ]
     print(df_dominant_topic.head(10))
     assert 'Document_No' in df_dominant_topic.columns
+
+    df_sorted = cluster.most_representative_docs()
+    print(df_sorted.head(10))
+    assert 'Dominant_Topic' in df_sorted.columns
