@@ -63,6 +63,10 @@ def test_cluster_topics(corpus_fixture, capsys, cluster):
     captured = capsys.readouterr()
     print(captured.out)
     assert 'Document' in captured.out
+    cluster.print_topics()
+    captured = capsys.readouterr()
+    print(captured.out)
+    assert 'topic' in captured.out
 
 
 
