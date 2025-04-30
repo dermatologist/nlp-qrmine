@@ -42,8 +42,9 @@ docutils==0.21.2
     # via
     #   recommonmark
     #   sphinx
-filelock==3.16.1
+filelock==3.18.0
     # via
+    #   -c requirements.txt
     #   tox
     #   virtualenv
 idna==3.10
@@ -54,7 +55,7 @@ imagesize==1.4.1
     # via sphinx
 iniconfig==2.0.0
     # via pytest
-jinja2==3.1.4
+jinja2==3.1.6
     # via
     #   -c requirements.txt
     #   sphinx
@@ -141,6 +142,5 @@ virtualenv==20.27.1
     # via tox
 wheel==0.45.0
     # via
-    #   -c requirements.txt
     #   -r dev-requirements.in
     #   pip-tools
