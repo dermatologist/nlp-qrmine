@@ -73,9 +73,9 @@ class QRVisualize:
 
         cloud = WordCloud(stopwords=STOPWORDS,
                         background_color='white',
-                        width=2500,
-                        height=1800,
-                        max_words=10,
+                        width=250,
+                        height=180,
+                        max_words=5,
                         colormap='tab10',
                         color_func=lambda *args, **kwargs: cols[i],
                         prefer_horizontal=1.0)
