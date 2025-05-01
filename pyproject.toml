@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "qrmine"
 description = "Qualitative Research support tools in Python!"
 authors = [{name = "beapen", email = "github@gulfdoctor.net"}]
-license = {text = "GPL-3.0-only"}
+license = "GPL-3.0"
 # license_files = LICENSE.txt
 # long_description = file: README.rst
 # long_description_content_type = text/x-rst; charset=UTF-8
