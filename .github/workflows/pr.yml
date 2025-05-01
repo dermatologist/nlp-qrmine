@@ -13,27 +13,24 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ["3.11"]
         os: [ubuntu-latest, macos-13, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+    - name: "Set up Python"
+      uses: actions/setup-python@v5
       with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip' # caching pip dependencies
+          python-version-file: "pyproject.toml"
     - name: run on mac
       if: startsWith(matrix.os, 'mac')
       run: |
         brew install libomp
-    - name: Install dependencies
+    - name: Install the project
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        uv sync --locked --all-extras --dev
         python -m spacy download en_core_web_sm
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest
+    - name: Run tests
+      run: uv run pytest tests
