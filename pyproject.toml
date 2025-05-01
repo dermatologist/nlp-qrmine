@@ -79,7 +79,7 @@ dev = [
     "sphinx",
     "wheel",
     "twine",
-    "tox",
+    "build",
 ]
 
 [project.entry-points]
@@ -108,9 +108,10 @@ package-dir = {"" = "src"}
 # For more information, check out https://semver.org/.
 platforms = ["any"]
 
+
 [tool.setuptools.packages.find]
-where = ["src"]
-exclude = ["tests"]
+where = [ "src"]
+exclude = [ "tests", "notes", "docs"]
 namespaces = true
 
 [tool.pytest.ini_options]
@@ -145,7 +146,7 @@ release = "sdist bdist_wheel upload"
 
 [tool.distutils.bdist_wheel]
 # Use this option if your package is pure-python
-universal = 1
+universal = 0
 
 [tool.build_sphinx]
 source_dir = "docs"
@@ -184,4 +185,3 @@ package = "qrmine"
 # Read more about the various options under:
 # https://setuptools.pypa.io/en/latest/userguide/declarative_config.html
 # https://setuptools.pypa.io/en/latest/references/keywords.html
-
