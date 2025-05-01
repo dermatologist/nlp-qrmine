@@ -27,10 +27,10 @@ jobs:
         uv run python -m spacy download en_core_web_sm
     - name: Create docs
       run: |
-        make -C docs/ html
+        uv run python -m sphinx -b html docs/ docs/_build/html
         cp docs/_config.yml docs/_build/html/_config.yml
     - name: Deploy Docs 🚀
-      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages # The branch the action should deploy to.
         folder: docs/_build/html # The folder the action should deploy.
