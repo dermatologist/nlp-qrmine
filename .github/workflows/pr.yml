@@ -31,6 +31,7 @@ jobs:
     - name: Install the project
       run: |
         uv sync --all-extras --dev
+        uv pip install pip
         uv run python -m spacy download en_core_web_sm
     - name: Run tests
       run: uv run pytest tests
