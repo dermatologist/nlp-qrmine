@@ -83,7 +83,9 @@ class QRVisualize:
             doc_lens = [len(d) for d in df_dominant_topic_sub.Text]
             ax.hist(doc_lens, bins=1000, color=cols[i])
             ax.tick_params(axis="y", labelcolor=cols[i], color=cols[i])
-            sns.kdeplot(doc_lens, color="black", shade=False, ax=ax.twinx())
+            sns.kdeplot(
+                doc_lens, color="black", fill=False, ax=ax.twinx(), warn_singular=False
+            )
             ax.set(xlim=(0, 1000), xlabel="Document Word Count")
             ax.set_ylabel("Number of Documents", color=cols[i])
             ax.set_title("Topic: " + str(i), fontdict=dict(size=16, color=cols[i]))
