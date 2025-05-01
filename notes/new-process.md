@@ -16,8 +16,9 @@ uv pip install pip
 uv run python -m spacy download en_core_web_sm
 
 pyproject.toml
+===============
 requires = ["setuptools>=61.2", "wheel", "pip"]
-
+license = "GPL-3.0"      #This should be a string
 dev = [
     "setuptools",
     "setuptools_scm",
