@@ -1,4 +1,4 @@
-name: Pytest on PR
+name: Pytest using UV on PR
 on:
   push:
     branches:
