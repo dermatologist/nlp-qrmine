@@ -17,6 +17,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Information Analysis",
 ]
+python_requires = ">=3.11, <3.12"
 dependencies = [
     'importlib-metadata; python_version<"3.8"',
     "pandas",
@@ -77,6 +78,7 @@ testing = [
 # And any other entry points, for example:
 # pyscaffold.cli =
 # awesome = pyscaffoldext.awesome.extension:AwesomeExtension
+qrmine = "qrmine.main:main_routine"
 
 [project.scripts]
 qrmine = "qrmine.main:main_routine"
