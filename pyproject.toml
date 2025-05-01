@@ -78,7 +78,6 @@ testing = [
 # And any other entry points, for example:
 # pyscaffold.cli =
 # awesome = pyscaffoldext.awesome.extension:AwesomeExtension
-console_scripts = qrmine = qrmine.main:main_routine
 
 [project.scripts]
 qrmine = "qrmine.main:main_routine"
