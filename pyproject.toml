@@ -68,6 +68,20 @@ testing = [
     "pytest-cov",
 ]
 
+dev = [
+    "setuptools",
+    "setuptools_scm",
+    "pytest",
+    "pytest-cov",
+    "tox",
+    "black",
+    "recommonmark",
+    "sphinx",
+    "wheel",
+    "twine",
+    "tox",
+]
+
 [project.entry-points]
 # Add here console scripts like:
 # console_scripts =

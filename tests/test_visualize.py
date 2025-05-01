@@ -96,19 +96,19 @@ def topics():
 
 def test_frequency_distribution_of_words(v, capsys):
     v.plot_frequency_distribution_of_words(
-        v.data, folder_path="/tmp/frequency_distribution.png"
+        v.data
     )
     captured = capsys.readouterr()
     print(captured.out)
 
 
 def test_distribution_by_topic(v, capsys):
-    v.plot_distribution_by_topic(v.data, folder_path="/tmp/distribution_by_topic.png")
+    v.plot_distribution_by_topic(v.data)
     captured = capsys.readouterr()
     print(captured.out)
 
 
 def test_plot_wordcloud(v, topics, capsys):
-    v.plot_wordcloud(topics, folder_path="/tmp/wordcloud.png")
+    v.plot_wordcloud(topics)
     captured = capsys.readouterr()
     print(captured.out)
