@@ -29,7 +29,7 @@ dependencies = [
     "mlxtend",
     "spacy",
     "textacy",
-    "torch",
+    "torch==2.2.2",
     "pypdf",
     "requests",
     "gensim",
@@ -60,8 +60,6 @@ Documentation = "https://arxiv.org/abs/2003.13519"
 # Add here additional requirements for extra features, to install with:
 # `pip install qrmine[PDF]` like:
 # PDF = ReportLab; RXP
-gpu = ["torch[gpu]==2.1.1"]
-cpu = ["torch==2.1.1"]
 # Add here test requirements (semicolon/line-separated)
 testing = [
     "setuptools",
@@ -114,6 +112,19 @@ norecursedirs = [
     ".tox",
 ]
 
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu" },
+]
+torchvision = [
+  { index = "pytorch-cpu" },
+]
+
 [tool.aliases]
 release = "sdist bdist_wheel upload"
 
@@ -158,3 +169,4 @@ package = "qrmine"
 # Read more about the various options under:
 # https://setuptools.pypa.io/en/latest/userguide/declarative_config.html
 # https://setuptools.pypa.io/en/latest/references/keywords.html
+
