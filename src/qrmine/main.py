@@ -12,6 +12,8 @@ from . import MLQRMine
 from .utils import QRUtils
 from . import __version__
 
+q = Qrmine()
+
 
 @click.command()
 @click.option("--verbose", "-v", is_flag=True, help="Will print verbose messages.")
@@ -218,13 +220,13 @@ def filter_data(inp, search, sentence, num):
 def generate_dict(data, num):
     if not num:
         num = 10
-    q = Qrmine()
+
     all_interviews = Content(data.content)
     q.print_dict(all_interviews, num)
 
 
 def generate_topics(data, assign, num):
-    q = Qrmine()
+
     q.content = data
     q.process_content()
     q.print_topics()
@@ -233,14 +235,14 @@ def generate_topics(data, assign, num):
 
 
 # def assign_topics(data):
-#     q = Qrmine()
+#
 #     q.content = data
 #     q.process_content()
 #     q.print_documents()
 
 
 def get_categories_association(data, num):
-    q = Qrmine()
+
     q.content = data
     click.echo(q.category_association(num))
     click.echo("Frequent Itemsets")
@@ -253,7 +255,6 @@ Function working at both levels
 
 
 def generate_categories(data, tags, num):
-    q = Qrmine()
 
     if len(tags) > 0:
         ct = 0
@@ -401,7 +402,6 @@ def main(input_file):
     data = ReadData()
     data.read_file(input_file)
 
-    q = Qrmine()
     all_interviews = Content(data.content)
 
     q.content = data
