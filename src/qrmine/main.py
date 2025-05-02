@@ -138,6 +138,18 @@ def cli(
                 maxcolwidths=[10, 10, 10, 50],
             )
         )
+        click.echo("Most representative document for each topic")
+        most_representative_docs = cluster.most_representative_docs()
+        click.echo(
+            tabulate(
+                most_representative_docs,
+                headers="keys",
+                tablefmt="grid",
+                showindex="never",
+                numalign="left",
+                maxcolwidths=[10, 10, 10, 50],
+            )
+        )
     # if inp and assign:
     #     assign_topics(data)
     if inp and cat:
