@@ -36,6 +36,7 @@ dependencies = [
     "gensim",
     "seaborn",
     "wordcloud",
+    "tabulate",
 ]
 dynamic = ["version"]
 

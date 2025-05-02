@@ -150,8 +150,9 @@ class ClusterDocs:
                     wp = self._lda_model.show_topic(topic_num)
                     topic_keywords = ", ".join([word for word, prop in wp])
                     new_row = pd.DataFrame(
-                        [[int(topic_num), round(prop_topic, 4), topic_keywords]],
+                        [[self._titles[i], int(topic_num), round(prop_topic, 4), topic_keywords]],
                         columns=[
+                            "Title",
                             "Dominant_Topic",
                             "Perc_Contribution",
                             "Topic_Keywords",
@@ -163,14 +164,15 @@ class ClusterDocs:
                 else:
                     break
         sent_topics_df.columns = [
+            "Title",
             "Dominant_Topic",
             "Perc_Contribution",
             "Topic_Keywords",
         ]
 
         # Add original text to the end of the output
-        contents = pd.Series(self._processed_docs)
-        sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
+        # contents = pd.Series(self._processed_docs)
+        # sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
         return sent_topics_df.reset_index(drop=False)
 
     # https://www.machinelearningplus.com/nlp/topic-modeling-visualization-how-to-present-results-lda-models/

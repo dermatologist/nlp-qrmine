@@ -2,6 +2,7 @@ import sys
 
 import click
 import textacy
+from tabulate import tabulate
 
 from . import Content
 from . import Network
@@ -9,11 +10,11 @@ from . import Qrmine
 from . import ReadData
 from . import Sentiment
 from . import MLQRMine
+from . import ClusterDocs
 from .utils import QRUtils
 from . import __version__
 
 q = Qrmine()
-
 
 @click.command()
 @click.option("--verbose", "-v", is_flag=True, help="Will print verbose messages.")
@@ -117,7 +118,26 @@ def cli(
     if inp and codedict:
         generate_dict(data, num)
     if inp and topics:
-        generate_topics(data, assign, num)
+        #generate_topics(data, assign, num)
+        content = Content(data.content)
+        cluster = ClusterDocs(content)
+        cluster.documents = data.documents
+        cluster.titles = data.titles
+        click.echo("---------------------------")
+        cluster.print_topics()
+        click.echo("---------------------------")
+        click.echo("Dominant topic and its percentage contribution in each document")
+        topics = cluster.format_topics_sentences()
+        click.echo(
+            tabulate(
+                topics,
+                headers="keys",
+                tablefmt="grid",
+                showindex="never",
+                numalign="left",
+                maxcolwidths=[10, 10, 10, 50],
+            )
+        )
     # if inp and assign:
     #     assign_topics(data)
     if inp and cat:
