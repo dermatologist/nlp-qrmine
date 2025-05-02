@@ -76,17 +76,21 @@ def test_category_association(corpus_fixture, capsys, q):
 def test_cluster_topics(corpus_fixture, capsys, cluster):
     cluster.documents = corpus_fixture.documents
     cluster.titles = corpus_fixture.titles
+
+    cluster.print_topics()
+    captured = capsys.readouterr()
+    print(captured.out)
+    assert "Topic" in captured.out
+
     cluster.print_clusters()
     captured = capsys.readouterr()
     print(captured.out)
     assert "Document" in captured.out
-    cluster.print_topics()
-    captured = capsys.readouterr()
-    print(captured.out)
-    assert "topic" in captured.out
 
+    print("LDA Model")
     print(cluster.build_lda_model())
 
+    print("LDA Model Topics")
     print(cluster.topics_per_document())
     # Format
     df_dominant_topic = cluster.format_topics_sentences()

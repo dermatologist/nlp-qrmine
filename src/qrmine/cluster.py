@@ -17,10 +17,8 @@ You should have received a copy of the GNU General Public License
 along with qrmine.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from pprint import pprint
 
 import pandas as pd
-import spacy
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
 from .content import Content
@@ -104,12 +102,30 @@ class ClusterDocs:
         if self._lda_model is None:
             self.build_lda_model()
         # Print the topics and their corresponding words
-        pprint(self._lda_model.print_topics(num_words=num_words))
+        # print(self._lda_model.print_topics(num_words=num_words))
+        output = self._lda_model.print_topics(num_words=num_words)
+        """ Output is like:
+        [(0, '0.116*"category" + 0.093*"comparison" + 0.070*"incident" + 0.060*"theory" + 0.025*"Theory"'), (1, '0.040*"GT" + 0.026*"emerge" + 0.026*"pragmatic" + 0.026*"Barney" + 0.026*"contribution"'), (2, '0.084*"theory" + 0.044*"GT" + 0.044*"evaluation" + 0.024*"structure" + 0.024*"Glaser"'), (3, '0.040*"open" + 0.040*"QRMine" + 0.040*"coding" + 0.040*"category" + 0.027*"researcher"'), (4, '0.073*"coding" + 0.046*"structure" + 0.045*"GT" + 0.042*"Strauss" + 0.038*"Corbin"')]
+        format this into human readable format as below:
+        Topic 0: category(0.116), comparison(0.093), incident(0.070), theory(0.060), Theory(0.025)
+        """
+        print("\nTopics: \n")
+        for topic in output:
+            topic_num = topic[0]
+            topic_words = topic[1]
+            words = []
+            for word in topic_words.split("+"):
+                word = word.split("*")
+                words.append(f"{word[1].strip()}({word[0].strip()})")
+            print(f"Topic {topic_num}: {', '.join(words)}")
+        return output
 
     def print_clusters(self):
         if self._lda_model is None:
             self.build_lda_model()
         # Perform semantic clustering
+        print("\n Main topic in doc: \n")
+
         for i, doc in enumerate(
             self._processed_docs
         ):  # Changed from get_processed_docs() to _documents
