@@ -27,6 +27,7 @@ class Content(object):
     def __init__(self, content):
         self._content = content
         self._nlp = textacy.load_spacy_lang("en_core_web_sm")
+        self._nlp.max_length = len(content) + 100
         self._processed = self._nlp(self._content)
         self._lemma = {}
         self._pos = {}
