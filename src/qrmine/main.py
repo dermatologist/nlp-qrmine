@@ -330,7 +330,7 @@ def get_sentiment(data, tags, sentence, verbose):
         return s.sentiment()
     else:
         all_interviews = Content(data.content)
-        doc = textacy.make_spacy_doc(all_interviews.doc)
+        doc = textacy.make_spacy_doc(all_interviews.doc, lang=all_interviews.lang)
 
         ## Sentiment
         s = Sentiment()

@@ -24,10 +24,11 @@ import operator
 import textacy
 
 class Content(object):
-    def __init__(self, content, titles=None):
+    def __init__(self, content, titles=None, lang='en_core_web_sm'):
         self._content = content
         self._titles = titles
-        self._nlp = textacy.load_spacy_lang("en_core_web_sm")
+        self._lang = lang
+        self._nlp = textacy.load_spacy_lang(lang)
         self._nlp.max_length = len(content) + 100
         self._processed = self._nlp(self._content)
         self._lemma = {}
@@ -96,6 +97,10 @@ class Content(object):
     @property
     def tokens(self):
         return [token for token in self._processed if not token.is_stop and not token.is_punct and not token.is_space]
+
+    @property
+    def lang(self):
+        return self._lang
 
     def process(self):
         for token in self._processed:
