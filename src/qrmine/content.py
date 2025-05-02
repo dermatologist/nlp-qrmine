@@ -24,8 +24,9 @@ import operator
 import textacy
 
 class Content(object):
-    def __init__(self, content):
+    def __init__(self, content, titles=None):
         self._content = content
+        self._titles = titles
         self._nlp = textacy.load_spacy_lang("en_core_web_sm")
         self._nlp.max_length = len(content) + 100
         self._processed = self._nlp(self._content)
@@ -43,6 +44,10 @@ class Content(object):
     @property
     def content(self):
         return self._content
+
+    @property
+    def titles(self):
+        return self._titles
 
     @content.setter
     def content(self, content):

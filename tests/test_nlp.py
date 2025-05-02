@@ -34,7 +34,7 @@ def test_generate_dict(corpus_fixture, capsys, q):
     from src.qrmine import Content
 
     num = 10
-    all_interviews = Content(corpus_fixture.content)
+    all_interviews = Content(corpus_fixture.content, corpus_fixture.titles)
     q.print_dict(all_interviews, num)
     captured = capsys.readouterr()
     print(captured.out)

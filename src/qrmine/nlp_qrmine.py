@@ -85,7 +85,7 @@ class Qrmine(object):
         item_basket = []
         for index, title in enumerate(self._content.titles): # QRMines content should be set
             content = self._content.documents[index]
-            this_record = Content(content)
+            this_record = Content(content, title)
             doc = textacy.make_spacy_doc(this_record.doc, lang=self._en)
             item_basket.append(self.print_categories(doc, num))
         return item_basket
