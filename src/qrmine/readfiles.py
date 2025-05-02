@@ -2,6 +2,7 @@ import re
 import requests
 from pypdf import PdfReader
 
+
 class ReadData(object):
     def __init__(self):
         self._content = ""
@@ -40,27 +41,28 @@ class ReadData(object):
 
     def read_file(self, input):
         # if input is a file name
-        if isinstance(input, str):
-            with open(input, 'r') as f:
+        if input.endswith(".txt"):
+            with open(input, "r") as f:
                 read_from_file = f.read()
-                self._content = re.sub('<[^<]+?>', '', read_from_file)
-                self._documents = re.split('<break>.*?</break>', read_from_file)
+                self._content = re.sub("<[^<]+?>", "", read_from_file)
+                self._documents = re.split("<break>.*?</break>", read_from_file)
                 # Delete the last blank record
                 del self._documents[-1]
                 pattern = r"<break>(.*?)</break>"
                 self._titles = re.findall(pattern, read_from_file, flags=re.DOTALL)
         # if input is a folder name
-        elif isinstance(input, str):
+        elif input.endswith("/"):
             import os
+
             for file_name in os.listdir(input):
-                if file_name.endswith('.txt'):
-                    with open(os.path.join(input, file_name), 'r') as f:
+                if file_name.endswith(".txt"):
+                    with open(os.path.join(input, file_name), "r") as f:
                         read_from_file = f.read()
                         self._content += read_from_file
                         self._documents.append(read_from_file)
                         self.titles.append(file_name)
-                if file_name.endswith('.pdf'):
-                    with open(os.path.join(input, file_name), 'rb') as f:
+                if file_name.endswith(".pdf"):
+                    with open(os.path.join(input, file_name), "rb") as f:
                         reader = PdfReader(f)
                         read_from_file = ""
                         for page in reader.pages:
@@ -69,7 +71,7 @@ class ReadData(object):
                         self._documents.append(read_from_file)
                         self.titles.append(file_name)
         # if input is a url
-        elif isinstance(input, str):
+        elif input.startswith("http://") or input.startswith("https://"):
             response = requests.get(input)
             if response.status_code == 200:
                 read_from_file = response.text

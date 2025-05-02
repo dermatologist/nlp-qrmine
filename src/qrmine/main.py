@@ -21,7 +21,7 @@ from . import __version__
 @click.option(
     "--inp",
     "-i",
-    multiple=True,
+    multiple=False,
     help="Input file in the text format with <break>Topic</break>",
 )
 @click.option("--out", "-o", multiple=False, default="", help="Output file name")
