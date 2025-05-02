@@ -9,57 +9,100 @@ from . import Qrmine
 from . import ReadData
 from . import Sentiment
 from . import MLQRMine
+from .utils import QRUtils
 from . import __version__
 
 
 @click.command()
-@click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
-@click.option('--inp', '-i', multiple=True,
-              help='Input file in the text format with <break>Topic</break>')
-@click.option('--out', '-o', multiple=False, default='',
-              help='Output file name')
-@click.option('--csv', multiple=False, default='',
-              help='csv file name')
-@click.option('--num', '-n', multiple=False, default=3,
-              help='N (clusters/epochs etc depending on context)')
-@click.option('--rec', '-r', multiple=False, default=3,
-              help='Record (based on context)')
-@click.option('--titles', '-t', multiple=True,
-              help='Document(s) or csv title(s) to analyze/compare')
-@click.option('--filters', '-f', multiple=True, 
-              help='Filters to apply')
-@click.option('--codedict', is_flag=True,
-              help='Generate coding dictionary')
-@click.option('--topics', is_flag=True,
-              help='Generate topic model')
-@click.option('--assign', is_flag=True,
-              help='Assign documents to topics')
-@click.option('--cat', is_flag=True,
-              help='List categories of entire corpus or individual docs')
-@click.option('--summary', is_flag=True,
-              help='Generate summary for entire corpus or individual docs')
-@click.option('--sentiment', is_flag=True,
-              help='Generate sentiment score for entire corpus or individual docs')
-@click.option('--sentence', is_flag=True, default=False,
-              help='Generate sentence level scores when applicable')
-@click.option('--nlp', is_flag=True,
-              help='Generate all NLP reports')
-@click.option('--nnet', is_flag=True,
-              help='Display accuracy of a neural network model')
-@click.option('--svm', is_flag=True,
-              help='Display confusion matrix from an svm classifier')
-@click.option('--knn', is_flag=True,
-              help='Display nearest neighbours')
-@click.option('--kmeans', is_flag=True,
-              help='Display KMeans clusters')
-@click.option('--cart', is_flag=True,
-              help='Display Association Rules')
-@click.option('--pca', is_flag=True,
-              help='Display PCA')
-def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence,
-        nlp, nnet,
-        svm,
-        knn, kmeans, cart, pca):
+@click.option("--verbose", "-v", is_flag=True, help="Will print verbose messages.")
+@click.option(
+    "--covid", "-cf", default="", help="Download COVID narratives from the website"
+)
+@click.option(
+    "--inp",
+    "-i",
+    multiple=True,
+    help="Input file in the text format with <break>Topic</break>",
+)
+@click.option("--out", "-o", multiple=False, default="", help="Output file name")
+@click.option("--csv", multiple=False, default="", help="csv file name")
+@click.option(
+    "--num",
+    "-n",
+    multiple=False,
+    default=3,
+    help="N (clusters/epochs etc depending on context)",
+)
+@click.option(
+    "--rec", "-r", multiple=False, default=3, help="Record (based on context)"
+)
+@click.option(
+    "--titles",
+    "-t",
+    multiple=True,
+    help="Document(s) or csv title(s) to analyze/compare",
+)
+@click.option("--filters", "-f", multiple=True, help="Filters to apply")
+@click.option("--codedict", is_flag=True, help="Generate coding dictionary")
+@click.option("--topics", is_flag=True, help="Generate topic model")
+@click.option("--assign", is_flag=True, help="Assign documents to topics")
+@click.option(
+    "--cat", is_flag=True, help="List categories of entire corpus or individual docs"
+)
+@click.option(
+    "--summary",
+    is_flag=True,
+    help="Generate summary for entire corpus or individual docs",
+)
+@click.option(
+    "--sentiment",
+    is_flag=True,
+    help="Generate sentiment score for entire corpus or individual docs",
+)
+@click.option(
+    "--sentence",
+    is_flag=True,
+    default=False,
+    help="Generate sentence level scores when applicable",
+)
+@click.option("--nlp", is_flag=True, help="Generate all NLP reports")
+@click.option("--nnet", is_flag=True, help="Display accuracy of a neural network model")
+@click.option(
+    "--svm", is_flag=True, help="Display confusion matrix from an svm classifier"
+)
+@click.option("--knn", is_flag=True, help="Display nearest neighbours")
+@click.option("--kmeans", is_flag=True, help="Display KMeans clusters")
+@click.option("--cart", is_flag=True, help="Display Association Rules")
+@click.option("--pca", is_flag=True, help="Display PCA")
+def cli(
+    verbose,
+    covid,
+    inp,
+    out,
+    csv,
+    num,
+    rec,
+    titles,
+    filters,
+    codedict,
+    topics,
+    assign,
+    cat,
+    summary,
+    sentiment,
+    sentence,
+    nlp,
+    nnet,
+    svm,
+    knn,
+    kmeans,
+    cart,
+    pca,
+):
+    if covid:
+        qr_utils = QRUtils()
+        qr_utils.read_covid_narratives(covid)
+        click.echo("COVID narratives downloaded to " + covid)
     data = ReadData()
     if inp:
         data.read_file(inp)
@@ -68,7 +111,7 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
-        sys.stdout = open(out, 'w')
+        sys.stdout = open(out, "w")
     if inp and codedict:
         generate_dict(data, num)
     if inp and topics:
@@ -81,7 +124,9 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
         generate_summary(data, titles)
     if inp and sentiment:
         get_sentiment(data, titles, sentence, verbose)
-    if inp and cart: #python qrminer.py --cart -i src/qrmine/resources/interview.txt -n 10
+    if (
+        inp and cart
+    ):  # python qrminer.py --cart -i src/qrmine/resources/interview.txt -n 10
         get_categories_association(data, num)
     if inp and nlp:
         main(inp)
@@ -128,20 +173,20 @@ def filter_data(inp, search, sentence, num):
 
     filters = []
     for s in search:
-        if s == 'pos':
+        if s == "pos":
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, sentence, False) == 'pos':
+                if get_sentiment(data, t, sentence, False) == "pos":
                     filters.append(title)
-        if s == 'neg':
+        if s == "neg":
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, sentence, False) == 'neg':
+                if get_sentiment(data, t, sentence, False) == "neg":
                     filters.append(title)
-        if s == 'neu':
+        if s == "neu":
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, sentence, False) == 'neu':
+                if get_sentiment(data, t, sentence, False) == "neu":
                     filters.append(title)
         # If search itself is a title
         if any(s in l for l in data.titles):
@@ -193,12 +238,14 @@ def generate_topics(data, assign, num):
 #     q.process_content()
 #     q.print_documents()
 
+
 def get_categories_association(data, num):
     q = Qrmine()
     q.content = data
     click.echo(q.category_association(num))
     click.echo("Frequent Itemsets")
     click.echo("---------------------------")
+
 
 """
 Function working at both levels
@@ -269,7 +316,9 @@ def get_sentiment(data, tags, sentence, verbose):
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
                     if verbose:
-                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                        click.echo(
+                            "{:-<40} {}\n".format(sent["sentence"], str(sent["score"]))
+                        )
                     click.echo(s.sentiment())
 
         else:
@@ -289,7 +338,9 @@ def get_sentiment(data, tags, sentence, verbose):
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
                     if verbose:
-                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                        click.echo(
+                            "{:-<40} {}\n".format(sent["sentence"], str(sent["score"]))
+                        )
                     click.echo(s.sentiment())
 
         else:
@@ -309,7 +360,9 @@ def get_nnet(ml, n=3):
     ml.epochs = n
     ml.prepare_data(True)  # Oversample
     ml.get_nnet_predictions()
-    click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+    click.echo(
+        "\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100)
+    )
 
 
 def get_svm(ml):
@@ -367,7 +420,11 @@ def main(input_file):
             x.append(sentence.text)
             sent = s.sentiment_analyzer_scores(sentence.text)
             click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-            click.echo("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
+            click.echo(
+                "{:-<40} {}\n".format(
+                    sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))
+                )
+            )
 
     ## Network
     n = Network()
@@ -389,5 +446,5 @@ def main_routine():
     cli()  # run the main function
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main_routine()
