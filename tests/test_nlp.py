@@ -11,6 +11,13 @@ def corpus_fixture():
     corpus.read_file(file_path)
     return corpus
 
+@pytest.fixture
+def content():
+    from src.qrmine import Content
+
+    _content = Content()
+    return _content
+
 
 # instannce of Qrmine as fixture
 @pytest.fixture
@@ -22,10 +29,10 @@ def q():
 
 
 @pytest.fixture
-def cluster():
+def cluster(content):
     from src.qrmine import ClusterDocs
 
-    _cluster = ClusterDocs()
+    _cluster = ClusterDocs(content)
     return _cluster
 
 

@@ -23,12 +23,12 @@ import pandas as pd
 import spacy
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
-
+from .content import Content
 
 class ClusterDocs:
 
-    def __init__(self, documents=[], titles=[]):
-        self._nlp = spacy.load("en_core_web_sm")
+    def __init__(self, content: Content, documents = [], titles=[]):
+        self._content = content
         self._documents = documents
         self._titles = titles
         self._num_topics = 5
@@ -80,11 +80,8 @@ class ClusterDocs:
 
     # Preprocess the documents using spaCy
     def preprocess(self, doc):
-        # Tokenize and preprocess each document
-        doc = self._nlp(doc)
-        # Lemmatize and remove stop words
-        tokens = [token.lemma_ for token in doc if not token.is_stop]
-        return tokens
+        self._content.content = doc
+        return self._content.tokens
 
     def process(self):
         # Create a dictionary representation of the documents

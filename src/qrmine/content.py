@@ -25,12 +25,13 @@ import textacy
 
 
 class Content(object):
-    def __init__(self, content, titles=None, lang="en_core_web_sm"):
+    def __init__(self, content="", title="", lang="en_core_web_sm", max_length=1100000):
         self._content = content
-        self._titles = titles
+        # TODO, Title is not used
+        self._title = title
         self._lang = lang
         self._nlp = textacy.load_spacy_lang(lang)
-        self._nlp.max_length = len(content) + 100
+        self._nlp.max_length = max_length
         self._processed = self._nlp(self._content)
         self._lemma = {}
         self._pos = {}
@@ -48,8 +49,8 @@ class Content(object):
         return self._content
 
     @property
-    def titles(self):
-        return self._titles
+    def title(self):
+        return self._title
 
     @content.setter
     def content(self, content):
@@ -106,6 +107,21 @@ class Content(object):
     @property
     def lang(self):
         return self._lang
+
+    @content.setter
+    def content(self, content):
+        self._content = content
+        self._processed = self._nlp(self._content)
+        self._lemma = {}
+        self._pos = {}
+        self._pos_ = {}
+        self._word = {}
+        self._sentiment = {}
+        self._tag = {}
+        self._dep = {}
+        self._prob = {}
+        self._idx = {}
+        self.process()
 
     def process(self):
         for token in self._processed:
