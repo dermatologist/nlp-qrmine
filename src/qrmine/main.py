@@ -150,6 +150,8 @@ def cli(
                 maxcolwidths=[10, 10, 10, 50],
             )
         )
+
+
     # if inp and assign:
     #     assign_topics(data)
     if inp and cat:
