@@ -79,6 +79,7 @@ q = Qrmine()
 @click.option("--cart", is_flag=True, help="Display Association Rules")
 @click.option("--pca", is_flag=True, help="Display PCA")
 @click.option("--visualize", '-v', is_flag=False, help="Visualize words, tpopics or wordcloud. ")
+@click.option("--ignore", is_flag=False, help="Comma separated ignore words")
 def cli(
     verbose,
     covid,
@@ -104,6 +105,7 @@ def cli(
     cart,
     pca,
     visualize,
+    ignore,
 ):
     if covid:
         qr_utils = QRUtils()
@@ -111,7 +113,10 @@ def cli(
         click.echo("COVID narratives downloaded to " + covid)
     data = ReadData()
     if inp:
-        data.read_file(inp)
+        if ignore:
+            data.read_file(inp, ignore)
+        else:
+            data.read_file(inp)
     if len(filters) > 0:
         data = filter_data(inp, filters, sentence, num)
     if verbose:

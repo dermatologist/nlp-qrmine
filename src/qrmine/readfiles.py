@@ -39,11 +39,20 @@ class ReadData(object):
         self._documents.append(document)
         self._content += document
 
-    def read_file(self, input):
+    def read_file(self, input, comma_separated_ignore_words=None):
         # if input is a file name
         if input.endswith(".txt"):
             with open(input, "r") as f:
                 read_from_file = f.read()
+                # remove comma separated ignore words
+                if comma_separated_ignore_words:
+                    for word in comma_separated_ignore_words.split(","):
+                        read_from_file = re.sub(
+                            r"\b" + word.strip() + r"\b",
+                            "",
+                            read_from_file,
+                            flags=re.IGNORECASE,
+                        )
                 self._content = re.sub("<[^<]+?>", "", read_from_file)
                 self._documents = re.split("<break>.*?</break>", read_from_file)
                 # Delete the last blank record
@@ -58,6 +67,15 @@ class ReadData(object):
                 if file_name.endswith(".txt"):
                     with open(os.path.join(input, file_name), "r") as f:
                         read_from_file = f.read()
+                        # remove comma separated ignore words
+                        if comma_separated_ignore_words:
+                            for word in comma_separated_ignore_words.split(","):
+                                read_from_file = re.sub(
+                                    r"\b" + word.strip() + r"\b",
+                                    "",
+                                    read_from_file,
+                                    flags=re.IGNORECASE,
+                                )
                         self._content += read_from_file
                         self._documents.append(read_from_file)
                         self.titles.append(file_name)
@@ -67,6 +85,12 @@ class ReadData(object):
                         read_from_file = ""
                         for page in reader.pages:
                             read_from_file += page.extract_text()
+                        # remove comma separated ignore words
+                        if comma_separated_ignore_words:
+                            for word in comma_separated_ignore_words.split(","):
+                                read_from_file = re.sub(
+                                    r"\b" + word.strip() + r"\b", "", read_from_file, flags=re.IGNORECASE,
+                                )
                         self._content += read_from_file
                         self._documents.append(read_from_file)
                         self.titles.append(file_name)
@@ -75,6 +99,15 @@ class ReadData(object):
             response = requests.get(input)
             if response.status_code == 200:
                 read_from_file = response.text
+                # remove comma separated ignore words
+                if comma_separated_ignore_words:
+                    for word in comma_separated_ignore_words.split(","):
+                        read_from_file = re.sub(
+                            r"\b" + word.strip() + r"\b",
+                            "",
+                            read_from_file,
+                            flags=re.IGNORECASE,
+                        )
                 self._content = read_from_file
                 self._documents.append(read_from_file)
                 self.titles.append(input)
