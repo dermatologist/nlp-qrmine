@@ -155,6 +155,7 @@ def cli(
         )
     _data = cluster.format_topics_sentences(visualize=True)
     _topics = cluster.build_lda_model()
+    _processed_docs = cluster.processed_docs
     match visualize:
         case "wordcloud":
             v = QRVisualize(data)
@@ -167,6 +168,9 @@ def cli(
         case "words":
             v = QRVisualize(_data)
             v.plot_frequency_distribution_of_words(folder_path=out)
+        case "importance":
+            v = QRVisualize(_data)
+            v.plot_importance(topics=_topics, processed_docs=_processed_docs, folder_path=out)
 
     # if inp and assign:
     #     assign_topics(data)
