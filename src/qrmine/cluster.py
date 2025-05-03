@@ -253,15 +253,13 @@ class ClusterDocs:
         # Obtain the prediction
         kmeans = KMeans(n_clusters=num_clusters, random_state=0)
         y_pred = kmeans.fit(tsne_model).predict(tsne_model)
-        if visualize:
-            data = pd.DataFrame(
-                np.concatenate([tsne_model, y_pred[:, None]], axis=1),
-                columns=["x", "y", "colour"],
-            )
-
-            # Add title column to the DataFrame
-            data["title"] = T
-            # print using tabulate
+        data = pd.DataFrame(
+            np.concatenate([tsne_model, y_pred[:, None]], axis=1),
+            columns=["x", "y", "colour"],
+        )
+        # Add the titles to the DataFrame
+        data["title"] = T
+        if not visualize:
             print(
                 tabulate(
                     data,
@@ -272,5 +270,4 @@ class ClusterDocs:
                     stralign="left",
                 )
             )
-            return data
-        return tsne_model, y_pred
+        return data
