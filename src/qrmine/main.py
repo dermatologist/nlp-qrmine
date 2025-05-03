@@ -153,31 +153,43 @@ def cli(
                 maxcolwidths=[10, 10, 10, 50],
             )
         )
-    _data = cluster.format_topics_sentences(visualize=True)
-    _topics = cluster.build_lda_model()
-    _processed_docs = cluster.processed_docs
-    _lda_model = cluster.lda_model
-    _corpus = cluster.corpus
-    match visualize:
-        case "wordcloud":
-            v = QRVisualize(data)
-            v.plot_wordcloud(topics=_topics, folder_path=out)
-        case "topics":
-            v = QRVisualize(_data)
-            v.plot_distribution_by_topic(
-                _data, folder_path=out
-            )
-        case "words":
-            v = QRVisualize(_data)
-            v.plot_frequency_distribution_of_words(folder_path=out)
-        case "importance":
-            v = QRVisualize(_data)
-            v.plot_importance(topics=_topics, processed_docs=_processed_docs, folder_path=out)
-        case "chart":
-            v = QRVisualize(_data)
-            v.sentence_chart(
-                _lda_model, _corpus, folder_path=out
-            )
+    if visualize:
+        _data = cluster.format_topics_sentences(visualize=True)
+        _topics = cluster.build_lda_model()
+        _processed_docs = cluster.processed_docs
+        _lda_model = cluster.lda_model
+        _corpus = cluster.corpus
+        match visualize:
+            case "wordcloud":
+                v = QRVisualize(data)
+                v.plot_wordcloud(topics=_topics, folder_path=out)
+            case "topics":
+                v = QRVisualize(_data)
+                v.plot_distribution_by_topic(
+                    _data, folder_path=out
+                )
+            case "words":
+                v = QRVisualize(_data)
+                v.plot_frequency_distribution_of_words(folder_path=out)
+            case "importance":
+                v = QRVisualize(_data)
+                v.plot_importance(topics=_topics, processed_docs=_processed_docs, folder_path=out)
+            case "sentence":
+                v = QRVisualize(_data)
+                v.sentence_chart(
+                    _lda_model, _corpus, folder_path=out
+                )
+            case "cluster":
+                v = QRVisualize(_data)
+                if num:
+                    v.cluster_chart(
+                        _lda_model, _corpus, num, folder_path=out
+                    )
+                else:
+                    v.cluster_chart(
+                        _lda_model, _corpus, folder_path=out
+                    )
+
 
     # if inp and assign:
     #     assign_topics(data)

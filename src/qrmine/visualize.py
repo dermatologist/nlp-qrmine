@@ -285,7 +285,7 @@ class QRVisualize:
             plt.savefig(folder_path)
             plt.close()
 
-    def cluster_chart(self, lda_model=None, corpus=None, n_topics=4, folder_path=None):
+    def cluster_chart(self, lda_model=None, corpus=None, n_topics=3, folder_path=None):
         # Get topic weights
         topic_weights = []
         for i, row_list in enumerate(lda_model[corpus]):
