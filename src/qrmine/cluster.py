@@ -25,6 +25,7 @@ from gensim.models.ldamodel import LdaModel
 from gensim.models import Word2Vec
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
+from tabulate import tabulate
 
 from .content import Content
 
@@ -236,11 +237,13 @@ class ClusterDocs:
 
         return np.asarray(doc_vector) / num_words
 
-    def vectorizer(self, docs, num_clusters=4, visualize=False):
+    def vectorizer(self, docs, titles, num_clusters=4, visualize=False):
         X = []
+        T = []
         model = Word2Vec(docs, min_count=20, vector_size=50)
-        for doc in docs:
+        for index, doc in enumerate(docs):
             X.append(self.doc_vectorizer(doc, model))
+            T.append(titles[index])
         print('Averaged text w2v representstion:')
         print(X[0])
         _X = np.array(X)
@@ -254,6 +257,20 @@ class ClusterDocs:
             data = pd.DataFrame(
                 np.concatenate([tsne_model, y_pred[:, None]], axis=1),
                 columns=["x", "y", "colour"],
+            )
+
+            # Add title column to the DataFrame
+            data["title"] = T
+            # print using tabulate
+            print(
+                tabulate(
+                    data,
+                    headers="keys",
+                    tablefmt="psql",
+                    showindex=False,
+                    numalign="left",
+                    stralign="left",
+                )
             )
             return data
         return tsne_model, y_pred

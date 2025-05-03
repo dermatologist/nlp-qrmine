@@ -404,6 +404,10 @@ class QRVisualize:
         # Scatter plot for Text Cluster Prediction
         plt.figure(figsize=(6, 6))
         scatter = plt.scatter(data['x'], data['y'], c=data['colour'], s=36, edgecolors='black', linewidths=0.75)
+        # annotate with data['title']
+        for i, txt in enumerate(data['title']):
+            plt.annotate(txt, (data['x'][i], data['y'][i]), fontsize=8, ha='right', va='bottom')
+            
         plt.title('Text Cluster Prediction')
         plt.axis('off')  # Optional: Remove axes for a cleaner look
         plt.colorbar(scatter, label='Colour')  # Add colorbar if needed

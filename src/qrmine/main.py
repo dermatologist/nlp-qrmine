@@ -198,7 +198,7 @@ def cli(
                 v = QRVisualize(_data)
                 for doc in data.documents:
                     print(doc+ "\n")
-                vectors = cluster.vectorizer(data.documents, visualize=True)
+                vectors = cluster.vectorizer(data.documents, data.titles, visualize=True)
                 v.cluster_chart(
                     vectors, folder_path=out
                 )
