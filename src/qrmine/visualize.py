@@ -400,19 +400,51 @@ class QRVisualize:
             plt.savefig(folder_path)
             plt.close()
 
+    def update_annot(self, ind):
+        norm = plt.Normalize(1,4)
+        cmap = plt.cm.RdYlGn
+        pos = self.sc.get_offsets()[ind["ind"][0]]
+        self.annot.xy = pos
+        text = "{}, {}".format(
+            " ".join(list(map(str, ind["ind"]))), " ".join([self.names[n] for n in ind["ind"]])
+        )
+        self.annot.set_text(text)
+        self.annot.get_bbox_patch().set_facecolor(cmap(norm(c[ind["ind"][0]])))
+        self.annot.get_bbox_patch().set_alpha(0.4)
+
+    def hover(self, event):
+        vis = self.annot.get_visible()
+        if event.inaxes == self.ax:
+            cont, ind = self.sc.contains(event)
+            if cont:
+                self.update_annot(ind)
+                self.annot.set_visible(True)
+                self.fig.canvas.draw_idle()
+            else:
+                if vis:
+                    self.annot.set_visible(False)
+                    self.fig.canvas.draw_idle()
+
+    # https://stackoverflow.com/questions/7908636/how-to-add-hovering-annotations-to-a-plot
     def cluster_chart (self, data, folder_path=None):
         # Scatter plot for Text Cluster Prediction
         plt.figure(figsize=(6, 6))
-        scatter = plt.scatter(data['x'], data['y'], c=data['colour'], s=36, edgecolors='black', linewidths=0.75)
-        # annotate with data['title']
-        for i, txt in enumerate(data['title']):
-            plt.annotate(txt, (data['x'][i], data['y'][i]), fontsize=8, ha='right', va='bottom')
-            
+        self.fig, self.ax = plt.subplots()
+        self.names = data['title']
+        self.sc = plt.scatter(data['x'], data['y'], c=data['colour'], s=36, edgecolors='black', linewidths=0.75)
+        self.annot = self.ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
+                    bbox=dict(boxstyle="round", fc="w"),
+                    arrowprops=dict(arrowstyle="->"))
+        self.annot.set_visible(False)
         plt.title('Text Cluster Prediction')
         plt.axis('off')  # Optional: Remove axes for a cleaner look
-        plt.colorbar(scatter, label='Colour')  # Add colorbar if needed
+        plt.colorbar(self.sc, label='Colour')  # Add colorbar if needed
+        self.fig.canvas.mpl_connect("motion_notify_event", self.hover)
         plt.show()
         # save
         if folder_path:
+            # annotate with data['title']
+            for i, txt in enumerate(data['title']):
+                plt.annotate(txt, (data['x'][i], data['y'][i]), fontsize=8, ha='right', va='bottom')
             plt.savefig(folder_path)
             plt.close()
