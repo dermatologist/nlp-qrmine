@@ -19,8 +19,13 @@ along with qrmine.  If not, see <https://www.gnu.org/licenses/>.
 
 
 import pandas as pd
+import numpy as np
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
+from gensim.models import Word2Vec
+from sklearn.manifold import TSNE
+from sklearn.cluster import KMeans
+
 from .content import Content
 
 class ClusterDocs:
@@ -212,3 +217,43 @@ class ClusterDocs:
             dominant_topics.append((i, dominant_topic))
             topic_percentages.append(topic_percs)
         return (dominant_topics, topic_percentages)
+
+    # Get average embedding vector for each text
+
+    def doc_vectorizer(self, doc, model):
+        doc_vector = []
+        num_words = 0
+        for word in doc:
+            try:
+                if num_words == 0:
+                    doc_vector = model.wv[word]
+                else:
+                    doc_vector = np.add(doc_vector, model.wv[word])
+                num_words += 1
+            except:
+                # pass if word is not found
+                pass
+
+        return np.asarray(doc_vector) / num_words
+
+    def vectorizer(self, docs, num_clusters=4, visualize=False):
+        X = []
+        model = Word2Vec(docs, min_count=20, vector_size=50)
+        for doc in docs:
+            X.append(self.doc_vectorizer(doc, model))
+        print('Averaged text w2v representstion:')
+        print(X[0])
+        _X = np.array(X)
+        print(_X.shape)
+        tsne = TSNE(n_components=2, random_state=0)
+        tsne_model = tsne.fit_transform(_X)
+        # Obtain the prediction
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0)
+        y_pred = kmeans.fit(tsne_model).predict(tsne_model)
+        if visualize:
+            data = pd.DataFrame(
+                np.concatenate([tsne_model, y_pred[:, None]], axis=1),
+                columns=["x", "y", "colour"],
+            )
+            return data
+        return tsne_model, y_pred

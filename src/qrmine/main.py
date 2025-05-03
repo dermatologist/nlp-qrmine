@@ -184,16 +184,25 @@ def cli(
                 v.sentence_chart(
                     _lda_model, _corpus, folder_path=out
                 )
+            # case "cluster":
+            #     v = QRVisualize(_data)
+            #     if num:
+            #         v.cluster_chart(
+            #             _lda_model, _corpus, num, folder_path=out
+            #         )
+            #     else:
+            #         v.cluster_chart(
+            #             _lda_model, _corpus, folder_path=out
+            #         )
             case "cluster":
                 v = QRVisualize(_data)
-                if num:
-                    v.cluster_chart(
-                        _lda_model, _corpus, num, folder_path=out
-                    )
-                else:
-                    v.cluster_chart(
-                        _lda_model, _corpus, folder_path=out
-                    )
+                for doc in data.documents:
+                    print(doc+ "\n")
+                vectors = cluster.vectorizer(data.documents, visualize=True)
+                v.cluster_chart(
+                    vectors, folder_path=out
+                )
+
 
 
     # if inp and assign:

@@ -285,7 +285,7 @@ class QRVisualize:
             plt.savefig(folder_path)
             plt.close()
 
-    def cluster_chart(self, lda_model=None, corpus=None, n_topics=3, folder_path=None):
+    def _cluster_chart(self, lda_model=None, corpus=None, n_topics=3, folder_path=None):
         # Get topic weights
         topic_weights = []
         for i, row_list in enumerate(lda_model[corpus]):
@@ -395,6 +395,19 @@ class QRVisualize:
 
         plt.show()
 
+        # save
+        if folder_path:
+            plt.savefig(folder_path)
+            plt.close()
+
+    def cluster_chart (self, data, folder_path=None):
+        # Scatter plot for Text Cluster Prediction
+        plt.figure(figsize=(6, 6))
+        scatter = plt.scatter(data['x'], data['y'], c=data['colour'], s=36, edgecolors='black', linewidths=0.75)
+        plt.title('Text Cluster Prediction')
+        plt.axis('off')  # Optional: Remove axes for a cleaner look
+        plt.colorbar(scatter, label='Colour')  # Add colorbar if needed
+        plt.show()
         # save
         if folder_path:
             plt.savefig(folder_path)
