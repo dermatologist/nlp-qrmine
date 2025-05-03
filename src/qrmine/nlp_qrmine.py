@@ -115,7 +115,6 @@ class Qrmine(object):
         # 1  0.833333      (theory)
         # 2  0.666667  (theory, GT)
 
-
     def unique(self,list1):
 
         # insert the list to the set
@@ -170,17 +169,21 @@ class Qrmine(object):
             print(self._corpus.docs[doc_idx]._.meta["title"], ':', topics)
         print("---------------------------\n")
 
-    def print_dict(self, content, num=10):
+    def print_dict(self, content, num=10, top_n=5):
         output = []
         print("\n---Coding Dictionary---")
         output.append(("CATEGORY", "PROPERTY", "DIMENSION"))
         words = content.common_verbs(num)
+        _words = []
         for word, f1 in words:
-            for attribute, f2 in content.attributes(word, 3):
-                for dimension, f3 in content.dimensions(attribute, 3):
-                    output.append((word, attribute, dimension))
-                    word = '...'
-                    attribute = '...'
+            _words.append(word)
+        for word, f1 in words:
+            for attribute, f2 in content.attributes(word, top_n):
+                for dimension, f3 in content.dimensions(attribute, top_n):
+                    if dimension not in _words:
+                        output.append((word, attribute, dimension))
+                        word = '...'
+                        attribute = '...'
 
         self.print_table(output)
         print("---------------------------\n")
@@ -195,7 +198,7 @@ class Qrmine(object):
                     metadata['title'] = 'Empty'
                 # self._corpus.add_text(textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                 #                       metadata=metadata)
-                #doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
+                # doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
 
                 # 2-Jan-2020 textacy new version, breaking change
                 # replace numbers with NUM, remove punct and convert to lower case
@@ -216,7 +219,7 @@ class Qrmine(object):
                         # self._corpus.add_text(
                         #     textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                         #     metadata=metadata)
-                        #doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
+                        # doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
                         # doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
                         doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document)).lower()
                         doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
