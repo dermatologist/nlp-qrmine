@@ -34,6 +34,7 @@ class ClusterDocs:
         self._dictionary = None
         self._corpus = None
         self._lda_model = None
+        self._corpus = None
         # Apply preprocessing to each document
         self._processed_docs = [self.preprocess(doc) for doc in documents]
         self.process()
