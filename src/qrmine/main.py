@@ -11,6 +11,7 @@ from . import ReadData
 from . import Sentiment
 from . import MLQRMine
 from . import ClusterDocs
+from .visualize import QRVisualize
 from .utils import QRUtils
 from . import __version__
 
@@ -77,6 +78,7 @@ q = Qrmine()
 @click.option("--kmeans", is_flag=True, help="Display KMeans clusters")
 @click.option("--cart", is_flag=True, help="Display Association Rules")
 @click.option("--pca", is_flag=True, help="Display PCA")
+@click.option("--visualize", '-v', is_flag=False, help="Visualize words, tpopics or wordcloud. ")
 def cli(
     verbose,
     covid,
@@ -101,6 +103,7 @@ def cli(
     kmeans,
     cart,
     pca,
+    visualize,
 ):
     if covid:
         qr_utils = QRUtils()
@@ -117,12 +120,12 @@ def cli(
         sys.stdout = open(out, "w")
     if inp and codedict:
         generate_dict(data, num)
+    content = Content(data.content)
+    cluster = ClusterDocs(content)
+    cluster.documents = data.documents
+    cluster.titles = data.titles
     if inp and topics:
-        #generate_topics(data, assign, num)
-        content = Content(data.content)
-        cluster = ClusterDocs(content)
-        cluster.documents = data.documents
-        cluster.titles = data.titles
+        # generate_topics(data, assign, num)
         click.echo("---------------------------")
         cluster.print_topics()
         click.echo("---------------------------")
@@ -150,7 +153,20 @@ def cli(
                 maxcolwidths=[10, 10, 10, 50],
             )
         )
-
+    _data = cluster.format_topics_sentences(visualize=True)
+    _topics = cluster.build_lda_model()
+    match visualize:
+        case "wordcloud":
+            v = QRVisualize(data)
+            v.plot_wordcloud(topics=_topics, folder_path=out)
+        case "topics":
+            v = QRVisualize(_data)
+            v.plot_distribution_by_topic(
+                _data, folder_path=out
+            )
+        case "words":
+            v = QRVisualize(_data)
+            v.plot_frequency_distribution_of_words(folder_path=out)
 
     # if inp and assign:
     #     assign_topics(data)

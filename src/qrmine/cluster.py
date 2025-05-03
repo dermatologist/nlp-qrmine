@@ -134,7 +134,7 @@ class ClusterDocs:
                 f"Document {self._titles[i]} belongs to topic: {self._lda_model.get_document_topics(bow)}"
             )
 
-    def format_topics_sentences(self):
+    def format_topics_sentences(self, visualize=False):
         self.build_lda_model()
         # Init output
         sent_topics_df = pd.DataFrame()
@@ -171,8 +171,9 @@ class ClusterDocs:
         ]
 
         # Add original text to the end of the output
-        # contents = pd.Series(self._processed_docs)
-        # sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
+        if visualize:
+            contents = pd.Series(self._processed_docs)
+            sent_topics_df = pd.concat([sent_topics_df, contents], axis=1)
         return sent_topics_df.reset_index(drop=False)
 
     # https://www.machinelearningplus.com/nlp/topic-modeling-visualization-how-to-present-results-lda-models/
