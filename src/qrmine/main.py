@@ -156,6 +156,8 @@ def cli(
     _data = cluster.format_topics_sentences(visualize=True)
     _topics = cluster.build_lda_model()
     _processed_docs = cluster.processed_docs
+    _lda_model = cluster.lda_model
+    _corpus = cluster.corpus
     match visualize:
         case "wordcloud":
             v = QRVisualize(data)
@@ -171,6 +173,11 @@ def cli(
         case "importance":
             v = QRVisualize(_data)
             v.plot_importance(topics=_topics, processed_docs=_processed_docs, folder_path=out)
+        case "chart":
+            v = QRVisualize(_data)
+            v.sentence_chart(
+                _lda_model, _corpus, folder_path=out
+            )
 
     # if inp and assign:
     #     assign_topics(data)

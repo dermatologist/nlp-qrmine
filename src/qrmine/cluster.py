@@ -58,6 +58,14 @@ class ClusterDocs:
     def processed_docs(self):
         return self._processed_docs
 
+    @property
+    def lda_model(self):
+        return self._lda_model
+
+    @property
+    def corpus(self):
+        return self._corpus
+
     @documents.setter
     def documents(self, documents):
         self._documents = documents
