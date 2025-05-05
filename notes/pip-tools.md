@@ -22,3 +22,6 @@ OR
 * pip install uv
 * uv pip compile setup.cfg -o requirements.txt --universal
 * uv pip compile dev-requirements.in -o dev-requirements.txt --universal
+
+uv pip install ini2toml
+ini2toml setup.cfg -o pyproject.toml

@@ -2,6 +2,7 @@ import sys
 
 import click
 import textacy
+from tabulate import tabulate
 
 from . import Content
 from . import Network
@@ -9,70 +10,201 @@ from . import Qrmine
 from . import ReadData
 from . import Sentiment
 from . import MLQRMine
+from . import ClusterDocs
+from .visualize import QRVisualize
+from .utils import QRUtils
 from . import __version__
 
+q = Qrmine()
 
 @click.command()
-@click.option('--verbose', '-v', is_flag=True, help="Will print verbose messages.")
-@click.option('--inp', '-i', multiple=True,
-              help='Input file in the text format with <break>Topic</break>')
-@click.option('--out', '-o', multiple=False, default='',
-              help='Output file name')
-@click.option('--csv', multiple=False, default='',
-              help='csv file name')
-@click.option('--num', '-n', multiple=False, default=3,
-              help='N (clusters/epochs etc depending on context)')
-@click.option('--rec', '-r', multiple=False, default=3,
-              help='Record (based on context)')
-@click.option('--titles', '-t', multiple=True,
-              help='Document(s) or csv title(s) to analyze/compare')
-@click.option('--filters', '-f', multiple=True, 
-              help='Filters to apply')
-@click.option('--codedict', is_flag=True,
-              help='Generate coding dictionary')
-@click.option('--topics', is_flag=True,
-              help='Generate topic model')
-@click.option('--assign', is_flag=True,
-              help='Assign documents to topics')
-@click.option('--cat', is_flag=True,
-              help='List categories of entire corpus or individual docs')
-@click.option('--summary', is_flag=True,
-              help='Generate summary for entire corpus or individual docs')
-@click.option('--sentiment', is_flag=True,
-              help='Generate sentiment score for entire corpus or individual docs')
-@click.option('--sentence', is_flag=True, default=False,
-              help='Generate sentence level scores when applicable')
-@click.option('--nlp', is_flag=True,
-              help='Generate all NLP reports')
-@click.option('--nnet', is_flag=True,
-              help='Display accuracy of a neural network model')
-@click.option('--svm', is_flag=True,
-              help='Display confusion matrix from an svm classifier')
-@click.option('--knn', is_flag=True,
-              help='Display nearest neighbours')
-@click.option('--kmeans', is_flag=True,
-              help='Display KMeans clusters')
-@click.option('--cart', is_flag=True,
-              help='Display Association Rules')
-@click.option('--pca', is_flag=True,
-              help='Display PCA')
-def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, assign, cat, summary, sentiment, sentence,
-        nlp, nnet,
-        svm,
-        knn, kmeans, cart, pca):
+@click.option("--verbose", "-v", is_flag=True, help="Will print verbose messages.")
+@click.option(
+    "--covid", "-cf", default="", help="Download COVID narratives from the website"
+)
+@click.option(
+    "--inp",
+    "-i",
+    multiple=False,
+    help="Input file in the text format with <break>Topic</break>",
+)
+@click.option("--out", "-o", multiple=False, default="", help="Output file name")
+@click.option("--csv", multiple=False, default="", help="csv file name")
+@click.option(
+    "--num",
+    "-n",
+    multiple=False,
+    default=3,
+    help="N (clusters/epochs etc depending on context)",
+)
+@click.option(
+    "--rec", "-r", multiple=False, default=3, help="Record (based on context)"
+)
+@click.option(
+    "--titles",
+    "-t",
+    multiple=True,
+    help="Document(s) or csv title(s) to analyze/compare",
+)
+@click.option("--filters", "-f", multiple=True, help="Filters to apply")
+@click.option("--codedict", is_flag=True, help="Generate coding dictionary")
+@click.option("--topics", is_flag=True, help="Generate topic model")
+@click.option("--assign", is_flag=True, help="Assign documents to topics")
+@click.option(
+    "--cat", is_flag=True, help="List categories of entire corpus or individual docs"
+)
+@click.option(
+    "--summary",
+    is_flag=True,
+    help="Generate summary for entire corpus or individual docs",
+)
+@click.option(
+    "--sentiment",
+    is_flag=True,
+    help="Generate sentiment score for entire corpus or individual docs",
+)
+@click.option(
+    "--sentence",
+    is_flag=True,
+    default=False,
+    help="Generate sentence level scores when applicable",
+)
+@click.option("--nlp", is_flag=True, help="Generate all NLP reports")
+@click.option("--nnet", is_flag=True, help="Display accuracy of a neural network model")
+@click.option(
+    "--svm", is_flag=True, help="Display confusion matrix from an svm classifier"
+)
+@click.option("--knn", is_flag=True, help="Display nearest neighbours")
+@click.option("--kmeans", is_flag=True, help="Display KMeans clusters")
+@click.option("--cart", is_flag=True, help="Display Association Rules")
+@click.option("--pca", is_flag=True, help="Display PCA")
+@click.option("--visualize", '-v', is_flag=False, help="Visualize words, tpopics or wordcloud. ")
+@click.option("--ignore", is_flag=False, help="Comma separated ignore words")
+def cli(
+    verbose,
+    covid,
+    inp,
+    out,
+    csv,
+    num,
+    rec,
+    titles,
+    filters,
+    codedict,
+    topics,
+    assign,
+    cat,
+    summary,
+    sentiment,
+    sentence,
+    nlp,
+    nnet,
+    svm,
+    knn,
+    kmeans,
+    cart,
+    pca,
+    visualize,
+    ignore,
+):
+    if covid:
+        qr_utils = QRUtils()
+        qr_utils.read_covid_narratives(covid)
+        click.echo("COVID narratives downloaded to " + covid)
     data = ReadData()
     if inp:
-        data.read_file(inp)
+        if ignore:
+            data.read_file(inp, ignore)
+        else:
+            data.read_file(inp)
     if len(filters) > 0:
         data = filter_data(inp, filters, sentence, num)
     if verbose:
         click.echo("We are in the verbose mode.")
     if out:
-        sys.stdout = open(out, 'w')
+        sys.stdout = open(out, "w")
     if inp and codedict:
         generate_dict(data, num)
+    content = Content(data.content)
+    cluster = ClusterDocs(content)
+    cluster.documents = data.documents
+    cluster.titles = data.titles
     if inp and topics:
-        generate_topics(data, assign, num)
+        # generate_topics(data, assign, num)
+        click.echo("---------------------------")
+        cluster.print_topics()
+        click.echo("---------------------------")
+        click.echo("Dominant topic and its percentage contribution in each document")
+        topics = cluster.format_topics_sentences()
+        click.echo(
+            tabulate(
+                topics,
+                headers="keys",
+                tablefmt="grid",
+                showindex="never",
+                numalign="left",
+                maxcolwidths=[10, 10, 10, 50],
+            )
+        )
+        click.echo("Most representative document for each topic")
+        most_representative_docs = cluster.most_representative_docs()
+        click.echo(
+            tabulate(
+                most_representative_docs,
+                headers="keys",
+                tablefmt="grid",
+                showindex="never",
+                numalign="left",
+                maxcolwidths=[10, 10, 10, 50],
+            )
+        )
+    if visualize:
+        _data = cluster.format_topics_sentences(visualize=True)
+        _topics = cluster.build_lda_model()
+        _processed_docs = cluster.processed_docs
+        _lda_model = cluster.lda_model
+        _corpus = cluster.corpus
+        match visualize:
+            case "wordcloud":
+                v = QRVisualize(data)
+                v.plot_wordcloud(topics=_topics, folder_path=out)
+            case "topics":
+                v = QRVisualize(_data)
+                v.plot_distribution_by_topic(
+                    _data, folder_path=out
+                )
+            case "words":
+                v = QRVisualize(_data)
+                v.plot_frequency_distribution_of_words(folder_path=out)
+            case "importance":
+                v = QRVisualize(_data)
+                v.plot_importance(topics=_topics, processed_docs=_processed_docs, folder_path=out)
+            case "sentence":
+                v = QRVisualize(_data)
+                v.sentence_chart(
+                    _lda_model, _corpus, folder_path=out
+                )
+            # case "cluster":
+            #     v = QRVisualize(_data)
+            #     if num:
+            #         v.cluster_chart(
+            #             _lda_model, _corpus, num, folder_path=out
+            #         )
+            #     else:
+            #         v.cluster_chart(
+            #             _lda_model, _corpus, folder_path=out
+            #         )
+            case "cluster":
+                v = QRVisualize(_data)
+                for doc in data.documents:
+                    print(doc+ "\n")
+                vectors = cluster.vectorizer(data.documents, data.titles, visualize=True)
+                v.cluster_chart(
+                    vectors, folder_path=out
+                )
+
+
+
     # if inp and assign:
     #     assign_topics(data)
     if inp and cat:
@@ -81,7 +213,9 @@ def cli(verbose, inp, out, csv, num, rec, titles, filters, codedict, topics, ass
         generate_summary(data, titles)
     if inp and sentiment:
         get_sentiment(data, titles, sentence, verbose)
-    if inp and cart: #python qrminer.py --cart -i src/qrmine/resources/interview.txt -n 10
+    if (
+        inp and cart
+    ):  # python qrminer.py --cart -i src/qrmine/resources/interview.txt -n 10
         get_categories_association(data, num)
     if inp and nlp:
         main(inp)
@@ -128,20 +262,20 @@ def filter_data(inp, search, sentence, num):
 
     filters = []
     for s in search:
-        if s == 'pos':
+        if s == "pos":
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, sentence, False) == 'pos':
+                if get_sentiment(data, t, sentence, False) == "pos":
                     filters.append(title)
-        if s == 'neg':
+        if s == "neg":
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, sentence, False) == 'neg':
+                if get_sentiment(data, t, sentence, False) == "neg":
                     filters.append(title)
-        if s == 'neu':
+        if s == "neu":
             for title in data.titles:
                 t = [title]
-                if get_sentiment(data, t, sentence, False) == 'neu':
+                if get_sentiment(data, t, sentence, False) == "neu":
                     filters.append(title)
         # If search itself is a title
         if any(s in l for l in data.titles):
@@ -173,13 +307,13 @@ def filter_data(inp, search, sentence, num):
 def generate_dict(data, num):
     if not num:
         num = 10
-    q = Qrmine()
+
     all_interviews = Content(data.content)
     q.print_dict(all_interviews, num)
 
 
 def generate_topics(data, assign, num):
-    q = Qrmine()
+
     q.content = data
     q.process_content()
     q.print_topics()
@@ -188,17 +322,19 @@ def generate_topics(data, assign, num):
 
 
 # def assign_topics(data):
-#     q = Qrmine()
+#
 #     q.content = data
 #     q.process_content()
 #     q.print_documents()
 
+
 def get_categories_association(data, num):
-    q = Qrmine()
+
     q.content = data
     click.echo(q.category_association(num))
     click.echo("Frequent Itemsets")
     click.echo("---------------------------")
+
 
 """
 Function working at both levels
@@ -206,7 +342,6 @@ Function working at both levels
 
 
 def generate_categories(data, tags, num):
-    q = Qrmine()
 
     if len(tags) > 0:
         ct = 0
@@ -269,7 +404,9 @@ def get_sentiment(data, tags, sentence, verbose):
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
                     if verbose:
-                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                        click.echo(
+                            "{:-<40} {}\n".format(sent["sentence"], str(sent["score"]))
+                        )
                     click.echo(s.sentiment())
 
         else:
@@ -280,7 +417,7 @@ def get_sentiment(data, tags, sentence, verbose):
         return s.sentiment()
     else:
         all_interviews = Content(data.content)
-        doc = textacy.make_spacy_doc(all_interviews.doc)
+        doc = textacy.make_spacy_doc(all_interviews.doc, lang=all_interviews.lang)
 
         ## Sentiment
         s = Sentiment()
@@ -289,7 +426,9 @@ def get_sentiment(data, tags, sentence, verbose):
                 if len(sentence) > 3:
                     sent = s.sentiment_analyzer_scores(sentence.text)
                     if verbose:
-                        click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
+                        click.echo(
+                            "{:-<40} {}\n".format(sent["sentence"], str(sent["score"]))
+                        )
                     click.echo(s.sentiment())
 
         else:
@@ -309,7 +448,9 @@ def get_nnet(ml, n=3):
     ml.epochs = n
     ml.prepare_data(True)  # Oversample
     ml.get_nnet_predictions()
-    click.echo("\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100))
+    click.echo(
+        "\n%s: %.2f%%" % (ml.model.metrics_names[1], ml.get_nnet_scores()[1] * 100)
+    )
 
 
 def get_svm(ml):
@@ -348,7 +489,6 @@ def main(input_file):
     data = ReadData()
     data.read_file(input_file)
 
-    q = Qrmine()
     all_interviews = Content(data.content)
 
     q.content = data
@@ -367,7 +507,11 @@ def main(input_file):
             x.append(sentence.text)
             sent = s.sentiment_analyzer_scores(sentence.text)
             click.echo("{:-<40} {}\n".format(sent["sentence"], str(sent["score"])))
-            click.echo("{:-<40} {}\n".format(sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))))
+            click.echo(
+                "{:-<40} {}\n".format(
+                    sentence.text, str(s.similarity(sentence.text, "Dummy sentence"))
+                )
+            )
 
     ## Network
     n = Network()
@@ -389,5 +533,5 @@ def main_routine():
     cli()  # run the main function
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main_routine()
