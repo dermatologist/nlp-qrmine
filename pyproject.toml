@@ -116,7 +116,7 @@ platforms = ["any"]
 
 [tool.setuptools.packages.find]
 where = [ "src"]
-exclude = [ "tests", "notes", "docs"]
+exclude = [ "tests", "notes", "docs", "notebooks"]
 namespaces = true
 
 [tool.pytest.ini_options]
