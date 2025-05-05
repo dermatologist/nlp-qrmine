@@ -231,6 +231,7 @@ class MLQRMine(object):
                 correct += (predicted == batch_y).sum().item()
         accuracy = correct / total
         print(f'Accuracy: {accuracy * 100:.2f}%')
+        return accuracy
 
     def svm_confusion_matrix(self):
         """Generate confusion matrix for SVM
