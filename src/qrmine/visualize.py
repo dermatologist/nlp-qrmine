@@ -60,7 +60,7 @@ class QRVisualize:
         plt.tick_params(size=16)
         plt.xticks(np.linspace(0, 1000, 9))
         plt.title("Distribution of Document Word Counts", fontdict=dict(size=22))
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             plt.savefig(folder_path)
@@ -96,7 +96,7 @@ class QRVisualize:
         fig.suptitle(
             "Distribution of Document Word Counts by Dominant Topic", fontsize=22
         )
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             plt.savefig(folder_path)
@@ -132,7 +132,7 @@ class QRVisualize:
         plt.axis("off")
         plt.margins(x=0, y=0)
         plt.tight_layout()
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             plt.savefig(folder_path)
@@ -186,7 +186,7 @@ class QRVisualize:
 
         fig.tight_layout(w_pad=2)
         fig.suptitle("Word Count and Importance of Topic Keywords", fontsize=22, y=1.05)
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             plt.savefig(folder_path)
@@ -279,7 +279,7 @@ class QRVisualize:
             fontweight=700,
         )
         plt.tight_layout()
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             plt.savefig(folder_path)
@@ -319,7 +319,7 @@ class QRVisualize:
         plt.xlabel("t-SNE Dimension 1", fontsize=16)
         plt.ylabel("t-SNE Dimension 2", fontsize=16)
         plt.legend(title="Topic Number", loc="upper right")
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             plt.savefig(folder_path)
@@ -393,7 +393,7 @@ class QRVisualize:
         ax2.xaxis.set_major_formatter(tick_formatter)
         ax2.set_title("Number of Documents by Topic Weightage", fontdict=dict(size=10))
 
-        plt.show()
+        plt.show(block=False)
 
         # save
         if folder_path:
@@ -440,7 +440,7 @@ class QRVisualize:
         plt.axis('off')  # Optional: Remove axes for a cleaner look
         plt.colorbar(self.sc, label='Colour')  # Add colorbar if needed
         self.fig.canvas.mpl_connect("motion_notify_event", self.hover)
-        plt.show()
+        plt.show(block=False)
         # save
         if folder_path:
             # annotate with data['title']
