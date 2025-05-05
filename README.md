@@ -38,12 +38,16 @@ Version 4.0 is a major update with new features and bug fixes. It moves some of 
 
 ## 🛠️ How to install
 
-* Requires Python 3.11 and a CPU that support AVX instructions
+* Requires Python 3.11
 ```text
-pip install uv
-uv pip install qrmine
+pip install qrmine
 python -m spacy download en_core_web_sm
 
+```
+
+* For ML functions (neural networks & SVM), install the optional packages
+```text
+pip install qrmine[ml]
 ```
 
 ### Mac users
@@ -54,7 +58,7 @@ brew install libomp
 
 ## 🚀 How to Use
 
-* input files are transcripts as txt files and a single csv file with numeric data. The output txt file can be specified. In version 4.0 input files can be a set of txt and/or pdf files in a folder.
+* Input files are transcripts as txt/pdf files and (optionally) a single csv file with numeric data. The output txt file can be specified. All transcripts can be in a single file separated by a break tag as described below.
 
 * The coding dictionary, topics and topic assignments can be created from the  entire corpus (all documents) using the respective command line options.
 
@@ -151,8 +155,6 @@ index, obesity, bmi, exercise, income, bp, fbs, has_diabetes
 * [Bell Eapen](https://nuchange.ca) (McMaster U) |  [Contact](https://nuchange.ca/contact) | [![Twitter Follow](https://img.shields.io/twitter/follow/beapen?style=social)](https://twitter.com/beapen)
 
 * This software is developed and tested using [Compute Canada](http://www.computecanada.ca) resources.
-* See also:  [:fire: The FHIRForm framework for managing healthcare eForms](https://github.com/E-Health/fhirform)
-* See also: [:eyes: Drishti | An mHealth sense-plan-act framework!](https://github.com/E-Health/drishti)
 
 ## Citation
 
