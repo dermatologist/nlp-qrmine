@@ -1,4 +1,4 @@
-# :flashlight: QRMine
+# 🔍 QRMine
 */ˈkärmīn/*
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)[![PyPI download total](https://img.shields.io/pypi/dm/qrmine.svg)](https://pypi.python.org/pypi/qrmine/)
@@ -6,11 +6,17 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dermatologist/nlp-qrmine)
 [![Documentation](https://badgen.net/badge/icon/documentation?icon=libraries&label)](https://dermatologist.github.io/nlp-qrmine/)
 
-QRMine is a suite of qualitative research (QR) data mining tools in Python using Natural Language Processing (NLP) and Machine Learning (ML). QRMine is work in progress. [Read More..](https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html)
+Qualitative research involves the collection and analysis of textual data, such as interview transcripts, open-ended survey responses, and field notes. It is often used in social sciences, humanities, and health research to explore complex phenomena and understand human experiences. In addition to textual data, qualitative researchers may also collect quantitative data, such as survey responses or demographic information, to complement their qualitative findings.
 
-## What it does
+Qualitative research is often characterized by its inductive approach, where researchers aim to generate theories or concepts from the data rather than testing pre-existing hypotheses. This process is known as Grounded Theory, which emphasizes the importance of data-driven analysis and theory development.
 
-### NLP
+QRMine is a Python package for qualitative research and triangulation of textual and numeric data in Grounded Theory. It provides tools for Natural Language Processing (NLP) and Machine Learning (ML) to analyze qualitative data, such as interview transcripts, and quantitative data, such as survey responses for theorizing.
+
+Version 4.0 is a major update with new features and bug fixes. It moves some of the ML dependencies to an optional install. Version 4.0 is a prelude to version 5.0 that will introduce large language models (LLMs) for qualitative research.
+
+## ✨ Features
+
+### 🔧 NLP
 * Lists common categories for open coding.
 * Create a coding dictionary with categories, properties and dimensions.
 * Topic modelling.
@@ -18,9 +24,11 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 * Compare two documents/interviews.
 * Select documents/interviews by sentiment, category or title for further analysis.
 * Sentiment analysis
+* Clusters documents and creates visualizations.
+* Generate (non LLM) summary of documents/interviews.
 
 
-### ML
+### 🧠 ML
 * Accuracy of a neural network model trained using the data
 * Confusion matrix from an support vector machine classifier
 * K nearest neighbours of a given record
@@ -28,7 +36,7 @@ QRMine is a suite of qualitative research (QR) data mining tools in Python using
 * Principal Component Analysis (PCA)
 * Association rules
 
-## How to install
+## 🛠️ How to install
 
 * Requires Python 3.11 and a CPU that support AVX instructions
 ```text
@@ -44,9 +52,9 @@ python -m spacy download en_core_web_sm
 brew install libomp
 ```
 
-## How to Use
+## 🚀 How to Use
 
-* input files are transcripts as txt files and a single csv file with numeric data. The output txt file can be specified.
+* input files are transcripts as txt files and a single csv file with numeric data. The output txt file can be specified. In version 4.0 input files can be a set of txt and/or pdf files in a folder.
 
 * The coding dictionary, topics and topic assignments can be created from the  entire corpus (all documents) using the respective command line options.
 
@@ -162,11 +170,7 @@ is an example BibTeX entry [(Read paper on arXiv)](https://arxiv.org/abs/2003.13
 
 ```
 
-QRMine is inspired by [this work](https://github.com/lknelson/computational-grounded-theory) and the associated [paper](https://journals.sagepub.com/doi/abs/10.1177/0049124117729703).
-
 ## Give us a star ⭐️
 If you find this project useful, give us a star. It helps others discover the project.
 
-## Demo
 
-[![QRMine](https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif)](https://github.com/dermatologist/nlp-qrmine/blob/develop/notes/qrmine.gif)
