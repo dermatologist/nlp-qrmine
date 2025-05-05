@@ -152,25 +152,13 @@ index, obesity, bmi, exercise, income, bp, fbs, has_diabetes
 
 ## Author
 
-* [Bell Eapen](https://nuchange.ca) (McMaster U) |  [Contact](https://nuchange.ca/contact) | [![Twitter Follow](https://img.shields.io/twitter/follow/beapen?style=social)](https://twitter.com/beapen)
+* [Bell Eapen](https://nuchange.ca) ([UIS](https://www.uis.edu/directory/bell-punneliparambil-eapen)) |  [Contact](https://nuchange.ca/contact) | [![Twitter Follow](https://img.shields.io/twitter/follow/beapen?style=social)](https://twitter.com/beapen)
 
-* This software is developed and tested using [Compute Canada](http://www.computecanada.ca) resources.
 
 ## Citation
 
-Please cite QRMine in your publications if it helped your research. Here
-is an example BibTeX entry [(Read paper on arXiv)](https://arxiv.org/abs/2003.13519):
-
-```
-
-@article{eapenbr2019qrmine,
-  title={QRMine: A python package for triangulation in Grounded Theory},
-  author={Eapen, Bell Raj and Archer, Norm and Sartpi, Kamran},
-  journal={arXiv preprint arXiv:2003.13519 },
-  year={2020}
-}
-
-```
+Please cite QRMine in your publications if it helped your research.
+Citation information will be available soon.
 
 ## Give us a star ⭐️
 If you find this project useful, give us a star. It helps others discover the project.
