@@ -1,5 +1,4 @@
 import numpy
-from imblearn.over_sampling import RandomOverSampler
 from pandas import read_csv
 from sklearn.cluster import KMeans
 from sklearn.metrics import confusion_matrix
@@ -9,29 +8,42 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.neighbors import KDTree
 from random import randint
+import logging
+logger = logging.getLogger(__name__)
+ML_INSTALLED = False
 
-from xgboost import XGBClassifier
-from mlxtend.frequent_patterns import apriori
-from mlxtend.frequent_patterns import association_rules
+try:
+    from xgboost import XGBClassifier
+    from mlxtend.frequent_patterns import apriori
+    from mlxtend.frequent_patterns import association_rules
 
-import torch.nn as nn
-import torch.optim as optim
-import torch
-from torch.utils.data import DataLoader, TensorDataset
-class NeuralNet(nn.Module):
-    def __init__(self, input_dim):
-        super(NeuralNet, self).__init__()
-        self.fc1 = nn.Linear(input_dim, 12)
-        self.fc2 = nn.Linear(12, 8)
-        self.fc3 = nn.Linear(8, 1)
-        self.relu = nn.ReLU()
-        self.sigmoid = nn.Sigmoid()
+    import torch.nn as nn
+    import torch.optim as optim
+    import torch
+    from torch.utils.data import DataLoader, TensorDataset
+    from imblearn.over_sampling import RandomOverSampler
 
-    def forward(self, x):
-        x = self.relu(self.fc1(x))
-        x = self.relu(self.fc2(x))
-        x = self.sigmoid(self.fc3(x))
-        return x
+    ML_INSTALLED = True
+    class NeuralNet(nn.Module):
+        def __init__(self, input_dim):
+            super(NeuralNet, self).__init__()
+            self.fc1 = nn.Linear(input_dim, 12)
+            self.fc2 = nn.Linear(12, 8)
+            self.fc3 = nn.Linear(8, 1)
+            self.relu = nn.ReLU()
+            self.sigmoid = nn.Sigmoid()
+
+        def forward(self, x):
+            x = self.relu(self.fc1(x))
+            x = self.relu(self.fc2(x))
+            x = self.sigmoid(self.fc3(x))
+            return x
+except ImportError:
+    logger.info(
+        "ML dependencies are not installed. Please install them by ```pip install qrmine[ml] to use ML features."
+    )
+
+
 
 
 class MLQRMine(object):
@@ -49,8 +61,9 @@ class MLQRMine(object):
         self._dataset_original = None
         self._sc = StandardScaler()
         self._vnum = 0  # Number of variables
-        self._classifier = XGBClassifier()
-        self._epochs = 10
+        if ML_INSTALLED:
+            self._classifier = XGBClassifier()
+        self._epochs = 1
         self._samplesize = 0
         self._clusters = None
 
@@ -146,7 +159,11 @@ class MLQRMine(object):
     def oversample(self):
         self._X_original = self._X
         self._y_original = self._y
-        ros = RandomOverSampler(random_state=0)
+        if ML_INSTALLED:
+            ros = RandomOverSampler(random_state=0)
+        else:
+            logger.info("ML dependencies are not installed. Please install them by ```pip install qrmine[ml] to use ML features.")
+            raise ImportError("ML dependencies are not installed. Please install them by ```pip install qrmine[ml] to use ML features.")
         X, y = ros.fit_resample(self._X, self._y)
         self._X = X
         self._y = y

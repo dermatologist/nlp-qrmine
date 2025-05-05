@@ -21,16 +21,12 @@ requires-python = ">=3.11, <3.12"
 dependencies = [
     'importlib-metadata; python_version<"3.8"',
     "pandas",
+    "mlxtend",
     "matplotlib",
     "click",
-    "scikit-learn",
-    "imbalanced-learn",
     "vaderSentiment",
-    "xgboost",
-    "mlxtend",
     "spacy",
     "textacy",
-    "torch==2.2.2",
     "pypdf",
     "requests",
     "gensim",
@@ -82,6 +78,13 @@ dev = [
     "wheel",
     "twine",
     "build",
+]
+
+ml = [
+    "scikit-learn",
+    "imbalanced-learn",
+    "xgboost",
+    "torch==2.2.2",
 ]
 
 [project.entry-points]
