@@ -11,7 +11,7 @@ class QRUtils(object):
     def read_covid_narratives(output_folder):
         os.makedirs(output_folder, exist_ok=True)
         for doc_count in range(1, 115):
-            url = f"https://covidstories.omeka.net/items/show/{doc_count}"
+            url = f"https://root-url-here/items/show/{doc_count}"
             html = requests.get(url).text
             # Extract <a class="download-file" href
             pattern = r'<a class="download-file" href="(.*?)">'
