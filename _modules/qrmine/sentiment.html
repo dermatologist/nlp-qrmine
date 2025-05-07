@@ -4,11 +4,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>qrmine.sentiment &#8212; qrmine unknown documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=686e5160" />
+    <title>qrmine.sentiment &#8212; qrmine 0.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=0ca6144b" />
-    <script src="../../_static/documentation_options.js?v=3f1b9271"></script>
+    <script src="../../_static/documentation_options.js?v=7026087e"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -31,21 +31,21 @@
           <div class="body" role="main">
             
   <h1>Source code for qrmine.sentiment</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">textacy.similarity</span>
-<span class="kn">from</span> <span class="nn">vaderSentiment.vaderSentiment</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
-<span class="kn">import</span> <span class="nn">operator</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">textacy.similarity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">vaderSentiment.vaderSentiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
 
 <div class="viewcode-block" id="Sentiment">
 <a class="viewcode-back" href="../../api/qrmine.html#qrmine.sentiment.Sentiment">[docs]</a>
-<span class="k">class</span> <span class="nc">Sentiment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Sentiment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_analyser</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_return</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="Sentiment.sentiment_analyzer_scores">
 <a class="viewcode-back" href="../../api/qrmine.html#qrmine.sentiment.Sentiment.sentiment_analyzer_scores">[docs]</a>
-    <span class="k">def</span> <span class="nf">sentiment_analyzer_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sentiment_analyzer_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence</span><span class="p">):</span>
         <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_analyser</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_return</span><span class="p">[</span><span class="s2">&quot;sentence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sentence</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_return</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
@@ -55,13 +55,13 @@
 
 <div class="viewcode-block" id="Sentiment.similarity">
 <a class="viewcode-back" href="../../api/qrmine.html#qrmine.sentiment.Sentiment.similarity">[docs]</a>
-    <span class="k">def</span> <span class="nf">similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj1</span><span class="p">,</span> <span class="n">obj2</span><span class="p">,</span> <span class="n">fuzzy_match</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">match_threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj1</span><span class="p">,</span> <span class="n">obj2</span><span class="p">,</span> <span class="n">fuzzy_match</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">match_threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">textacy</span><span class="o">.</span><span class="n">similarity</span><span class="o">.</span><span class="n">jaccard</span><span class="p">(</span><span class="n">obj1</span><span class="p">,</span> <span class="n">obj2</span><span class="p">,</span> <span class="n">fuzzy_match</span><span class="o">=</span><span class="n">fuzzy_match</span><span class="p">,</span> <span class="n">match_threshold</span><span class="o">=</span><span class="n">match_threshold</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Sentiment.hamming">
 <a class="viewcode-back" href="../../api/qrmine.html#qrmine.sentiment.Sentiment.hamming">[docs]</a>
-    <span class="k">def</span> <span class="nf">hamming</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hamming</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">):</span>
         <span class="n">textacy</span><span class="o">.</span><span class="n">similarity</span><span class="o">.</span><span class="n">hamming</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">)</span></div>
 
 
@@ -80,7 +80,7 @@
 
 <div class="viewcode-block" id="Sentiment.sentiment">
 <a class="viewcode-back" href="../../api/qrmine.html#qrmine.sentiment.Sentiment.sentiment">[docs]</a>
-    <span class="k">def</span> <span class="nf">sentiment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sentiment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_return</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;compound&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_return</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span></div>
 </div>
@@ -145,7 +145,7 @@
       &#169;2021, beapen.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
       &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
     </div>

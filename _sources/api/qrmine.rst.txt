@@ -12,66 +12,90 @@ Subpackages
 Submodules
 ----------
 
+qrmine.cluster module
+---------------------
+
+.. automodule:: qrmine.cluster
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 qrmine.content module
 ---------------------
 
 .. automodule:: qrmine.content
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 qrmine.main module
 ------------------
 
 .. automodule:: qrmine.main
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 qrmine.mlqrmine module
 ----------------------
 
 .. automodule:: qrmine.mlqrmine
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 qrmine.network module
 ---------------------
 
 .. automodule:: qrmine.network
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 qrmine.nlp\_qrmine module
 -------------------------
 
 .. automodule:: qrmine.nlp_qrmine
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 qrmine.readfiles module
 -----------------------
 
 .. automodule:: qrmine.readfiles
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 qrmine.sentiment module
 -----------------------
 
 .. automodule:: qrmine.sentiment
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
+
+qrmine.utils module
+-------------------
+
+.. automodule:: qrmine.utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+qrmine.visualize module
+-----------------------
+
+.. automodule:: qrmine.visualize
+   :members:
+   :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: qrmine
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
