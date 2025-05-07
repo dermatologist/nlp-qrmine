@@ -1,20 +1,20 @@
 """
- Copyright (C) 2020 Bell Eapen
+Copyright (C) 2020 Bell Eapen
 
- This file is part of qrmine.
+This file is part of qrmine.
 
- qrmine is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+qrmine is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
- qrmine is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+qrmine is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with qrmine.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with qrmine.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import operator
@@ -23,10 +23,15 @@ import operator
 
 import textacy
 
+
 class Content(object):
-    def __init__(self, content):
+    def __init__(self, content="", title="", lang="en_core_web_sm", max_length=1100000):
         self._content = content
-        self._nlp = textacy.load_spacy_lang("en_core_web_sm")
+        # TODO, Title is not used
+        self._title = title
+        self._lang = lang
+        self._nlp = textacy.load_spacy_lang(lang)
+        self._nlp.max_length = max_length
         self._processed = self._nlp(self._content)
         self._lemma = {}
         self._pos = {}
@@ -43,17 +48,21 @@ class Content(object):
     def content(self):
         return self._content
 
+    @property
+    def title(self):
+        return self._title
+
     @content.setter
     def content(self, content):
         self._content = content
 
     @property
     def lemma(self, token):
-        return self._lemma.get(token, '')
+        return self._lemma.get(token, "")
 
     @property
     def pos(self, token):
-        return self._pos.get(token, '')
+        return self._pos.get(token, "")
 
     @property
     def pos_(self, token):
@@ -61,7 +70,7 @@ class Content(object):
 
     @property
     def word(self, token):
-        return self._word.get(token, '')
+        return self._word.get(token, "")
 
     @property
     def sentiment(self, token):
@@ -69,7 +78,7 @@ class Content(object):
 
     @property
     def tag(self, token):
-        return self._tag.get(token, '')
+        return self._tag.get(token, "")
 
     @property
     def dep(self, token):
@@ -86,6 +95,33 @@ class Content(object):
     @property
     def doc(self):
         return self._processed
+
+    @property
+    def tokens(self):
+        return [
+            token.lemma_
+            for token in self._processed
+            if not token.is_stop and not token.is_punct and not token.is_space
+        ]
+
+    @property
+    def lang(self):
+        return self._lang
+
+    @content.setter
+    def content(self, content):
+        self._content = content
+        self._processed = self._nlp(self._content)
+        self._lemma = {}
+        self._pos = {}
+        self._pos_ = {}
+        self._word = {}
+        self._sentiment = {}
+        self._tag = {}
+        self._dep = {}
+        self._prob = {}
+        self._idx = {}
+        self.process()
 
     def process(self):
         for token in self._processed:
@@ -114,14 +150,14 @@ class Content(object):
     def common_nouns(self, index=10):
         _words = {}
         for key, value in self._word.items():
-            if self._pos.get(key, None) == 'NOUN':
+            if self._pos.get(key, None) == "NOUN":
                 _words[value] = _words.get(value, 0) + 1
         return sorted(_words.items(), key=operator.itemgetter(1), reverse=True)[:index]
 
     def common_verbs(self, index=10):
         _words = {}
         for key, value in self._word.items():
-            if self._pos.get(key, None) == 'VERB':
+            if self._pos.get(key, None) == "VERB":
                 _words[value] = _words.get(value, 0) + 1
         return sorted(_words.items(), key=operator.itemgetter(1), reverse=True)[:index]
 
@@ -135,7 +171,9 @@ class Content(object):
         for span in self._processed.sents:
             # go from the start to the end of each span, returning each token in the sentence
             # combine each token using join()
-            sent = ''.join(self._processed[i].string for i in range(span.start, span.end)).strip()
+            sent = "".join(
+                self._processed[i].string for i in range(span.start, span.end)
+            ).strip()
             for noun, freq in _nouns:
                 if noun in sent:
                     sents.append(sent)
@@ -151,7 +189,7 @@ class Content(object):
             # go from the start to the end of each span, returning each token in the sentence
             # combine each token using join()
             for token in span:
-                if word in self._word.get(token, ' '):
+                if word in self._word.get(token, " "):
                     spans.append(span)
         return spans
 
@@ -160,11 +198,11 @@ class Content(object):
         _ad = {}
         for span in _spans:
             for token in span:
-                if self._pos.get(token, None) == 'ADJ':
+                if self._pos.get(token, None) == "ADJ":
                     _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
-                if self._pos.get(token, None) == 'ADV':
+                if self._pos.get(token, None) == "ADV":
                     _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
-                if self._pos.get(token, None) == 'VERB':
+                if self._pos.get(token, None) == "VERB":
                     _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
         return sorted(_ad.items(), key=operator.itemgetter(1), reverse=True)[:index]
 
@@ -173,7 +211,9 @@ class Content(object):
         _ad = {}
         for span in _spans:
             for token in span:
-                if self._pos.get(token, None) == 'NOUN' and word not in self._word.get(token, ''):
+                if self._pos.get(token, None) == "NOUN" and word not in self._word.get(
+                    token, ""
+                ):
                     _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1
                     # if self._pos.get(token, None) == 'VERB':
                     # _ad[self._word.get(token)] = _ad.get(self._word.get(token), 0) + 1

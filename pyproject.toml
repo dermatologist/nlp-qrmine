@@ -1,9 +1,192 @@
 [build-system]
-# AVOID CHANGING REQUIRES: IT WILL BE UPDATED BY PYSCAFFOLD!
-requires = ["setuptools>=46.1.0", "setuptools_scm[toml]>=5"]
+requires = ["setuptools", "wheel", "pip"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools_scm]
-# For smarter version schemes and other configuration options,
-# check out https://github.com/pypa/setuptools_scm
-version_scheme = "no-guess-dev"
+[project]
+name = "qrmine"
+description = "Qualitative Research support tools in Python!"
+authors = [{name = "beapen", email = "github@gulfdoctor.net"}]
+license = "GPL-3.0"
+# license_files = LICENSE.txt
+# long_description = file: README.rst
+# long_description_content_type = text/x-rst; charset=UTF-8
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Development Status :: 4 - Beta",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+requires-python = ">=3.11, <3.12"
+dependencies = [
+    'importlib-metadata; python_version<"3.8"',
+    "pandas",
+    "mlxtend",
+    "matplotlib",
+    "click",
+    "vaderSentiment",
+    "spacy",
+    "textacy",
+    "pypdf",
+    "requests",
+    "gensim",
+    "seaborn",
+    "wordcloud",
+    "tabulate",
+]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+# Add here related links, for example:
+
+[project.urls]
+Homepage = "https://github.com/dermatologist/nlp-qrmine"
+Documentation = "https://arxiv.org/abs/2003.13519"
+# Source = https://github.com/pyscaffold/pyscaffold/
+# Changelog = https://pyscaffold.org/en/latest/changelog.html
+# Tracker = https://github.com/pyscaffold/pyscaffold/issues
+# Conda-Forge = https://anaconda.org/conda-forge/pyscaffold
+# Download = https://pypi.org/project/PyScaffold/#files
+# Twitter = https://twitter.com/PyScaffold
+# Change if running only on Windows, Mac or Linux (comma-separated)
+# Add here all kinds of additional classifiers as defined under
+# https://pypi.org/classifiers/
+
+[project.optional-dependencies]
+# Add here additional requirements for extra features, to install with:
+# `pip install qrmine[PDF]` like:
+# PDF = ReportLab; RXP
+# Add here test requirements (semicolon/line-separated)
+testing = [
+    "setuptools",
+    "pytest",
+    "pytest-cov",
+]
+
+dev = [
+    "setuptools>=77.0.0",
+    "packaging>=24.2",
+    "setuptools_scm",
+    "pytest",
+    "pytest-cov",
+    "tox",
+    "black",
+    "recommonmark",
+    "sphinx",
+    "wheel",
+    "twine",
+    "build",
+]
+
+ml = [
+    "scikit-learn",
+    "imbalanced-learn",
+    "xgboost",
+    "torch==2.2.2",
+]
+
+[project.entry-points]
+# Add here console scripts like:
+# console_scripts =
+# script_name = qrmine.module:function
+# For example:
+# console_scripts =
+# fibonacci = qrmine.skeleton:run
+# And any other entry points, for example:
+# pyscaffold.cli =
+# awesome = pyscaffoldext.awesome.extension:AwesomeExtension
+
+[project.scripts]
+qrmine = "qrmine.main:main_routine"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+package-dir = {"" = "src"}
+# Require a min/specific Python version (comma-separated conditions)
+# python_requires = >=3.8
+# Add here dependencies of your project (line-separated), e.g. requests>=2.2,<3.0.
+# Version specifiers like >=2.2,<3.0 avoid problems due to API changes in
+# new major versions. This works if the required packages follow Semantic Versioning.
+# For more information, check out https://semver.org/.
+platforms = ["any"]
+
+
+[tool.setuptools.packages.find]
+where = [ "src"]
+exclude = [ "tests", "notes", "docs", "notebooks"]
+namespaces = true
+
+[tool.pytest.ini_options]
+# Specify command line options as you would do when invoking pytest directly.
+# e.g. --cov-report html (or xml) for html/xml output or --junitxml junit.xml
+# in order to write a coverage file that can be read by Jenkins.
+# CAUTION: --cov flags may prohibit setting breakpoints while debugging.
+# Comment those flags to avoid this pytest issue.
+addopts = """
+--verbose"""
+norecursedirs = [
+    "dist",
+    "build",
+    ".tox",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu" },
+]
+torchvision = [
+  { index = "pytorch-cpu" },
+]
+
+[tool.aliases]
+release = "sdist bdist_wheel upload"
+
+[tool.distutils.bdist_wheel]
+# Use this option if your package is pure-python
+universal = 0
+
+[tool.build_sphinx]
+source_dir = "docs"
+build_dir = "docs/_build"
+testpaths = "tests"
+# Use pytest markers to select/deselect specific tests
+# markers =
+# slow: mark tests as slow (deselect with '-m "not slow"')
+# system: mark end-to-end system tests
+
+[tool.devpi.upload]
+# Options for the devpi: PyPI server and packaging tool
+# VCS export must be deactivated since we are using setuptools-scm
+no_vcs = "1"
+formats = "bdist_wheel"
+
+[tool.flake8]
+# Some sane defaults for the code style checker flake8
+max_line_length = "88"
+extend_ignore = "E203, W503"
+# ^  Black-compatible
+# E203 and W503 have edge cases handled by black
+exclude = """
+.tox
+build
+dist
+.eggs
+docs/conf.py"""
+
+[tool.pyscaffold]
+# PyScaffold's parameters when the project was created.
+# This will be used when updating. Do not change!
+version = "4.6"
+package = "qrmine"
+# This file is used to configure your project.
+# Read more about the various options under:
+# https://setuptools.pypa.io/en/latest/userguide/declarative_config.html
+# https://setuptools.pypa.io/en/latest/references/keywords.html

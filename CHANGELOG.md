@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/dermatologist/nlp-qrmine/tree/HEAD)
+## [3.9.0](https://github.com/dermatologist/nlp-qrmine/tree/3.9.0) (2024-11-10)
 
-[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.4...HEAD)
+[Full Changelog](https://github.com/dermatologist/nlp-qrmine/compare/3.8.4...3.9.0)
 
 **Closed issues:**
 
