@@ -9,7 +9,7 @@ def ml_fixture():
     ml = MLQRMine()
     file_path = resource_filename('src.qrmine.resources', 'numeric.csv')
     ml.csvfile = file_path
-    return ml 
+    return ml
 
 
 
@@ -19,7 +19,7 @@ def test_nn(ml_fixture, capsys):
     ml_fixture.prepare_data(True)
     ml_fixture.get_nnet_predictions()
     captured = capsys.readouterr()
-    assert 'accuracy' in captured.out
+    assert 'Accuracy' in captured.out
 
 def test_svm(ml_fixture, capsys):
     ml_fixture.prepare_data(True)

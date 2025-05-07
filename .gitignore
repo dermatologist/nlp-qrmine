@@ -20,6 +20,7 @@ __pycache__/*
 .idea
 .venv
 conda
+uv.lock
 
 # Package files
 *.egg
