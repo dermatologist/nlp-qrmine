@@ -109,7 +109,7 @@ def cli(
 ):
     if covid:
         qr_utils = QRUtils()
-        qr_utils.read_covid_narratives(covid)
+        qr_utils.read_covid_narratives(covid, url=inp)
         click.echo("COVID narratives downloaded to " + covid)
     data = ReadData()
     if inp:

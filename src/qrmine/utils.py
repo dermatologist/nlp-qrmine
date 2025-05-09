@@ -8,11 +8,11 @@ class QRUtils(object):
         pass
 
     @staticmethod
-    def read_covid_narratives(output_folder):
+    def read_covid_narratives(output_folder, url="root-url-here"):
         os.makedirs(output_folder, exist_ok=True)
         for doc_count in range(1, 115):
-            url = f"https://root-url-here/items/show/{doc_count}"
-            html = requests.get(url).text
+            _url = f"https://{url}/items/show/{doc_count}"
+            html = requests.get(_url).text
             # Extract <a class="download-file" href
             pattern = r'<a class="download-file" href="(.*?)">'
             # find first match
