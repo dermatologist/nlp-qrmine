@@ -110,6 +110,8 @@ from qrmine import Qrmine
 from qrmine import ReadData
 from qrmine import Sentiment
 from qrmine import MLQRMine
+from qrmine import ClusterDocs
+from qrmine import QRVisualize
 
 ```
 * *More instructions and a jupyter notebook available [here.](https://nuchange.ca/2017/09/grounded-theory-qualitative-research-python.html)*

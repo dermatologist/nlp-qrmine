@@ -78,7 +78,7 @@ q = Qrmine()
 @click.option("--kmeans", is_flag=True, help="Display KMeans clusters")
 @click.option("--cart", is_flag=True, help="Display Association Rules")
 @click.option("--pca", is_flag=True, help="Display PCA")
-@click.option("--visualize", '-v', is_flag=False, help="Visualize words, tpopics or wordcloud. ")
+@click.option("--visualize", '-v', is_flag=False, help="Visualize words, topics or wordcloud. ")
 @click.option("--ignore", is_flag=False, help="Comma separated ignore words")
 def cli(
     verbose,
