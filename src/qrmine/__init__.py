@@ -3,7 +3,7 @@ import sys
 from .content import Content
 from .nlp_qrmine import Qrmine
 from .network import Network
-from .readfiles import ReadData
+from .read_data import ReadData
 from .sentiment import Sentiment
 from .mlqrmine import MLQRMine
 from .cluster import ClusterDocs
