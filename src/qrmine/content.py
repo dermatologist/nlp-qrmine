@@ -18,10 +18,8 @@ along with qrmine.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import operator
-
-# import en_core_web_sm
-
 import textacy
+from textacy import preprocessing
 
 
 class Content(object):
@@ -33,6 +31,13 @@ class Content(object):
         self._nlp = textacy.load_spacy_lang(lang)
         self._nlp.max_length = max_length
         self._processed = self._nlp(self._content)
+        metadata = {}
+        metadata["Title"] = self._title
+        doc_text = preprocessing.replace.numbers(
+            preprocessing.remove.punctuation(self._content)
+        ).lower()
+        self._spacy_doc = textacy.make_spacy_doc((doc_text, metadata), lang=lang)
+        self._corpus = textacy.Corpus(lang=lang)
         self._lemma = {}
         self._pos = {}
         self._pos_ = {}
@@ -93,7 +98,7 @@ class Content(object):
         return self._idx.get(token, 0)
 
     @property
-    def doc(self):
+    def processed(self):
         return self._processed
 
     @property
@@ -107,6 +112,18 @@ class Content(object):
     @property
     def lang(self):
         return self._lang
+
+    @property
+    def nlp(self):
+        return self._nlp
+
+    @property
+    def corpus(self):
+        return self._corpus
+
+    @property
+    def spacy_doc(self):
+        return self._spacy_doc
 
     @content.setter
     def content(self, content):
@@ -122,6 +139,10 @@ class Content(object):
         self._prob = {}
         self._idx = {}
         self.process()
+
+    @staticmethod
+    def get_lang():
+        return "en_core_web_sm"
 
     def process(self):
         for token in self._processed:

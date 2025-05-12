@@ -9,14 +9,16 @@ import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
+
+
 class Qrmine(object):
 
     def __init__(self):
         self._min_occurrence_for_topic = 2
         self._common_verbs = 10
         # create an empty corpus
-        self._en = textacy.load_spacy_lang('en_core_web_sm')
-        self._corpus = textacy.Corpus(lang=self._en)
+        # self._en = textacy.load_spacy_lang('en_core_web_sm')
+        self._corpus = textacy.Corpus(lang=Content.get_lang())
         self._content = None
         self._model = None
         self._numdocs = 0
@@ -24,8 +26,14 @@ class Qrmine(object):
         self._terms = None
         self._doc_term_matrix = None
         self._doc_topic_matrix = None
-        self._vectorizer = Vectorizer(tf_type='linear', idf_type='smooth',
-                                      norm='l2', min_df=2, max_df=0.95, max_n_terms=100000)
+        self._vectorizer = Vectorizer(
+            tf_type="linear",
+            idf_type="smooth",
+            norm="l2",
+            min_df=2,
+            max_df=0.95,
+            max_n_terms=100000,
+        )
 
     @property
     def content(self):
@@ -45,22 +53,37 @@ class Qrmine(object):
     def print_table(table):
         col_width = [max(len(x) for x in col) for col in zip(*table)]
         for line in table:
-            print("| " + " | ".join("{:{}}".format(x, col_width[i])
-                                    for i, x in enumerate(line)) + " |")
+            print(
+                "| "
+                + " | ".join(
+                    "{:{}}".format(x, col_width[i]) for i, x in enumerate(line)
+                )
+                + " |"
+            )
 
     @property
     def get_git_revision_hash(self):
-        return subprocess.check_output(['git', 'rev-parse', 'HEAD'])
+        return subprocess.check_output(["git", "rev-parse", "HEAD"])
 
     @property
     def get_git_revision_short_hash(self):
-        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip().decode("utf-8")
+        return (
+            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
+            .strip()
+            .decode("utf-8")
+        )
         # return subprocess.check_output(['git', 'log', '-1', '--format=%cd']).strip().decode("utf-8")[10:]
 
     def print_categories(self, doc, num=10):
         textacy.spacier.extensions.set_doc_extensions("extract.bags")
-        bot = doc._.to_bag_of_terms(by='lemma_', weighting='freq',
-                                    ngs=(1,2,3), ents=True, ncs=True, dedupe=True)
+        bot = doc._.to_bag_of_terms(
+            by="lemma_",
+            weighting="freq",
+            ngs=(1, 2, 3),
+            ents=True,
+            ncs=True,
+            dedupe=True,
+        )
         categories = sorted(bot.items(), key=lambda x: x[1], reverse=True)[:num]
         output = []
         to_return = []
@@ -83,11 +106,12 @@ class Qrmine(object):
             list: The list of lists (each list is categories in each document)
         """
         item_basket = []
-        for index, title in enumerate(self._content.titles): # QRMines content should be set
+        for index, title in enumerate(
+            self._content.titles
+        ):  # QRMines content should be set
             content = self._content.documents[index]
-            this_record = Content(content, title)
-            doc = textacy.make_spacy_doc(this_record.doc, lang=self._en)
-            item_basket.append(self.print_categories(doc, num))
+            c = Content(content, title)
+            item_basket.append(self.print_categories(c.spacy_doc, num))
         return item_basket
         # Example return:
         # [['GT', 'Strauss', 'coding', 'ground', 'theory', 'seminal', 'Corbin', 'code',
@@ -115,27 +139,30 @@ class Qrmine(object):
         # 1  0.833333      (theory)
         # 2  0.666667  (theory, GT)
 
-    def unique(self,list1):
+    def unique(self, list1):
 
         # insert the list to the set
         list_set = set(list1)
         # convert the set to the list
-        return (list(list_set))
+        return list(list_set)
 
     """
     test: test_generate_topics in test_nlp
     """
+
     def print_topics(self, numtopics=0):
         if numtopics > 0:
             self._numtopics = numtopics
         topic_list = list(range(1, self._numtopics))
         output = []
-        topics = [] # Topics are added here first to find unique topics
+        topics = []  # Topics are added here first to find unique topics
         print("\n---Topics---")
         output.append(("TOPIC", "DESCRIPTION"))
-        for topic_idx, top_terms in self._model.top_topic_terms(self._vectorizer.id_to_term, topics=topic_list):
+        for topic_idx, top_terms in self._model.top_topic_terms(
+            self._vectorizer.id_to_term, topics=topic_list
+        ):
             # output.append(("TOPIC:" + str(topic_idx), '   '.join(top_terms)))
-            topics.append('   '.join(top_terms))
+            topics.append("   ".join(top_terms))
         unique_topics = self.unique(topics)
         ct = 0
         # Finally added to output
@@ -153,8 +180,9 @@ class Qrmine(object):
         output = []
         print("\n---Topics---")
         output.append(("TOPIC", "DOCUMENTS"))
-        for topic_idx, top_docs in self._model.top_topic_docs(self._doc_topic_matrix, topics=topic_list,
-                                                              top_n=top_n):
+        for topic_idx, top_docs in self._model.top_topic_docs(
+            self._doc_topic_matrix, topics=topic_list, top_n=top_n
+        ):
             str_topic_idx = str(topic_idx)
             for j in top_docs:
                 # output.append((str_topic_idx, self._corpus[j].metadata['title']))
@@ -163,10 +191,11 @@ class Qrmine(object):
         self.print_table(output)
         print("---------------------------\n")
         print("\n---Documents To Topics---")
-        for doc_idx, topics in self._model.top_doc_topics(self._doc_topic_matrix, docs=range(self._numdocs),
-                                                          top_n=top_n):
+        for doc_idx, topics in self._model.top_doc_topics(
+            self._doc_topic_matrix, docs=range(self._numdocs), top_n=top_n
+        ):
             # print(self._corpus[doc_idx].metadata['title'], ':', topics)
-            print(self._corpus.docs[doc_idx]._.meta["title"], ':', topics)
+            print(self._corpus.docs[doc_idx]._.meta["title"], ":", topics)
         print("---------------------------\n")
 
     def print_dict(self, content, num=10, top_n=5):
@@ -182,30 +211,18 @@ class Qrmine(object):
                 for dimension, f3 in content.dimensions(attribute, top_n):
                     if dimension not in _words:
                         output.append((word, attribute, dimension))
-                        word = '...'
-                        attribute = '...'
+                        word = "..."
+                        attribute = "..."
 
         self.print_table(output)
         print("---------------------------\n")
 
     def process_content(self):
         if self._content is not None:
-            for ct, document in enumerate(self._content.documents):
-                metadata = {}
-                try:
-                    metadata['title'] = self._content.titles[ct]
-                except IndexError:
-                    metadata['title'] = 'Empty'
-                # self._corpus.add_text(textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
-                #                       metadata=metadata)
-                # doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
-
-                # 2-Jan-2020 textacy new version, breaking change
-                # replace numbers with NUM, remove punct and convert to lower case
-                # doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
-                doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document)).lower()
-                doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
-                self._corpus.add_doc(doc)
+            for titles, document in zip(self._content.titles, self._content.documents):
+                c = Content(document, titles)
+                spacy_doc = c.spacy_doc
+                self._corpus.add_doc(spacy_doc)
 
             self.load_matrix()
 
@@ -215,26 +232,33 @@ class Qrmine(object):
                 metadata = {}
                 try:
                     if any(self._content.titles[ct] in s for s in titles):
-                        metadata['title'] = self._content.titles[ct]
+                        metadata["title"] = self._content.titles[ct]
                         # self._corpus.add_text(
                         #     textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
                         #     metadata=metadata)
                         # doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
                         # doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
-                        doc_text = preprocessing.replace.numbers(preprocessing.remove.punctuation(document)).lower()
-                        doc = textacy.make_spacy_doc((doc_text, metadata), lang=self._en)
+                        doc_text = preprocessing.replace.numbers(
+                            preprocessing.remove.punctuation(document)
+                        ).lower()
+                        doc = textacy.make_spacy_doc(
+                            (doc_text, metadata), lang=self._en
+                        )
                         self._corpus.add_doc(doc)
 
                 except IndexError:
-                    metadata['title'] = 'Empty'
+                    metadata["title"] = "Empty"
             self.load_matrix()
 
     def load_matrix(self):
         textacy.spacier.extensions.set_doc_extensions("extract.keyterms")
-        terms = ((term.text for term in textacy.extract.terms(doc, ngs=1, ents=True))for doc in self._corpus.docs)
+        terms = (
+            (term.text for term in textacy.extract.terms(doc, ngs=1, ents=True))
+            for doc in self._corpus.docs
+        )
         self._doc_term_matrix = self._vectorizer.fit_transform(terms)
         self._numdocs, self._terms = self._doc_term_matrix.shape
-        self._model = textacy.tm.TopicModel('lda', n_topics=self._numdocs)
+        self._model = textacy.tm.TopicModel("lda", n_topics=self._numdocs)
         self._model.fit(self._doc_term_matrix)
         try:
             self._doc_topic_matrix = self._model.transform(self._doc_term_matrix)
