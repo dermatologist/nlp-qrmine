@@ -108,7 +108,10 @@ class ReadData(object):
                         if comma_separated_ignore_words:
                             for word in comma_separated_ignore_words.split(","):
                                 read_from_file = re.sub(
-                                    r"\b" + word.strip() + r"\b", "", read_from_file, flags=re.IGNORECASE,
+                                    r"\b" + word.strip() + r"\b",
+                                    "",
+                                    read_from_file,
+                                    flags=re.IGNORECASE,
                                 )
                         self._content += read_from_file
                         self._documents.append(read_from_file)
