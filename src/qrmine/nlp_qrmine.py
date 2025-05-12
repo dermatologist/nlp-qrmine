@@ -228,26 +228,11 @@ class Qrmine(object):
 
     def filter_content(self, titles):
         if self._content is not None:
-            for ct, document in enumerate(self._content.documents):
-                metadata = {}
-                try:
-                    if any(self._content.titles[ct] in s for s in titles):
-                        metadata["title"] = self._content.titles[ct]
-                        # self._corpus.add_text(
-                        #     textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True),
-                        #     metadata=metadata)
-                        # doc_text = textacy.preprocess_text(document, lowercase=True, no_punct=True, no_numbers=True)
-                        # doc_text = preprocessing.replace.replace_numbers(preprocessing.remove.remove_punctuation(document), 'NUM').lower()
-                        doc_text = preprocessing.replace.numbers(
-                            preprocessing.remove.punctuation(document)
-                        ).lower()
-                        doc = textacy.make_spacy_doc(
-                            (doc_text, metadata), lang=self._en
-                        )
-                        self._corpus.add_doc(doc)
-
-                except IndexError:
-                    metadata["title"] = "Empty"
+            for title, document in zip(self._content.titles, self._content.documents):
+                if any(title in s for s in titles):
+                    c = Content(document, title)
+                    spacy_doc = c.spacy_doc
+                    self._corpus.add_doc(spacy_doc)
             self.load_matrix()
 
     def load_matrix(self):
