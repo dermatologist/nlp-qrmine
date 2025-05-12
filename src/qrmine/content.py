@@ -37,7 +37,6 @@ class Content(object):
             preprocessing.remove.punctuation(self._content)
         ).lower()
         self._spacy_doc = textacy.make_spacy_doc((doc_text, metadata), lang=lang)
-        self._corpus = textacy.Corpus(lang=lang)
         self._lemma = {}
         self._pos = {}
         self._pos_ = {}
@@ -116,10 +115,6 @@ class Content(object):
     @property
     def nlp(self):
         return self._nlp
-
-    @property
-    def corpus(self):
-        return self._corpus
 
     @property
     def spacy_doc(self):
