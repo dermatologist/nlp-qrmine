@@ -351,13 +351,13 @@ def generate_categories(data, tags, num):
                     click.echo(tag)
                     content = data.documents[ct]
             ct += 1
-        interview = Content(content)
-        doc = textacy.make_spacy_doc(interview.doc)
+        c = Content(content)
+        doc = c.spacy_doc
         return q.print_categories(doc, num)
 
     else:
-        all_interviews = Content(data.content)
-        doc = textacy.make_spacy_doc(all_interviews.doc)
+        c = Content(data.content)
+        doc = c.spacy_doc
         return q.print_categories(doc, num)
 
 
@@ -370,13 +370,13 @@ def generate_summary(data, tags):
                     click.echo(tag)
                     content = data.documents[ct]
             ct += 1
-        interview = Content(content)
-        click.echo(" ".join(interview.generate_summary(2)))
+        c = Content(content)
+        click.echo(" ".join(c.generate_summary(2)))
         click.echo("_________________________________________")
 
     else:
-        all_interviews = Content(data.content)
-        click.echo(" ".join(all_interviews.generate_summary(2)))
+        c = Content(data.content)
+        click.echo(" ".join(c.generate_summary(2)))
         click.echo("_________________________________________")
 
 

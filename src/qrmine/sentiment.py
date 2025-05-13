@@ -64,15 +64,15 @@ class Sentiment(object):
                     sent = self.sentiment_analyzer_scores(sentence.text)
                     if verbose:
                         print(
-                            "{:-<40} {}\n".format(sent["sentence"][:10] + "...", str(sent["score"]))
+                            "{:-<10} {}\n".format(sent["sentence"][:50] + "...", str(sent["score"]))
                         )
                     print(self.sentiment())
         else:
             sent = self.sentiment_analyzer_scores(content)
             if verbose:
                 print(
-                    "{:-<40} {}\n".format(
-                        sent["sentence"][:10] + "...", str(sent["score"])
+                    "{:-<10} {}\n".format(
+                        sent["sentence"][:50] + "...", str(sent["score"])
                     )
                 )
             print(self.sentiment())
