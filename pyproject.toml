@@ -84,7 +84,7 @@ ml = [
     "scikit-learn",
     "imbalanced-learn",
     "xgboost",
-    "torch==2.2.2",
+    "torch==2.7.1",
 ]
 
 [project.entry-points]
