@@ -1,6 +1,8 @@
 # 🔍 QRMine
 */ˈkärmīn/*
 
+⚠️ This project has been moved to [CRISP-T](https://github.com/dermatologist/crisp-t) (*Release date 10/11/2025*)
+
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)[![PyPI download total](https://img.shields.io/pypi/dm/qrmine.svg)](https://pypi.python.org/pypi/qrmine/)
 ![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/qrmine)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/dermatologist/nlp-qrmine)
