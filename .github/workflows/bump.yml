@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Checkout Latest Commit
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Generate changelog
       uses: charmixer/auto-changelog-action@v1
